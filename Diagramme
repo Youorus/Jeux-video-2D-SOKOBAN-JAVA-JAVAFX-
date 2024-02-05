@@ -1,12 +1,14 @@
 @startuml
 BoiteAOutils  *-- "many" Elements : contains
-Elements <|-- Terrain
-Elements <|-- Mur
-Elements <|-- Joueur
-Elements <|-- Caisse
-Elements <|-- Cible
+Elements <|-- ElemSuperposable
+Elements <|-- ElemNonSuperposable
+ElemSuperposable <|-- Terrain
+ElemNonSuperposable <|-- Mur
+ElemSuperposable <|-- Joueur
+ElemSuperposable <|-- Caisse
+ElemSuperposable <|-- Cible
 Board *-- "1" BoiteAOutils : contains
-Board *-- "1" Conteur : contains
+Board *-- "1" Compteur : contains
 Board *-- "1" Grille : contains
 Grille *-- "many" Case : contains
 Case *-- "many" Elements
@@ -14,11 +16,11 @@ class Grille {
 width : Integer
 height : Integer
 }
-class Elements{
-void move()
-}
+
+
 @enduml
 
+chaque case doit avoir un terrain
 il faut placer un et un seul joueur obligatoire
 Il faut au minimum une cible et une caisse.
 Il doit y avoir autant de cibles que de caisses.
