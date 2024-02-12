@@ -10,6 +10,7 @@ ElemSuperposable <|-- Cible
 Board *-- "1" BoiteAOutils : contains
 Board *-- "1" Compteur : contains
 Board *-- "1" Grille : contains
+Board *-- "1" Menue : contains
 Grille *-- "many" Case : contains
 Case *-- "many" Elements
 class Grille {
