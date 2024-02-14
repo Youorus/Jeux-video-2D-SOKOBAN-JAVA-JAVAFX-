@@ -55,6 +55,13 @@ public class BoadView extends BorderPane {
     }
     private void createCompteur(){
 
+        headerLabel.textProperty().bind(boardViewModel.filledCellsCountProperty()
+                .asString("Number of filled cells: %d of " + boardViewModel.maxFilledCells()));
+        headerLabel.getStyleClass().add("header");
+        headerBox.getChildren().add(headerLabel);
+        headerBox.setAlignment(Pos.CENTER);
+        setTop(headerBox);
+
     }
     private void createMenue(){
 

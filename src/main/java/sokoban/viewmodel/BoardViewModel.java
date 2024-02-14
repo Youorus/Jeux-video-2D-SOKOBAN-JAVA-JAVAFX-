@@ -1,5 +1,6 @@
 package sokoban.viewmodel;
 
+import javafx.beans.binding.BooleanExpression;
 import javafx.beans.binding.LongBinding;
 import sokoban.model.Board;
 
@@ -16,7 +17,10 @@ public class BoardViewModel {
         return grilleViewModel;
     }
 
-//    public LongBinding filledCellsCountProperty() {
-//        return board.filledCellsCountProperty();
-//    }
+    public int maxFilledCells() {
+        return Board.maxFilledCells();
+    }
+    public LongBinding filledCellsCountProperty() {
+        return board.filledCellsCountProperty();
+    }
 }
