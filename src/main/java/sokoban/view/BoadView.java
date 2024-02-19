@@ -3,11 +3,14 @@ package sokoban.view;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.control.ListView;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sokoban.viewmodel.BoardViewModel;
+
+import java.util.Objects;
 
 public class BoadView extends BorderPane {
     //mise en page
@@ -15,6 +18,7 @@ public class BoadView extends BorderPane {
     private static final int SCENE_MIN_WIDTH = 520;
     private static final int SCENE_MIN_HEIGHT = 520;
 
+    private VBox errorBox;
 
     //pour le compteur
     private final Label headerLabel = new Label("");
@@ -32,6 +36,10 @@ public class BoadView extends BorderPane {
 
         //Mise en place de la scène et affichage de la fenêtre
         Scene scene = new Scene(this, SCENE_MIN_WIDTH, SCENE_MIN_HEIGHT);
+        String cssFile = Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm();
+        scene.getStylesheets().add(cssFile);
+
+        stage.setScene(scene);
         stage.show();
     }
 
@@ -58,13 +66,49 @@ public class BoadView extends BorderPane {
         headerLabel.textProperty().bind(boardViewModel.filledCellsCountProperty()
                 .asString("Number of filled cells: %d of " + boardViewModel.maxFilledCells()));
         headerLabel.getStyleClass().add("header");
-        headerBox.getChildren().add(headerLabel);
+
+        errorBox = new VBox();
+        errorBox.setAlignment(Pos.CENTER);
+        errorBox.setSpacing(5);
+        listError();
+        errorBox.setVisible(false);
+
+        if (errorBox.isVisible()) {
+            errorBox.setManaged(true);
+        } else {
+            errorBox.setManaged(false);
+        }
+
+
+        VBox headerAndErrorBox = new VBox();
+        headerAndErrorBox.setAlignment(Pos.CENTER);
+        headerAndErrorBox.getChildren().addAll(headerLabel, errorBox);
+
+        headerBox.getChildren().addAll(headerAndErrorBox);
         headerBox.setAlignment(Pos.CENTER);
         setTop(headerBox);
 
     }
     private void createMenue(){
 
+    }
+
+    private void listError(){
+        String errorMessage = "Please correct the following error(s):";
+        String errorMessage1 = " * A player is required";
+        String errorMessage2 = " * At least one target is required";
+        String errorMessage3 = " * At least one box is required";
+        Label errorLabel = new Label(errorMessage);
+        Label errorLabel1 = new Label(errorMessage1);
+        Label errorLabel2 = new Label(errorMessage2);
+        Label errorLabel3 = new Label(errorMessage3);
+        errorLabel.getStyleClass().add("errorBox");
+        errorLabel1.getStyleClass().add("errorBox");
+        errorLabel2.getStyleClass().add("errorBox");
+        errorLabel3.getStyleClass().add("errorBox");
+        errorBox.getChildren().addAll(errorLabel,errorLabel1,errorLabel2,errorLabel3);
+
+        errorBox.setVisible(true);
     }
 
 
