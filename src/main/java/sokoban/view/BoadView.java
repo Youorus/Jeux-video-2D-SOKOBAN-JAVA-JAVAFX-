@@ -2,8 +2,7 @@ package sokoban.view;
 
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.ListView;
+import javafx.scene.control.*;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -17,6 +16,7 @@ public class BoadView extends BorderPane {
     private final BoardViewModel boardViewModel;
     private static final int SCENE_MIN_WIDTH = 520;
     private static final int SCENE_MIN_HEIGHT = 520;
+    private MenuBar menuBar;
 
     private VBox errorBox;
 
@@ -40,15 +40,17 @@ public class BoadView extends BorderPane {
         scene.getStylesheets().add(cssFile);
 
         stage.setScene(scene);
+
         stage.show();
     }
 
     private void configMainComponements(Stage stage){
         stage.setTitle("Sokoban");
+        createMenue();
         createGrid();
         createBoiteAOutils();
         createCompteur();
-        createMenue();
+
     }
 
     private void createGrid (){
@@ -87,10 +89,18 @@ public class BoadView extends BorderPane {
         headerBox.getChildren().addAll(headerAndErrorBox);
         headerBox.setAlignment(Pos.CENTER);
         setTop(headerBox);
+        VBox topBox = new VBox();
+        topBox.getChildren().addAll(menuBar,headerBox);
+        setTop(topBox);
 
     }
     private void createMenue(){
-
+        Menu fileMenu = new Menu("File");
+        MenuItem newMenuItem = new MenuItem("New");
+        fileMenu.getItems().add(newMenuItem);
+        menuBar = new MenuBar();
+        menuBar.getMenus().add(fileMenu);
+        setTop(menuBar);
     }
 
     private void listError(){
