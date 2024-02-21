@@ -8,33 +8,7 @@ import java.util.Optional;
 
 public class MenueView {
     private MenuBar menuBar;
-
-    private void start(Stage stage){
-        Button newButton = new Button("New");
-    }
-    private void confirmationDialog(){
-        Stage confirmDialogStage = new Stage();
-
-        Alert.AlertType type = Alert.AlertType.CONFIRMATION;
-        Alert alert = new Alert(type,"");
-
-        alert.initModality(Modality.APPLICATION_MODAL);
-        alert.setTitle("Confirmation Dialog");
-
-
-        alert.getDialogPane().setContentText("Do you want to save your changes ?");
-        alert.getDialogPane().setHeaderText("Your board has been modified.");
-
-        Optional<ButtonType> result = alert.showAndWait();
-            if(result.get() == ButtonType.YES){
-                System.out.println("yes button has been pressed");
-            } else if(result.get()== ButtonType.NO){
-                System.out.println("no button has been pressed");
-            } else if(result.get()== ButtonType.CANCEL){
-                System.out.println("blabl cancel");
-            }
-
-    }
+    
     public void showConfirmationDialog1(){
         confirmationDialog1();
     }
@@ -55,8 +29,23 @@ public class MenueView {
             alert.setTitle("Confirmation Dialog");
             alert.setHeaderText("Your board has been modified.");
             alert.setContentText("Do you want to save your changes ?");
-            alert.showAndWait();
+            //alert.showAndWait();
+            ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+            ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
+            ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+            alert.getButtonTypes().setAll(yesButton,noButton,cancelButton);
+
+            Optional<ButtonType> result = alert.showAndWait();
+            if(result.get() == yesButton){
+                System.out.println("yes button has been pressed");
+            } else if(result.get()== noButton){
+                System.out.println("no button has been pressed");
+            } else if(result.get()== cancelButton){
+                System.out.println("blabl cancel");
+            }
         });
+
 
         fileMenu.getItems().add(newMenuItem);
 

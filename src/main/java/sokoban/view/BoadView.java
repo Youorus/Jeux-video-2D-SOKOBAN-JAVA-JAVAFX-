@@ -97,7 +97,7 @@ public class BoadView extends BorderPane {
     private void createMenue(){
         MenueView menueView = new MenueView();
         menueView.showConfirmationDialog1();
-        MenuBar menuBar = menueView.createMenuBar();
+        menuBar = menueView.createMenuBar();
         setTop(menuBar);
 //        Menu fileMenu = new Menu("File");
 //        MenuItem newMenuItem = new MenuItem("New");
