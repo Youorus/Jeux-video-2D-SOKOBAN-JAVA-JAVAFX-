@@ -95,12 +95,17 @@ public class BoadView extends BorderPane {
 
     }
     private void createMenue(){
-        Menu fileMenu = new Menu("File");
-        MenuItem newMenuItem = new MenuItem("New");
-        fileMenu.getItems().add(newMenuItem);
-        menuBar = new MenuBar();
-        menuBar.getMenus().add(fileMenu);
+        MenueView menueView = new MenueView();
+        menueView.showConfirmationDialog1();
+        MenuBar menuBar = menueView.createMenuBar();
         setTop(menuBar);
+//        Menu fileMenu = new Menu("File");
+//        MenuItem newMenuItem = new MenuItem("New");
+//        fileMenu.getItems().add(newMenuItem);
+//
+//        menuBar = new MenuBar();
+//        menuBar.getMenus().add(fileMenu);
+//        setTop(menuBar);
     }
 
     private void listError(){
