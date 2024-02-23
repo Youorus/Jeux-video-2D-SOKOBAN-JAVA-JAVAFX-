@@ -12,11 +12,10 @@ public class GridView extends GridPane {
 
     public GridView(GridViewModel grilleViewModel, DoubleBinding gridWidth) {
         // Pour visualiser les limites de la grille
-        setGridLinesVisible(true);
+        setGridLinesVisible(false);
         setPadding(new Insets(PADDING));
 
         DoubleBinding cellWidth = gridWidth.subtract(PADDING * 2).divide(GRID_WIDTH);
-
 
         for (int i = 0; i < GRID_HEIGHT; ++i) {
             for (int j = 0; j < GRID_WIDTH; ++j) {
