@@ -1,4 +1,4 @@
 package sokoban.view;
 
-public class CaseView {
+public class MenuView {
 }

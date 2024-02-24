@@ -1,4 +1,4 @@
 package sokoban.model;
 
-public class Case {
+public class Counter {
 }

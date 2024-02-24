@@ -1,4 +1,4 @@
 package sokoban.view;
 
-public class BoadView {
+public class ToolsView {
 }

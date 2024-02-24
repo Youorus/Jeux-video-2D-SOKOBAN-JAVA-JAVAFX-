@@ -1,4 +1,4 @@
 package sokoban.viewmodel;
 
-public class MenueViewModel {
+public class MenuViewModel {
 }

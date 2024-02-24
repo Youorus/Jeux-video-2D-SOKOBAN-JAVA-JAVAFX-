@@ -1,4 +1,4 @@
 package sokoban.viewmodel;
 
-public class CaseViewModel {
+public class ToolsViewModel {
 }
