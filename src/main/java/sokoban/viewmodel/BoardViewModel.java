@@ -6,14 +6,14 @@ import sokoban.model.Board;
 
 public class BoardViewModel {
 
-    private final GrilleViewModel grilleViewModel;
+    private final GridViewModel grilleViewModel;
     private final Board board;
     public BoardViewModel(Board board) {
         this.board = board;
-        grilleViewModel = new GrilleViewModel(board);
+        grilleViewModel = new GridViewModel(board);
     }
 
-    public GrilleViewModel getGrilleViewModel() {
+    public GridViewModel getGrilleViewModel() {
         return grilleViewModel;
     }
 
