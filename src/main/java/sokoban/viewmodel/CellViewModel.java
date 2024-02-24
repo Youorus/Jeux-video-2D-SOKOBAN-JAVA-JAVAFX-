@@ -4,6 +4,7 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import sokoban.model.Board;
 import sokoban.model.CellValue;
 import sokoban.model.Grid;
 
@@ -13,24 +14,24 @@ public class CellViewModel {
     private static final double EPSILON = 1e-3;
 
     private final int line, col;
-    private final Grid grille;
+    private final Board board;
 
     private final SimpleDoubleProperty scale = new SimpleDoubleProperty(DEFAULT_SCALE);
     private final BooleanBinding mayIncrementScale = scale.lessThan(1 - EPSILON);
     private final BooleanBinding mayDecrementScale = scale.greaterThan(DEFAULT_SCALE + EPSILON);
 
-    public CellViewModel(int line, int col, Grid grille) {
+    public CellViewModel(int line, int col, Board board) {
         this.line = line;
         this.col = col;
-        this.grille = grille;
+        this.board = board;
     }
 
     public ReadOnlyObjectProperty<CellValue> valueProperty() {
-        return grille.valueProperty(line, col);
+        return board.valueProperty(line, col);
     }
 
     public boolean isEmpty() {
-        return grille.getValue(line, col) == CellValue.ground;
+        return board.getValue(line, col) == CellValue.ground;
     }
 
     public SimpleDoubleProperty scaleProperty() {

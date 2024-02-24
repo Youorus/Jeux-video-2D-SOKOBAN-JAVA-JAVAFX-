@@ -1,11 +1,14 @@
 package sokoban.view;
 
 
+import javafx.beans.binding.Bindings;
+import javafx.beans.binding.DoubleBinding;
 import javafx.geometry.Pos;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -13,8 +16,10 @@ import sokoban.viewmodel.BoardViewModel;
 
 import java.util.Objects;
 
-public class BoardView extends Parent {
+public class BoardView extends BorderPane {
     private final BoardViewModel boardViewModel;
+
+    //private static final int GRID_WIDTH = BoardViewModel.gridWidth();
     private static final int SCENE_MIN_WIDTH = 520;
     private static final int SCENE_MIN_HEIGHT = 520;
     private MenuBar menuBar;
@@ -55,8 +60,19 @@ public class BoardView extends Parent {
     }
 
     private void createGrid (){
-        // GrilleView grilleView = new GrilleView(boardViewModel.getGrilleViewModel(), gridWidth);
+        /*
+        DoubleBinding gridWidth = Bindings.createDoubleBinding(
+                () -> {
+                    var size = Math.min(widthProperty().get(), heightProperty().get() - headerBox.heightProperty().get());
+                    return Math.floor(size / GRID_WIDTH) * GRID_WIDTH;
+                },
+                widthProperty(),
+                heightProperty(),
+                headerBox.heightProperty());
+        GridView grilleView = new GridView(boardViewModel.getGrilleViewModel(), gridWidth);
 
+
+         */
 
         // Grille carrée
 

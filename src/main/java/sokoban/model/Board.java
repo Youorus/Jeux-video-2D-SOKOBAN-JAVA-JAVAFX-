@@ -5,10 +5,9 @@ import javafx.beans.binding.LongBinding;
 
 public class Board {
 
-
     static final int MAX_FILLED_CELLS = 10;
     //pas 10 mais la moitié des case existante : (width * height) /2 de la grille
-    private final Grid grille = new Grid();
+    private final Grid grid = new Grid();
     //pour le compteur
     //private final BooleanBinding isComplete;
 
@@ -20,7 +19,7 @@ public class Board {
         return MAX_FILLED_CELLS;
     }
     public LongBinding filledCellsCountProperty() {
-        return grille.filledCellsCountProperty();
+        return grid.filledCellsCountProperty();
     }
 
 
