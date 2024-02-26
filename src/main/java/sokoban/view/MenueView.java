@@ -6,12 +6,17 @@ import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
+import javafx.util.converter.NumberStringConverter;
+import sokoban.viewmodel.MenueViewModel;
+import javafx.scene.control.Button;
+import javafx.event.ActionEvent;
 
 import java.util.Optional;
 
 public class MenueView {
     private MenuBar menuBar;
     private BoadView boadView;
+
 
     public void setBoadView(BoadView boadView) {
         this.boadView = boadView;
@@ -68,6 +73,7 @@ public class MenueView {
     }
 
     private void newDimension(){
+        MenueViewModel menueViewModel = new MenueViewModel();
         Alert newDimensionGrille = new Alert(Alert.AlertType.NONE);
         newDimensionGrille.setTitle("Sokoban");
         newDimensionGrille.setHeaderText("Give new game dimensions");
@@ -79,15 +85,42 @@ public class MenueView {
         TextField intField2 = new TextField();
         intField2.setPromptText("Height ");
 
-        Label widthError = new Label("Width must be between 10 to 50");
-        widthError.setTextFill(Color.RED);
-        widthError.setVisible(false);
-        widthError.setManaged(false);
 
-        Label heightError = new Label("Height must be between 10 to 50");
+        intField1.textProperty().bindBidirectional(menueViewModel.widthProperty(), new NumberStringConverter());
+        intField2.textProperty().bindBidirectional(menueViewModel.heightProperty(), new NumberStringConverter());
+
+
+        Label widthError = new Label("Width must be between 10 and 50");
+        widthError.setTextFill(Color.RED);
+        widthError.visibleProperty().bind(menueViewModel.isValidWidthProperty().not());
+
+
+        Label heightError = new Label("Height must be between 10 and 50");
         heightError.setTextFill(Color.RED);
-        heightError.setVisible(false);
-        heightError.setManaged(false);
+        heightError.visibleProperty().bind(menueViewModel.isValidHeightProperty().not());
+
+
+
+        intField1.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                menueViewModel.widthProperty().set(Integer.parseInt(newValue));
+            } catch (NumberFormatException e) {
+                menueViewModel.widthProperty().set(0); // Valeur invalide pour forcer l'erreur
+            }
+            menueViewModel.validateWidth(); // Valide à chaque changement
+        });
+
+
+        intField2.textProperty().addListener((observable, oldValue, newValue) -> {
+            try {
+                menueViewModel.heightProperty().set(Integer.parseInt(newValue));
+            } catch (NumberFormatException e) {
+                menueViewModel.heightProperty().set(0); // Valeur invalide pour forcer l'erreur
+            }
+            menueViewModel.validateHeight(); // Valide à chaque changement
+        });
+
+
 
         GridPane grid = new GridPane();
         grid.setVgap(10);
@@ -98,91 +131,21 @@ public class MenueView {
         grid.add(intField2, 1, 1);
 
 
-
         newDimensionGrille.getDialogPane().setContent(grid);
 
         ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
         ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
         newDimensionGrille.getButtonTypes().addAll(okButton,cancelButton);
 
-
-        intField1.textProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-                int Width = Integer.parseInt(newValue);
-                if (Width < 10 || Width > 50) {
-                    widthError.setText("Width must be between 10 and 50");
-                    widthError.setVisible(true);
-                } else {
-                    widthError.setVisible(false);
-                }
-            } catch (NumberFormatException e) {
-                widthError.getText();
-                widthError.setVisible(true);
-            }
-        });
-
-        intField2.textProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-                int Height = Integer.parseInt(newValue);
-                if (Height < 10 || Height > 50) {
-                    heightError.setText("Height must be between 10 and 50");
-                    heightError.setVisible(true);
-                } else {
-                    heightError.setVisible(false);
-                }
-            } catch (NumberFormatException e) {
-                heightError.getText();
-                heightError.setVisible(true);
-            }
-        });
+        Optional<ButtonType> result = newDimensionGrille.showAndWait();
+        if (result.isPresent() && result.get() == okButton) {
+            // L'utilisateur a cliqué sur ok
+            menueViewModel.updateModel();
+        }
+        //else{ gerer si il appuie sur cancel
 
         newDimensionGrille.showAndWait();
 
-//        newDimensionGrille.setResultConverter(dialogButton -> {
-//            if(dialogButton == okButton) {
-//                try {
-//                    int Width = Integer.parseInt(intField1.getText());
-//                    int Height = Integer.parseInt(intField2.getText());
-//
-//                    boolean invalidInput = false;
-//
-//                    if (Width < 10 || Width > 50) {
-//                        widthError.setVisible(true);
-//                        invalidInput = true;
-//                    } else{
-//                        widthError.setVisible(false);
-//                    }
-//
-//                    if(Height < 10 || Height > 50){
-//                        heightError.setVisible(true);
-//                        invalidInput = true;
-//                    } else{
-//                        heightError.setVisible(false);
-//                    }
-//
-//                    if(invalidInput){
-//                        return null;
-//                    }
-//
-//
-//
-//                    //return new Pair<>(Width, Height);
-//                } catch (NumberFormatException e) {
-//                    widthError.setText("Width must be between 10 and 50");
-//                    heightError.setText("Height must be between 10 and 50");
-//                    widthError.setVisible(true);
-//                    heightError.setVisible(true);
-//                    return null;
-//                }
-//            }
-//            return null;
-//        });
-
-
-
-
-        //newDimensionGrille.showAndWait();
-        //return newDimensionGrille.getResult();
 
     }
 }
