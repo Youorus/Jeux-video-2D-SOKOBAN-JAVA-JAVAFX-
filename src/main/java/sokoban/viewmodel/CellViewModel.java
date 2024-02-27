@@ -30,8 +30,8 @@ public class CellViewModel {
         return board.valueProperty(line, col);
     }
 
-    public boolean isEmpty() {
-        return board.getValue(line, col) == CellValue.ground;
+    public boolean isEmpty(int line, int col) {
+        return board.isEmpty(line, col);
     }
 
     public SimpleDoubleProperty scaleProperty() {

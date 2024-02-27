@@ -19,7 +19,9 @@ import java.util.Objects;
 public class BoardView extends BorderPane {
     private final BoardViewModel boardViewModel;
 
-    //private static final int GRID_WIDTH = BoardViewModel.gridWidth();
+    private static final int GRID_WIDTH = BoardViewModel.gridWidth();
+
+    private static final int GRID_HEIGHT = BoardViewModel.gridHeight();
     private static final int SCENE_MIN_WIDTH = 520;
     private static final int SCENE_MIN_HEIGHT = 520;
     private MenuBar menuBar;
@@ -44,10 +46,10 @@ public class BoardView extends BorderPane {
         Scene scene = new Scene(this, SCENE_MIN_WIDTH, SCENE_MIN_HEIGHT);
         String cssFile = Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm();
         scene.getStylesheets().add(cssFile);
-
         stage.setScene(scene);
-
         stage.show();
+        stage.setMinHeight(stage.getHeight());
+        stage.setMinWidth(stage.getWidth());
     }
 
     private void configMainComponements(Stage stage){
@@ -59,20 +61,33 @@ public class BoardView extends BorderPane {
 
     }
 
-    private void createGrid (){
-        /*
-        DoubleBinding gridWidth = Bindings.createDoubleBinding(
+    private void createGrid () {
+
+        DoubleBinding gridWidthBinding = Bindings.createDoubleBinding(
                 () -> {
-                    var size = Math.min(widthProperty().get(), heightProperty().get() - headerBox.heightProperty().get());
-                    return Math.floor(size / GRID_WIDTH) * GRID_WIDTH;
+                    double availableWidth = widthProperty().get();
+                    double availableHeight = heightProperty().get() - headerBox.heightProperty().get();
+                    double aspectRatio = (double) GRID_WIDTH / GRID_HEIGHT;
+
+                    double maxWidthBasedOnHeight = (availableHeight * aspectRatio);
+                    double finalWidth = Math.min(availableWidth, maxWidthBasedOnHeight);
+
+                    return Math.floor(finalWidth / GRID_WIDTH) * GRID_WIDTH;
                 },
                 widthProperty(),
                 heightProperty(),
                 headerBox.heightProperty());
-        GridView grilleView = new GridView(boardViewModel.getGrilleViewModel(), gridWidth);
 
+        DoubleBinding gridHeightBinding = gridWidthBinding.divide(GRID_WIDTH).multiply(GRID_HEIGHT);
 
-         */
+        GridView gridView = new GridView(boardViewModel.getGridViewModel(), gridWidthBinding, gridHeightBinding);
+
+        gridView.minHeightProperty().bind(gridHeightBinding);
+        gridView.minWidthProperty().bind(gridWidthBinding);
+        gridView.maxHeightProperty().bind(gridHeightBinding);
+        gridView.maxWidthProperty().bind(gridWidthBinding);
+
+        setCenter(gridView);
 
         // Grille carrée
 

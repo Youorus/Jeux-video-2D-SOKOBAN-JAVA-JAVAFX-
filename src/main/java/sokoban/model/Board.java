@@ -2,6 +2,7 @@ package sokoban.model;
 
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.LongBinding;
+import javafx.beans.property.ReadOnlyObjectProperty;
 
 public class Board {
 
@@ -18,6 +19,11 @@ public class Board {
     public static int maxFilledCells() {
         return MAX_FILLED_CELLS;
     }
+
+    public ReadOnlyObjectProperty<CellValue> valueProperty(int line, int col) {
+        return grid.valueProperty(line, col);
+    }
+
     public LongBinding filledCellsCountProperty() {
         return grid.filledCellsCountProperty();
     }
@@ -26,6 +32,9 @@ public class Board {
         return isComplete.get();
     }
 
+    public boolean isEmpty(int line, int col) {
+        return grid.isEmpty(line, col);
+    }
 
 
 
