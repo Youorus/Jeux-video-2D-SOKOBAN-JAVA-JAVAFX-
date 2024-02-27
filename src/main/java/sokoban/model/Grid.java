@@ -35,6 +35,10 @@ public class Grid {
         return GRID_WIDTH;
     }
 
+    public static int getGridHeight() {
+        return GRID_HEIGHT;
+    }
+
     public ReadOnlyObjectProperty<CellValue> valueProperty(int line, int col) {
         return matrix[line][col].valueProperty();
     }
