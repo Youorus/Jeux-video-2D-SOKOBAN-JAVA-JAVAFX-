@@ -19,6 +19,26 @@ public class MenueViewModel {
 
     }
 
+
+    public void validateWidth(String newValue){
+        try {
+            int newWidth = Integer.parseInt(newValue);
+            isValidWidthProperty().set(newWidth >= 10 && newWidth <= 50);
+        } catch (NumberFormatException e) {
+            isValidWidthProperty().set(false);
+        }
+
+    }
+
+    public void validateHeight(String newValue){
+        try {
+            int newWidth = Integer.parseInt(newValue);
+            isValidHeightProperty().set(newWidth >= 10 && newWidth <= 50);
+        } catch (NumberFormatException e) {
+            isValidHeightProperty().set(false);
+        }
+    }
+
     public IntegerProperty widthProperty() {
         return Width;
     }
@@ -35,13 +55,6 @@ public class MenueViewModel {
         return validHeight;
     }
 
-    public void validateWidth(){
-        validWidth.set(Width.get() >= 10 && Width.get() <= 50 );
-    }
-
-    public void validateHeight(){
-        validWidth.set(Height.get() >= 10 && Height.get() <= 50 );
-    }
 
     public void updateModel() {
         if (validWidth.get() && validHeight.get()) {

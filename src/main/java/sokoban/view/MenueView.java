@@ -1,6 +1,7 @@
 package sokoban.view;
 
 import javafx.scene.control.*;
+import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -79,6 +80,7 @@ public class MenueView {
         newDimensionGrille.setHeaderText("Give new game dimensions");
         newDimensionGrille.setContentText("This is a new dialog!");
 
+
         TextField intField1 = new TextField();
         intField1.setPromptText("Width ");
 
@@ -92,32 +94,20 @@ public class MenueView {
 
         Label widthError = new Label("Width must be between 10 and 50");
         widthError.setTextFill(Color.RED);
-        widthError.visibleProperty().bind(menueViewModel.isValidWidthProperty().not());
+
 
 
         Label heightError = new Label("Height must be between 10 and 50");
         heightError.setTextFill(Color.RED);
-        heightError.visibleProperty().bind(menueViewModel.isValidHeightProperty().not());
-
 
 
         intField1.textProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-                menueViewModel.widthProperty().set(Integer.parseInt(newValue));
-            } catch (NumberFormatException e) {
-                menueViewModel.widthProperty().set(0); // Valeur invalide pour forcer l'erreur
-            }
-            menueViewModel.validateWidth(); // Valide à chaque changement
+            menueViewModel.validateWidth(newValue);
         });
 
 
         intField2.textProperty().addListener((observable, oldValue, newValue) -> {
-            try {
-                menueViewModel.heightProperty().set(Integer.parseInt(newValue));
-            } catch (NumberFormatException e) {
-                menueViewModel.heightProperty().set(0); // Valeur invalide pour forcer l'erreur
-            }
-            menueViewModel.validateHeight(); // Valide à chaque changement
+            menueViewModel.validateHeight(newValue);
         });
 
 
@@ -127,15 +117,41 @@ public class MenueView {
         grid.add(new Label("Width "), 0, 0);
         grid.add(intField1, 1, 0);
 
-        grid.add(new Label("Height "), 0, 1);
-        grid.add(intField2, 1, 1);
+        grid.add(new Label("Height "), 0, 2);
+        grid.add(intField2, 1, 2);
 
+        grid.add(widthError, 1, 1);
+        widthError.managedProperty().bind(widthError.visibleProperty());
+        widthError.visibleProperty().bind(menueViewModel.isValidWidthProperty().not());
+
+
+
+        grid.add(heightError, 1, 3);
+        heightError.managedProperty().bind(heightError.visibleProperty());
+        heightError.visibleProperty().bind(menueViewModel.isValidHeightProperty().not());
+
+
+        widthError.setWrapText(true);
+        heightError.setWrapText(true);
+
+        newDimensionGrille.getDialogPane().setPrefSize(250,250);
+        ColumnConstraints column1 = new ColumnConstraints();
+        column1.setMinWidth(50);
+        ColumnConstraints column2 = new ColumnConstraints();
+        column2.setMinWidth(200);
+        grid.getColumnConstraints().addAll(column1, column2);
 
         newDimensionGrille.getDialogPane().setContent(grid);
 
         ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
         ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-        newDimensionGrille.getButtonTypes().addAll(okButton,cancelButton);
+        newDimensionGrille.getButtonTypes().setAll(okButton,cancelButton);
+
+        Button okButtonNode = (Button) newDimensionGrille.getDialogPane().lookupButton(okButton);
+        okButtonNode.disableProperty().bind(
+                menueViewModel.isValidWidthProperty().not()
+                        .or(menueViewModel.isValidHeightProperty().not())
+        );
 
         Optional<ButtonType> result = newDimensionGrille.showAndWait();
         if (result.isPresent() && result.get() == okButton) {
@@ -144,7 +160,7 @@ public class MenueView {
         }
         //else{ gerer si il appuie sur cancel
 
-        newDimensionGrille.showAndWait();
+
 
 
     }
