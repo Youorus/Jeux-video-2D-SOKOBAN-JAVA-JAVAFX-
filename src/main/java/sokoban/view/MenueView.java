@@ -4,6 +4,7 @@ import javafx.scene.control.*;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
@@ -35,7 +36,10 @@ public class MenueView {
     private  void confirmationDialog1(){
         menuBar = new MenuBar();
         Menu fileMenu = new Menu("File");
-        MenuItem newMenuItem = new MenuItem("New");
+        MenuItem newMenuItem = new MenuItem("New...");
+        MenuItem openMenuItem = new MenuItem("Open...");
+        MenuItem saveMenuItem = new MenuItem("Save as...");
+        MenuItem exitMenuItem = new MenuItem("Exit");
 
         newMenuItem.setOnAction(event -> {
 
@@ -53,9 +57,11 @@ public class MenueView {
             Optional<ButtonType> result = alert.showAndWait();
             if(result.get() == yesButton){
                 System.out.println("yes button has been pressed");
-                 newDimension();
+                saveAs();
+                newDimension();
             } else if(result.get()== noButton){
                 System.out.println("no button has been pressed");
+                newDimension();
             } else if(result.get()== cancelButton){
                 if (boadView != null) {
                     // Redirection vers la BoardView
@@ -67,7 +73,7 @@ public class MenueView {
         });
 
 
-        fileMenu.getItems().add(newMenuItem);
+        fileMenu.getItems().addAll(newMenuItem,openMenuItem,saveMenuItem,exitMenuItem);
 
         menuBar.getMenus().add(fileMenu);
 
@@ -158,8 +164,16 @@ public class MenueView {
             // L'utilisateur a cliqué sur ok
             menueViewModel.updateModel();
         }
-        //else{ gerer si il appuie sur cancel
 
+
+    }
+
+    private void saveAs(){
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Enregistrer la grille");
+
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Sokoban Board Files (*.xsb)", "*.xsb");
+        fileChooser.getExtensionFilters().add(extFilter);
 
 
 
