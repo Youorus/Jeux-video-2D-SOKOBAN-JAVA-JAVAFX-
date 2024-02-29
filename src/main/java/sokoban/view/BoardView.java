@@ -129,7 +129,7 @@ public class BoardView extends BorderPane {
 
     }
     private void createMenue(){
-        MenuView menueView = new MenuView();
+        MenueView menueView = new MenueView();
         menueView.showConfirmationDialog1();
         menuBar = menueView.createMenuBar();
         setTop(menuBar);
