@@ -93,7 +93,9 @@ public class BoardView extends BorderPane {
 
     }
     private void createBoiteAOutils(){
-
+        BoiteAOutilsView boiteAOutilsView = new BoiteAOutilsView();
+        boiteAOutilsView.setAlignment(Pos.CENTER_LEFT);
+        setLeft(boiteAOutilsView);
     }
     private void createCompteur(){
 
