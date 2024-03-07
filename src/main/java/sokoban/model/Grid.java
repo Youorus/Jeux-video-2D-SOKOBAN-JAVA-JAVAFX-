@@ -11,9 +11,14 @@ import java.util.Arrays;
 public class Grid {
     private static final int GRID_HEIGHT = 10;
     private static final int GRID_WIDTH = 15;
+    //les rendre non static
 
     private final Cell[][] matrix;
     private final LongBinding filledCellsCount;
+
+//    public Grid(){
+//        initialiseMatrix(int heigh)
+//    }
 
     public Grid() {
         matrix = new Cell[GRID_HEIGHT][GRID_WIDTH];

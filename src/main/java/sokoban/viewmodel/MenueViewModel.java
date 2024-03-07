@@ -20,6 +20,14 @@ public class MenueViewModel {
 
     }
 
+    public int getWidth() {
+        return Width.get();
+    }
+
+    public int getHeight() {
+        return Height.get();
+    }
+
 
     public void validateWidth(String newValue){
         try {
@@ -64,6 +72,8 @@ public class MenueViewModel {
             // Mise à jour du modèle avec les nouvelles dimensions valides
         }
     }
+
+
 
 
 

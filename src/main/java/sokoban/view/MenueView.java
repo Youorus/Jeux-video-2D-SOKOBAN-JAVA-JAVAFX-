@@ -9,6 +9,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import javafx.util.converter.NumberStringConverter;
+import sokoban.viewmodel.BoardViewModel;
 import sokoban.viewmodel.MenueViewModel;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
@@ -18,6 +19,7 @@ import java.util.Optional;
 public class MenueView {
     private MenuBar menuBar;
     private BoardView boardView;
+    private BoardViewModel boardViewModel;
 
 
     public void setBoadView(BoardView boadView) {
@@ -163,6 +165,9 @@ public class MenueView {
         if (result.isPresent() && result.get() == okButton) {
             // L'utilisateur a cliqué sur ok
             menueViewModel.updateModel();
+            int newWidth = menueViewModel.getWidth();
+            int newHeight = menueViewModel.getHeight();
+            //boardViewModel.updateBoardDimensions(newWidth,newHeight);
         }
 
 
