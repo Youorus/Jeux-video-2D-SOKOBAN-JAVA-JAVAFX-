@@ -12,7 +12,7 @@ public class BoiteAOutilsView extends VBox {
     // sauver l'image clicker
     private ImageView selectedImageView;
 
-    public BoiteAOutilsView() {
+    public BoiteAOutilsView(DoubleBinding cellsize) {
         ImageView ground = createdImageView("ground.png");
         ImageView wall = createdImageView("wall.png");
         ImageView player = createdImageView("player.png");
@@ -31,6 +31,22 @@ public class BoiteAOutilsView extends VBox {
         setEventHandlers(box, "box.png");
         setEventHandlers(goal, "goal.png");
 
+        cellsize.addListener((obs, oldVal, newSize) -> {
+            adjustImageViewSizes(newSize.doubleValue());
+        });
+
+        adjustImageViewSizes(cellsize.get());
+
+    }
+
+    private void adjustImageViewSizes(double size) {
+        getChildren().forEach(node -> {
+            if (node instanceof ImageView) {
+                ImageView imageView = (ImageView) node;
+                imageView.setFitWidth(size);
+                imageView.setFitHeight(size);
+            }
+        });
     }
 
     // Création d'une image à partir de de mon dossier ressource
