@@ -33,9 +33,7 @@ public class BoardViewModel {
         return Grid.getGridHeight();
     }
 
-//    public void updateBoardDimensions(int newWidth, int newHeight){
-//        board.
-//    }
+
 
 
 }

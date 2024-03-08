@@ -5,6 +5,8 @@ import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.StackPane;
 import sokoban.model.CellValue;
 import sokoban.viewmodel.CellViewModel;
@@ -30,12 +32,36 @@ public class CellView extends StackPane {
         setAlignment(Pos.CENTER);
         layoutControls();
         configureBindings();
+        configureDragAndDrop();
     }
 
     private void layoutControls() {
 
         imageView.setPreserveRatio(true);
         getChildren().addAll(imageView);
+    }
+
+    private void configureDragAndDrop() {
+        setOnDragOver(event -> {
+            if (event.getGestureSource() != this && event.getDragboard().hasImage()) {
+                event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+            }
+            event.consume();
+        });
+
+        setOnDragDropped(event -> {
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+
+            if (db.hasImage()) {
+                // Update the cell's image
+                setImage(db.getImage());
+                success = true;
+            }
+
+            event.setDropCompleted(success);
+            event.consume();
+        });
     }
 
     private void configureBindings() {
@@ -70,6 +96,10 @@ public class CellView extends StackPane {
             default:
                 imageView.setImage(groundImage);
         }
+    }
+
+    public void setImage(Image image) {
+        imageView.setImage(image);
     }
 
     private void hoverChanged(ObservableValue<? extends Boolean> obs, Boolean oldVal, Boolean newVal) {

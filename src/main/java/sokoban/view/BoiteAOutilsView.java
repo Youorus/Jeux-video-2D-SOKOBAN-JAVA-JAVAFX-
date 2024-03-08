@@ -1,15 +1,16 @@
 package sokoban.view;
 
 import javafx.beans.binding.DoubleBinding;
-import javafx.geometry.Insets;
-import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.VBox;
 
 public class BoiteAOutilsView extends VBox {
 
-    // sauver l'image clicker
+    // save the clicked image
     private ImageView selectedImageView;
 
     public BoiteAOutilsView(DoubleBinding cellsize) {
@@ -19,17 +20,15 @@ public class BoiteAOutilsView extends VBox {
         ImageView box = createdImageView("box.png");
         ImageView goal = createdImageView("goal.png");
 
-
-
         setSpacing(10);
         getChildren().addAll(ground, wall, player, box, goal);
 
-        // Gérer les événements de survol et de clic pour chaque image
-        setEventHandlers(ground, "ground.png");
-        setEventHandlers(wall, "wall.png");
-        setEventHandlers(player, "player.png");
-        setEventHandlers(box, "box.png");
-        setEventHandlers(goal, "goal.png");
+        // Handle drag-and-drop events for each image
+        setDragAndDropHandlers(ground);
+        setDragAndDropHandlers(wall);
+        setDragAndDropHandlers(player);
+        setDragAndDropHandlers(box);
+        setDragAndDropHandlers(goal);
 
         cellsize.addListener((obs, oldVal, newSize) -> {
             adjustImageViewSizes(newSize.doubleValue());
@@ -49,7 +48,7 @@ public class BoiteAOutilsView extends VBox {
         });
     }
 
-    // Création d'une image à partir de de mon dossier ressource
+    // Create an ImageView from the resource folder
     private ImageView createdImageView(String imageName) {
         ImageView imageView = new ImageView(new Image(imageName));
         imageView.setFitHeight(50);
@@ -58,20 +57,72 @@ public class BoiteAOutilsView extends VBox {
         return imageView;
     }
 
-    private void setEventHandlers(ImageView imageView, String imageName) {
-        // rajout de l'ombre au survol
+    private void setDragAndDropHandlers(ImageView imageView) {
+        // Add shadow on hover
         imageView.setOnMouseEntered(event -> {
             imageView.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
         });
-        // Enlever l'ombre lorsque la souris quitte l'image
+
+        // Remove shadow when the mouse leaves the image
         imageView.setOnMouseExited(event -> {
             imageView.setStyle(null);
         });
-        // mémoriser l'image clicked et mettre à jour le label
-        imageView.setOnMouseClicked(event -> {
+
+        // Start drag-and-drop when the mouse is pressed
+        imageView.setOnDragDetected(event -> {
+            Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
+            ClipboardContent content = new ClipboardContent();
+
+            // Convert the current ImageView to an Image
+            Image image = imageView.getImage();
+
+            // Add the image to the ClipboardContent
+            content.putImage(image);
+
+            db.setContent(content);
+
             selectedImageView = imageView;
-            System.out.println(imageName);
+
+            event.consume();
         });
+
+        // Accept the drop and update the target cell's image
+        imageView.setOnDragOver(event -> {
+            if (event.getGestureSource() != imageView && event.getDragboard().hasImage()) {
+                event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
+            }
+            event.consume();
+        });
+
+        imageView.setOnDragDropped(event -> {
+            Dragboard db = event.getDragboard();
+            boolean success = false;
+
+            if (db.hasImage()) {
+                // Update the target cell's image
+                CellView targetCell = getTargetCell(event.getX(), event.getY());
+                if (targetCell != null) {
+                    targetCell.setImage(selectedImageView.getImage());
+                    success = true;
+                }
+            }
+
+            event.setDropCompleted(success);
+            event.consume();
+        });
+    }
+
+    private CellView getTargetCell(double x, double y) {
+        // Find the target cell based on the mouse coordinates
+        for (javafx.scene.Node node : getChildren()) {
+            if (node instanceof CellView) {
+                CellView cellView = (CellView) node;
+                if (cellView.getBoundsInParent().contains(x, y)) {
+                    return cellView;
+                }
+            }
+        }
+        return null;
     }
 
     public ImageView getSelectedImageView() {
