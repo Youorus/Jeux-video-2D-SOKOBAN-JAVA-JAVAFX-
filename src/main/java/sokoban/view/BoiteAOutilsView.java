@@ -1,19 +1,18 @@
 package sokoban.view;
 
 import javafx.beans.binding.DoubleBinding;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.VBox;
 
 public class BoiteAOutilsView extends VBox {
 
-    // save the clicked image
-    private ImageView selectedImageView;
+    // Save the clicked image
+    private static ImageView selectedImageView;
 
-    public BoiteAOutilsView(DoubleBinding cellsize) {
+
+    public BoiteAOutilsView(DoubleBinding cellSize) {
         ImageView ground = createdImageView("ground.png");
         ImageView wall = createdImageView("wall.png");
         ImageView player = createdImageView("player.png");
@@ -23,19 +22,18 @@ public class BoiteAOutilsView extends VBox {
         setSpacing(10);
         getChildren().addAll(ground, wall, player, box, goal);
 
-        // Handle drag-and-drop events for each image
-        setDragAndDropHandlers(ground);
-        setDragAndDropHandlers(wall);
-        setDragAndDropHandlers(player);
-        setDragAndDropHandlers(box);
-        setDragAndDropHandlers(goal);
+        // Handle click events for each image
+        setClickHandlers(ground);
+        setClickHandlers(wall);
+        setClickHandlers(player);
+        setClickHandlers(box);
+        setClickHandlers(goal);
 
-        cellsize.addListener((obs, oldVal, newSize) -> {
+        cellSize.addListener((obs, oldVal, newSize) -> {
             adjustImageViewSizes(newSize.doubleValue());
         });
 
-        adjustImageViewSizes(cellsize.get());
-
+        adjustImageViewSizes(cellSize.get());
     }
 
     private void adjustImageViewSizes(double size) {
@@ -44,6 +42,15 @@ public class BoiteAOutilsView extends VBox {
                 ImageView imageView = (ImageView) node;
                 imageView.setFitWidth(size);
                 imageView.setFitHeight(size);
+                if (imageView == selectedImageView) {
+                    imageView.setStyle("-fx-border-color: blue; -fx-border-width: 10;");
+                } else {
+                    imageView.setStyle(null);
+                }
+
+                // Gérer l'événement de clic pour mettre à jour l'image sélectionnée
+                setClickHandlers(imageView);
+
             }
         });
     }
@@ -57,75 +64,15 @@ public class BoiteAOutilsView extends VBox {
         return imageView;
     }
 
-    private void setDragAndDropHandlers(ImageView imageView) {
-        // Add shadow on hover
-        imageView.setOnMouseEntered(event -> {
-            imageView.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
-        });
-
-        // Remove shadow when the mouse leaves the image
-        imageView.setOnMouseExited(event -> {
-            imageView.setStyle(null);
-        });
-
-        // Start drag-and-drop when the mouse is pressed
-        imageView.setOnDragDetected(event -> {
-            Dragboard db = imageView.startDragAndDrop(TransferMode.ANY);
-            ClipboardContent content = new ClipboardContent();
-
-            // Convert the current ImageView to an Image
-            Image image = imageView.getImage();
-
-            // Add the image to the ClipboardContent
-            content.putImage(image);
-
-            db.setContent(content);
-
+    private void setClickHandlers(ImageView imageView) {
+        imageView.setOnMouseClicked(event -> {
+            // Mettre à jour l'image sélectionnée
             selectedImageView = imageView;
-
-            event.consume();
-        });
-
-        // Accept the drop and update the target cell's image
-        imageView.setOnDragOver(event -> {
-            if (event.getGestureSource() != imageView && event.getDragboard().hasImage()) {
-                event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-            }
-            event.consume();
-        });
-
-        imageView.setOnDragDropped(event -> {
-            Dragboard db = event.getDragboard();
-            boolean success = false;
-
-            if (db.hasImage()) {
-                // Update the target cell's image
-                CellView targetCell = getTargetCell(event.getX(), event.getY());
-                if (targetCell != null) {
-                    targetCell.setImage(selectedImageView.getImage());
-                    success = true;
-                }
-            }
-
-            event.setDropCompleted(success);
-            event.consume();
+            adjustImageViewSizes(imageView.getFitWidth());  // Mettre à jour le style immédiatement
         });
     }
 
-    private CellView getTargetCell(double x, double y) {
-        // Find the target cell based on the mouse coordinates
-        for (javafx.scene.Node node : getChildren()) {
-            if (node instanceof CellView) {
-                CellView cellView = (CellView) node;
-                if (cellView.getBoundsInParent().contains(x, y)) {
-                    return cellView;
-                }
-            }
-        }
-        return null;
-    }
-
-    public ImageView getSelectedImageView() {
+    public static ImageView getSelectedImageView() {
         return selectedImageView;
     }
 }

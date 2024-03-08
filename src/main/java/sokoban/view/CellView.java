@@ -1,18 +1,12 @@
 package sokoban.view;
 
 import javafx.beans.binding.DoubleBinding;
-import javafx.beans.value.ObservableValue;
-import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import sokoban.model.CellValue;
 import sokoban.viewmodel.CellViewModel;
-import sokoban.viewmodel.GridViewModel;
-
-import java.util.Objects;
 
 public class CellView extends StackPane {
     private final CellViewModel viewModel;
@@ -29,39 +23,26 @@ public class CellView extends StackPane {
         this.viewModel = cellViewModel;
         this.widthProperty = cellWidthProperty;
 
-        setAlignment(Pos.CENTER);
+        setAlignment(javafx.geometry.Pos.CENTER);
         layoutControls();
         configureBindings();
-        configureDragAndDrop();
+        configureClickHandler();
     }
 
     private void layoutControls() {
-
         imageView.setPreserveRatio(true);
         getChildren().addAll(imageView);
     }
 
-    private void configureDragAndDrop() {
-        setOnDragOver(event -> {
-            if (event.getGestureSource() != this && event.getDragboard().hasImage()) {
-                event.acceptTransferModes(TransferMode.COPY_OR_MOVE);
-            }
-            event.consume();
-        });
+    private void configureClickHandler() {
+        setOnMouseClicked(this::handleMouseClicked);
+    }
 
-        setOnDragDropped(event -> {
-            Dragboard db = event.getDragboard();
-            boolean success = false;
-
-            if (db.hasImage()) {
-                // Update the cell's image
-                setImage(db.getImage());
-                success = true;
-            }
-
-            event.setDropCompleted(success);
-            event.consume();
-        });
+    private void handleMouseClicked(MouseEvent event) {
+        if (BoiteAOutilsView.getSelectedImageView() != null) {
+            // Place the selected image in the cell
+            setImage(BoiteAOutilsView.getSelectedImageView().getImage());
+        }
     }
 
     private void configureBindings() {
@@ -70,7 +51,6 @@ public class CellView extends StackPane {
 
         // Adapte la largeur de l'image à celle de la cellule
         imageView.fitWidthProperty().bind(widthProperty);
-
 
         // Quand la cellule change de valeur, adapter l'image affichée
         viewModel.valueProperty().addListener((obs, old, newVal) -> setImage(imageView, newVal));
@@ -102,7 +82,7 @@ public class CellView extends StackPane {
         imageView.setImage(image);
     }
 
-    private void hoverChanged(ObservableValue<? extends Boolean> obs, Boolean oldVal, Boolean newVal) {
+    private void hoverChanged(javafx.beans.value.ObservableValue<? extends Boolean> obs, Boolean oldVal, Boolean newVal) {
         imageView.setOpacity(newVal ? 0.2 : 1.0);
     }
 }
