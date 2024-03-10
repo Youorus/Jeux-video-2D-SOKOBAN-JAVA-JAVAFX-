@@ -1,12 +1,7 @@
 @startuml
 BoiteAOutils  *-- "many" Elements : contains
-Elements <|-- ElemSuperposable
-Elements <|-- ElemNonSuperposable
-ElemSuperposable <|-- Terrain
-ElemNonSuperposable <|-- Mur
-ElemSuperposable <|-- Joueur
-ElemSuperposable <|-- Caisse
-ElemSuperposable <|-- Cible
+
+
 Board *-- "1" BoiteAOutils : contains
 Board *-- "1" Compteur : contains
 Board *-- "1" Grille : contains
