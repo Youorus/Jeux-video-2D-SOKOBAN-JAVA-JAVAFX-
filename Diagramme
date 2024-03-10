@@ -1,0 +1,28 @@
+@startuml
+BoiteAOutils  *-- "many" Elements : contains
+
+
+Board *-- "1" BoiteAOutils : contains
+Board *-- "1" Compteur : contains
+Board *-- "1" Grille : contains
+Board *-- "1" Menue : contains
+Grille *-- "many" Case : contains
+Case *-- "many" Elements
+class Grille {
+width : Integer
+height : Integer
+}
+
+
+@enduml
+
+chaque case doit avoir un terrain
+il faut placer un et un seul joueur obligatoire
+Il faut au minimum une cible et une caisse.
+Il doit y avoir autant de cibles que de caisses.
+On ne peut remplir que la moitié (arrondie vers le bas) des cases de la grille avec autre chose que du terrain.
+Chaque case de la grille ne peut avoir qu'un des contenus suivants :
+
+terrain || mur
+terrain && (joueur || cible || caisse)
+terrain && (joueur || caisse) && cible
