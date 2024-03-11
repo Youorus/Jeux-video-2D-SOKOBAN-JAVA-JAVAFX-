@@ -1,6 +1,5 @@
 package sokoban.viewmodel;
 
-
-public class MenuViewModel {
+public class CibleViewModel {
 
 }

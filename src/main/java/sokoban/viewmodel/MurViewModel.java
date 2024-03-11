@@ -1,4 +1,4 @@
 package sokoban.viewmodel;
 
-public class ToolsViewModel {
+public class MurViewModel {
 }

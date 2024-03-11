@@ -56,7 +56,6 @@ public class BoardView extends BorderPane {
         stage.setTitle("Sokoban");
         createMenue();
         createGrid();
-        createBoiteAOutils();
         createCompteur();
 
     }
@@ -79,6 +78,7 @@ public class BoardView extends BorderPane {
                 headerBox.heightProperty());
 
         DoubleBinding gridHeightBinding = gridWidthBinding.divide(GRID_WIDTH).multiply(GRID_HEIGHT);
+        DoubleBinding cellSizeBinding = gridWidthBinding.divide(GRID_WIDTH);
 
         GridView gridView = new GridView(boardViewModel.getGridViewModel(), gridWidthBinding, gridHeightBinding);
 
@@ -88,12 +88,13 @@ public class BoardView extends BorderPane {
         gridView.maxWidthProperty().bind(gridWidthBinding);
 
         setCenter(gridView);
+        createBoiteAOutils(cellSizeBinding);
 
         // Grille carrée
 
     }
-    private void createBoiteAOutils(){
-        BoiteAOutilsView boiteAOutilsView = new BoiteAOutilsView();
+    private void createBoiteAOutils(DoubleBinding cellsize){
+        BoiteAOutilsView boiteAOutilsView = new BoiteAOutilsView(cellsize);
         boiteAOutilsView.setAlignment(Pos.CENTER_LEFT);
         setLeft(boiteAOutilsView);
     }
@@ -129,7 +130,7 @@ public class BoardView extends BorderPane {
 
     }
     private void createMenue(){
-        MenuView menueView = new MenuView();
+        MenueView menueView = new MenueView();
         menueView.showConfirmationDialog1();
         menuBar = menueView.createMenuBar();
         setTop(menuBar);

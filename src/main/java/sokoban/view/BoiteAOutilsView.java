@@ -1,39 +1,61 @@
 package sokoban.view;
 
 import javafx.beans.binding.DoubleBinding;
-import javafx.geometry.Insets;
-import javafx.scene.control.Label;
+import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 
 public class BoiteAOutilsView extends VBox {
 
-    // sauver l'image clicker
-    private ImageView selectedImageView;
+    // Save the clicked image
+    private static ImageView selectedImageView;
 
-    public BoiteAOutilsView() {
+
+    public BoiteAOutilsView(DoubleBinding cellSize) {
         ImageView ground = createdImageView("ground.png");
         ImageView wall = createdImageView("wall.png");
         ImageView player = createdImageView("player.png");
         ImageView box = createdImageView("box.png");
         ImageView goal = createdImageView("goal.png");
 
-
-
         setSpacing(10);
         getChildren().addAll(ground, wall, player, box, goal);
 
-        // Gérer les événements de survol et de clic pour chaque image
-        setEventHandlers(ground, "ground.png");
-        setEventHandlers(wall, "wall.png");
-        setEventHandlers(player, "player.png");
-        setEventHandlers(box, "box.png");
-        setEventHandlers(goal, "goal.png");
+        // Handle click events for each image
+        setClickHandlers(ground);
+        setClickHandlers(wall);
+        setClickHandlers(player);
+        setClickHandlers(box);
+        setClickHandlers(goal);
 
+        cellSize.addListener((obs, oldVal, newSize) -> {
+            adjustImageViewSizes(newSize.doubleValue());
+        });
+
+        adjustImageViewSizes(cellSize.get());
     }
 
-    // Création d'une image à partir de de mon dossier ressource
+    private void adjustImageViewSizes(double size) {
+        getChildren().forEach(node -> {
+            if (node instanceof ImageView) {
+                ImageView imageView = (ImageView) node;
+                imageView.setFitWidth(size);
+                imageView.setFitHeight(size);
+                if (imageView == selectedImageView) {
+                    imageView.setStyle("-fx-border-color: blue; -fx-border-width: 10;");
+                } else {
+                    imageView.setStyle(null);
+                }
+
+                // Gérer l'événement de clic pour mettre à jour l'image sélectionnée
+                setClickHandlers(imageView);
+
+            }
+        });
+    }
+
+    // Create an ImageView from the resource folder
     private ImageView createdImageView(String imageName) {
         ImageView imageView = new ImageView(new Image(imageName));
         imageView.setFitHeight(50);
@@ -42,23 +64,15 @@ public class BoiteAOutilsView extends VBox {
         return imageView;
     }
 
-    private void setEventHandlers(ImageView imageView, String imageName) {
-        // rajout de l'ombre au survol
-        imageView.setOnMouseEntered(event -> {
-            imageView.setStyle("-fx-effect: dropshadow(three-pass-box, rgba(0,0,0,0.8), 10, 0, 0, 0);");
-        });
-        // Enlever l'ombre lorsque la souris quitte l'image
-        imageView.setOnMouseExited(event -> {
-            imageView.setStyle(null);
-        });
-        // mémoriser l'image clicked et mettre à jour le label
+    private void setClickHandlers(ImageView imageView) {
         imageView.setOnMouseClicked(event -> {
+            // Mettre à jour l'image sélectionnée
             selectedImageView = imageView;
-            System.out.println(imageName);
+            adjustImageViewSizes(imageView.getFitWidth());  // Mettre à jour le style immédiatement
         });
     }
 
-    public ImageView getSelectedImageView() {
+    public static ImageView getSelectedImageView() {
         return selectedImageView;
     }
 }
