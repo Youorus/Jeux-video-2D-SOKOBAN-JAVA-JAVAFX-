@@ -13,6 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sokoban.viewmodel.BoardViewModel;
+import sokoban.viewmodel.CellViewModel;
 
 import java.util.Objects;
 
@@ -93,6 +94,8 @@ public class BoardView extends BorderPane {
         // Grille carrée
 
     }
+
+
     private void createBoiteAOutils(DoubleBinding cellsize){
         BoiteAOutilsView boiteAOutilsView = new BoiteAOutilsView(cellsize);
         boiteAOutilsView.setAlignment(Pos.CENTER_LEFT);

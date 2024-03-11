@@ -1,4 +1,4 @@
 package sokoban.model;
 
-public class ElementSupperposable extends Elements{
+public class ElementSupperposable{
 }

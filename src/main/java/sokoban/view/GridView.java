@@ -26,7 +26,7 @@ public class GridView extends GridPane {
 
         for (int i = 0; i < GRID_HEIGHT; ++i) {
             for (int j = 0; j < GRID_WIDTH; ++j) {
-                CellView cellView = new CellView(grilleViewModel.getCellViewModel(i, j), cellSize);
+                CellView cellView = new CellView(grilleViewModel.getCellViewModel(i, j), cellSize, this);
                 add(cellView, j, i);
             }
         }

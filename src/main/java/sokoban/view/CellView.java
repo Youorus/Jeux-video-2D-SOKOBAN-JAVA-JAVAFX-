@@ -1,15 +1,17 @@
 package sokoban.view;
 
 import javafx.beans.binding.DoubleBinding;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
+import javafx.scene.input.*;
 import javafx.scene.layout.StackPane;
 import sokoban.model.CellValue;
 import sokoban.viewmodel.CellViewModel;
 
 public class CellView extends StackPane {
     private final CellViewModel viewModel;
+    private  GridView parentGrid;
     private final DoubleBinding widthProperty;
     private final ImageView imageView = new ImageView("ground.png");
 
@@ -19,14 +21,15 @@ public class CellView extends StackPane {
     private static final Image playerImage = new Image("player.png");
     private static final Image goalImage = new Image("goal.png");
 
-    CellView(CellViewModel cellViewModel, DoubleBinding cellWidthProperty) {
+    CellView(CellViewModel cellViewModel, DoubleBinding cellWidthProperty,GridView parentGrid) {
         this.viewModel = cellViewModel;
         this.widthProperty = cellWidthProperty;
+        this.parentGrid = parentGrid;
 
         setAlignment(javafx.geometry.Pos.CENTER);
         layoutControls();
         configureBindings();
-        configureClickHandler();
+        configureMouseHandlers();
     }
 
     private void layoutControls() {
@@ -34,16 +37,92 @@ public class CellView extends StackPane {
         getChildren().addAll(imageView);
     }
 
-    private void configureClickHandler() {
+
+
+    private void configureMouseHandlers() {
         setOnMouseClicked(this::handleMouseClicked);
+        //setOnMouseDragged(this::handleMouseDragged);
+       setOnMouseReleased(this::handleMouseReleased);
+
+       // setOnDragEntered(this::handleDragEntered);
+       // setOnDragExited(this::handleDragExited);
     }
 
-    private void handleMouseClicked(MouseEvent event) {
-        if (BoiteAOutilsView.getSelectedImageView() != null) {
-            // Place the selected image in the cell
-            setImage(BoiteAOutilsView.getSelectedImageView().getImage());
+//    private void handleDragEntered(DragEvent event) {
+//        System.out.println("survol?");
+//        // Mettez à jour l'image lorsqu'une cellule est survolée pendant un glisser-déposer
+//        if (BoiteAOutilsView.getSelectedImageName() != null) {
+//            setImage(BoiteAOutilsView.getSelectedImageName());
+//        }
+//        event.consume();
+//    }
+
+//    private void handleDragExited(DragEvent event) {
+//        // Rétablissez l'image initiale lorsque la souris quitte la cellule
+//        viewModel.valueProperty().getValue().ifPresent(cellValue -> setImage(imageView, cellValue));
+//        event.consume();
+//    }
+
+    private void handleMouseDragged(MouseEvent event) {
+        System.out.println("Survol");
+        if (BoiteAOutilsView.getSelectedImageName() != null) {
+            // Obtenez les coordonnées de la souris dans la grille parente
+            double mouseX = event.getX();
+            double mouseY = event.getY();
+
+            // Parcourez les cellules de la grille parente et trouvez celle survolée
+            for (Node node : parentGrid.getChildren()) {
+                if (node instanceof CellView) {
+                    CellView cellView = (CellView) node;
+                    if (cellView.getBoundsInParent().contains(mouseX, mouseY)) {
+                        // Mettez à jour l'image de la cellule survolée
+                        cellView.setImage(BoiteAOutilsView.getSelectedImageName());
+                        break; // Sortez de la boucle une fois que la cellule est trouvée
+                    }
+                }
+            }
         }
     }
+
+
+    private void handleMouseReleased(MouseEvent event) {
+        System.out.println("fin");
+    }
+
+
+
+
+
+    private void handleMouseClicked(MouseEvent event) {
+        String selectedImageName = BoiteAOutilsView.getSelectedImageName();
+
+        // Check if the selected image is the same as the image in the cell
+        if (selectedImageName != null && !selectedImageName.isEmpty()) {
+            Image currentImage = imageView.getImage();
+            String currentImageName = currentImage.getUrl();
+            System.out.println(selectedImageName);
+            System.out.println(currentImageName);
+
+            // If the image in the cell is the same as the selected image, remove it
+            if (selectedImageName.equals(currentImageName)) {
+                setImage("ground.png");
+            } else {
+                // Otherwise, place the selected image in the cell
+                setImage(selectedImageName);
+            }
+        }
+    }
+
+
+
+
+    private void handleMouseExited(MouseEvent event) {
+
+        // Désactive la gestion des événements de survol lorsque la souris quitte la cellule
+        setOnMouseEntered(null);
+    }
+
+
 
     private void configureBindings() {
         minWidthProperty().bind(widthProperty);
@@ -64,7 +143,7 @@ public class CellView extends StackPane {
             case wall:
                 imageView.setImage(wallImage);
                 break;
-            case boxe:
+            case box:
                 imageView.setImage(boxImage);
                 break;
             case player:
@@ -78,8 +157,9 @@ public class CellView extends StackPane {
         }
     }
 
-    public void setImage(Image image) {
-        imageView.setImage(image);
+    public void setImage(String imageName) {
+        ImageView imageView1 = new ImageView(imageName);
+        imageView.setImage(imageView1.getImage());
     }
 
     private void hoverChanged(javafx.beans.value.ObservableValue<? extends Boolean> obs, Boolean oldVal, Boolean newVal) {

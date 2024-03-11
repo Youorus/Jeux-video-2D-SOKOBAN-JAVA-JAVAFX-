@@ -1,33 +1,32 @@
 package sokoban.view;
 
 import javafx.beans.binding.DoubleBinding;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.ClipboardContent;
+import javafx.scene.input.Dragboard;
+import javafx.scene.input.TransferMode;
 import javafx.scene.layout.VBox;
+import sokoban.model.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class BoiteAOutilsView extends VBox {
 
     // Save the clicked image
-    private static ImageView selectedImageView;
-
+    private static String selectedImageName;
 
     public BoiteAOutilsView(DoubleBinding cellSize) {
-        ImageView ground = createdImageView("ground.png");
-        ImageView wall = createdImageView("wall.png");
-        ImageView player = createdImageView("player.png");
-        ImageView box = createdImageView("box.png");
-        ImageView goal = createdImageView("goal.png");
+        List<Element> elements = createElements();
 
         setSpacing(10);
-        getChildren().addAll(ground, wall, player, box, goal);
 
-        // Handle click events for each image
-        setClickHandlers(ground);
-        setClickHandlers(wall);
-        setClickHandlers(player);
-        setClickHandlers(box);
-        setClickHandlers(goal);
+        for (Element element : elements) {
+            ImageView imageView = createdImageView(element.getImage());
+            getChildren().add(imageView);
+            setClickHandlers(imageView, element);
+        }
 
         cellSize.addListener((obs, oldVal, newSize) -> {
             adjustImageViewSizes(newSize.doubleValue());
@@ -36,21 +35,32 @@ public class BoiteAOutilsView extends VBox {
         adjustImageViewSizes(cellSize.get());
     }
 
+    private List<Element> createElements() {
+        List<Element> elements = new ArrayList<>();
+        elements.add(new Ground());
+        elements.add(new Wall());
+        elements.add(new Player());
+        elements.add(new Box());
+        elements.add(new Goal());
+        // Ajoutez d'autres éléments selon vos besoins
+        return elements;
+    }
+
     private void adjustImageViewSizes(double size) {
         getChildren().forEach(node -> {
-            if (node instanceof ImageView) {
-                ImageView imageView = (ImageView) node;
+            if (node instanceof ImageView imageView) {
                 imageView.setFitWidth(size);
                 imageView.setFitHeight(size);
-                if (imageView == selectedImageView) {
-                    imageView.setStyle("-fx-border-color: blue; -fx-border-width: 10;");
+                if (imageView.getImage() != null && imageView.getImage().getUrl().equals(selectedImageName)) {
+                    imageView.setStyle("-fx-padding: 10;" +
+                            "-fx-border-style: solid inside;" +
+                            "-fx-border-width: 50;" +
+                            "-fx-border-radius: 5;" +
+                            "-fx-border-color: blue;");
                 } else {
                     imageView.setStyle(null);
                 }
-
-                // Gérer l'événement de clic pour mettre à jour l'image sélectionnée
-                setClickHandlers(imageView);
-
+                imageView.applyCss();
             }
         });
     }
@@ -64,15 +74,17 @@ public class BoiteAOutilsView extends VBox {
         return imageView;
     }
 
-    private void setClickHandlers(ImageView imageView) {
+
+    private void setClickHandlers(ImageView imageView, Element element) {
         imageView.setOnMouseClicked(event -> {
             // Mettre à jour l'image sélectionnée
-            selectedImageView = imageView;
+            selectedImageName = element.getImage();
             adjustImageViewSizes(imageView.getFitWidth());  // Mettre à jour le style immédiatement
         });
     }
 
-    public static ImageView getSelectedImageView() {
-        return selectedImageView;
+    public static String getSelectedImageName() {
+        Image image = new ImageView(selectedImageName).getImage();
+        return image.getUrl();
     }
 }

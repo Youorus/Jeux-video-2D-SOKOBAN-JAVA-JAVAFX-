@@ -1,5 +1,8 @@
 package sokoban.model;
 
+import javafx.scene.image.Image;
+
 public enum CellValue {
-    ground, wall, boxe, player, goal;
+    ground, wall, box, player, goal;
+
 }
