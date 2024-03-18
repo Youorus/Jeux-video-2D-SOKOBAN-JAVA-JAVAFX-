@@ -5,7 +5,8 @@ import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import sokoban.model.Board;
-import sokoban.model.CellValue;
+//import sokoban.model.CellValue;
+import sokoban.model.Element;
 import sokoban.model.Grid;
 
 
@@ -26,7 +27,7 @@ public class CellViewModel {
         this.board = board;
     }
 
-    public ReadOnlyObjectProperty<CellValue> valueProperty() {
+    public ReadOnlyObjectProperty<Element> valueProperty() {
         return board.valueProperty(line, col);
     }
 

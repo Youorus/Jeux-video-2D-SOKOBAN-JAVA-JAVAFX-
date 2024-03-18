@@ -6,20 +6,15 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.*;
 import javafx.scene.layout.StackPane;
-import sokoban.model.CellValue;
+import sokoban.model.Element;
+import sokoban.model.Ground;
 import sokoban.viewmodel.CellViewModel;
 
 public class CellView extends StackPane {
     private final CellViewModel viewModel;
     private  GridView parentGrid;
     private final DoubleBinding widthProperty;
-    private final ImageView imageView = new ImageView("ground.png");
-
-    private static final Image groundImage = new Image("ground.png");
-    private static final Image wallImage = new Image("wall.png");
-    private static final Image boxImage = new Image("box.png");
-    private static final Image playerImage = new Image("player.png");
-    private static final Image goalImage = new Image("goal.png");
+    private final ImageView imageView = new ImageView(new Ground().getImage());
 
     CellView(CellViewModel cellViewModel, DoubleBinding cellWidthProperty,GridView parentGrid) {
         this.viewModel = cellViewModel;
@@ -40,9 +35,9 @@ public class CellView extends StackPane {
 
 
     private void configureMouseHandlers() {
-        setOnMouseClicked(this::handleMouseClicked);
+        //setOnMouseClicked(this::handleMouseClicked);
         //setOnMouseDragged(this::handleMouseDragged);
-       setOnMouseReleased(this::handleMouseReleased);
+       //setOnMouseReleased(this::handleMouseReleased);
 
        // setOnDragEntered(this::handleDragEntered);
        // setOnDragExited(this::handleDragExited);
@@ -63,64 +58,64 @@ public class CellView extends StackPane {
 //        event.consume();
 //    }
 
-    private void handleMouseDragged(MouseEvent event) {
-        System.out.println("Survol");
-        if (BoiteAOutilsView.getSelectedImageName() != null) {
-            // Obtenez les coordonnées de la souris dans la grille parente
-            double mouseX = event.getX();
-            double mouseY = event.getY();
-
-            // Parcourez les cellules de la grille parente et trouvez celle survolée
-            for (Node node : parentGrid.getChildren()) {
-                if (node instanceof CellView) {
-                    CellView cellView = (CellView) node;
-                    if (cellView.getBoundsInParent().contains(mouseX, mouseY)) {
-                        // Mettez à jour l'image de la cellule survolée
-                        cellView.setImage(BoiteAOutilsView.getSelectedImageName());
-                        break; // Sortez de la boucle une fois que la cellule est trouvée
-                    }
-                }
-            }
-        }
-    }
-
-
-    private void handleMouseReleased(MouseEvent event) {
-        System.out.println("fin");
-    }
+//    private void handleMouseDragged(MouseEvent event) {
+//        System.out.println("Survol");
+//        if (BoiteAOutilsView.getSelectedImageName() != null) {
+//            // Obtenez les coordonnées de la souris dans la grille parente
+//            double mouseX = event.getX();
+//            double mouseY = event.getY();
+//
+//            // Parcourez les cellules de la grille parente et trouvez celle survolée
+//            for (Node node : parentGrid.getChildren()) {
+//                if (node instanceof CellView) {
+//                    CellView cellView = (CellView) node;
+//                    if (cellView.getBoundsInParent().contains(mouseX, mouseY)) {
+//                        // Mettez à jour l'image de la cellule survolée
+//                        cellView.setImage(BoiteAOutilsView.getSelectedImageName());
+//                        break; // Sortez de la boucle une fois que la cellule est trouvée
+//                    }
+//                }
+//            }
+//        }
 
 
 
-
-
-    private void handleMouseClicked(MouseEvent event) {
-        String selectedImageName = BoiteAOutilsView.getSelectedImageName();
-
-        // Check if the selected image is the same as the image in the cell
-        if (selectedImageName != null && !selectedImageName.isEmpty()) {
-            Image currentImage = imageView.getImage();
-            String currentImageName = currentImage.getUrl();
-            System.out.println(selectedImageName);
-            System.out.println(currentImageName);
-
-            // If the image in the cell is the same as the selected image, remove it
-            if (selectedImageName.equals(currentImageName)) {
-                setImage("ground.png");
-            } else {
-                // Otherwise, place the selected image in the cell
-                setImage(selectedImageName);
-            }
-        }
-    }
+//    private void handleMouseReleased(MouseEvent event) {
+//        System.out.println("fin");
+//    }
 
 
 
 
-    private void handleMouseExited(MouseEvent event) {
 
-        // Désactive la gestion des événements de survol lorsque la souris quitte la cellule
-        setOnMouseEntered(null);
-    }
+//    private void handleMouseClicked(MouseEvent event) {
+//        String selectedImageName = BoiteAOutilsView.getSelectedImageName();
+//
+//        // Check if the selected image is the same as the image in the cell
+//        if (selectedImageName != null && !selectedImageName.isEmpty()) {
+//            Image currentImage = imageView.getImage();
+//            String currentImageName = currentImage.getUrl();
+//            System.out.println(selectedImageName);
+//            System.out.println(currentImageName);
+//
+//            // If the image in the cell is the same as the selected image, remove it
+//            if (selectedImageName.equals(currentImageName)) {
+//                setImage("ground.png");
+//            } else {
+//                // Otherwise, place the selected image in the cell
+//                setImage(selectedImageName);
+//            }
+//        }
+//    }
+
+
+
+
+//    private void handleMouseExited(MouseEvent event) {
+//
+//        // Désactive la gestion des événements de survol lorsque la souris quitte la cellule
+//        setOnMouseEntered(null);
+//    }
 
 
 
@@ -131,31 +126,11 @@ public class CellView extends StackPane {
         // Adapte la largeur de l'image à celle de la cellule
         imageView.fitWidthProperty().bind(widthProperty);
 
-        // Quand la cellule change de valeur, adapter l'image affichée
-        viewModel.valueProperty().addListener((obs, old, newVal) -> setImage(imageView, newVal));
-
         // Gère le survol de la cellule avec la souris (ajustez selon le besoin)
         hoverProperty().addListener(this::hoverChanged);
     }
 
-    private void setImage(ImageView imageView, CellValue cellValue) {
-        switch (cellValue) {
-            case wall:
-                imageView.setImage(wallImage);
-                break;
-            case box:
-                imageView.setImage(boxImage);
-                break;
-            case player:
-                imageView.setImage(playerImage);
-                break;
-            case goal:
-                imageView.setImage(goalImage);
-                break;
-            default:
-                imageView.setImage(groundImage);
-        }
-    }
+
 
     public void setImage(String imageName) {
         ImageView imageView1 = new ImageView(imageName);

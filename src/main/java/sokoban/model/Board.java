@@ -20,7 +20,7 @@ public class Board {
         return MAX_FILLED_CELLS;
     }
 
-    public ReadOnlyObjectProperty<CellValue> valueProperty(int line, int col) {
+    public ReadOnlyObjectProperty<Element> valueProperty(int line, int col) {
         return grid.valueProperty(line, col);
     }
 

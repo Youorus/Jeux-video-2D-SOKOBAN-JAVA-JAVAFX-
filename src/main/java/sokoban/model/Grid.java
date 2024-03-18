@@ -3,8 +3,6 @@ package sokoban.model;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.LongBinding;
 import javafx.beans.property.ReadOnlyObjectProperty;
-import sokoban.model.Cell;
-import sokoban.model.CellValue;
 
 import java.util.Arrays;
 
@@ -16,16 +14,12 @@ public class Grid {
     private final Cell[][] matrix;
     private final LongBinding filledCellsCount;
 
-//    public Grid(){
-//        initialiseMatrix(int heigh)
-//    }
-
     public Grid() {
         matrix = new Cell[GRID_HEIGHT][GRID_WIDTH];
         for (int i = 0; i < GRID_HEIGHT; ++i) {
             for (int j = 0; j < GRID_WIDTH; ++j) {
                 matrix[i][j] = new Cell();
-                matrix[i][j].setValue(CellValue.ground);
+                matrix[i][j].setValue(new Ground()); // Initialisation avec Ground
             }
         }
 
@@ -44,15 +38,15 @@ public class Grid {
         return GRID_HEIGHT;
     }
 
-    public ReadOnlyObjectProperty<CellValue> valueProperty(int line, int col) {
+    public ReadOnlyObjectProperty<Element> valueProperty(int line, int col) {
         return matrix[line][col].valueProperty();
     }
 
-    public CellValue getValue(int line, int col) {
+    public Element getValue(int line, int col) {
         return matrix[line][col].getValue();
     }
 
-    public void play(int line, int col, CellValue playerValue) {
+    public void play(int line, int col, Element playerValue) {
         matrix[line][col].setValue(playerValue);
         filledCellsCount.invalidate();
     }
@@ -64,4 +58,5 @@ public class Grid {
     public boolean isEmpty(int line, int col) {
         return matrix[line][col].isEmpty();
     }
+
 }

@@ -13,11 +13,14 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sokoban.viewmodel.BoardViewModel;
+import sokoban.viewmodel.BoiteAOutilsViewModel;
 import sokoban.viewmodel.CellViewModel;
 
 import java.util.Objects;
 
 public class BoardView extends BorderPane {
+
+    private BoiteAOutilsViewModel boiteAOutilsViewModel;
     private final BoardViewModel boardViewModel;
 
     private static final int GRID_WIDTH = BoardViewModel.gridWidth();
@@ -97,7 +100,7 @@ public class BoardView extends BorderPane {
 
 
     private void createBoiteAOutils(DoubleBinding cellsize){
-        BoiteAOutilsView boiteAOutilsView = new BoiteAOutilsView(cellsize);
+        BoiteAOutilsView boiteAOutilsView = new BoiteAOutilsView(cellsize, boiteAOutilsViewModel);
         boiteAOutilsView.setAlignment(Pos.CENTER_LEFT);
         setLeft(boiteAOutilsView);
     }

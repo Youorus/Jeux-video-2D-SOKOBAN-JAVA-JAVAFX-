@@ -3,35 +3,31 @@ package sokoban.view;
 import javafx.beans.binding.DoubleBinding;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
 import javafx.scene.layout.VBox;
 import sokoban.model.*;
+import sokoban.viewmodel.BoiteAOutilsViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BoiteAOutilsView extends VBox {
 
-    // Save the clicked image
-    private static String selectedImageName;
+    private BoiteAOutilsViewModel viewModel;
+    private final List<Element> elements;
 
-    public BoiteAOutilsView(DoubleBinding cellSize) {
-        List<Element> elements = createElements();
+    public BoiteAOutilsView(DoubleBinding cellSize, BoiteAOutilsViewModel viewModel) {
+        this.viewModel = viewModel;
+        this.elements = createElements();
 
         setSpacing(10);
 
         for (Element element : elements) {
-            ImageView imageView = createdImageView(element.getImage());
+            ImageView imageView = createImageView(element.getImage());
             getChildren().add(imageView);
             setClickHandlers(imageView, element);
         }
 
-        cellSize.addListener((obs, oldVal, newSize) -> {
-            adjustImageViewSizes(newSize.doubleValue());
-        });
-
+        cellSize.addListener((obs, oldVal, newSize) -> adjustImageViewSizes(newSize.doubleValue()));
         adjustImageViewSizes(cellSize.get());
     }
 
@@ -48,43 +44,24 @@ public class BoiteAOutilsView extends VBox {
 
     private void adjustImageViewSizes(double size) {
         getChildren().forEach(node -> {
-            if (node instanceof ImageView imageView) {
+            if (node instanceof ImageView) {
+                ImageView imageView = (ImageView) node;
                 imageView.setFitWidth(size);
                 imageView.setFitHeight(size);
-                if (imageView.getImage() != null && imageView.getImage().getUrl().equals(selectedImageName)) {
-                    imageView.setStyle("-fx-padding: 10;" +
-                            "-fx-border-style: solid inside;" +
-                            "-fx-border-width: 50;" +
-                            "-fx-border-radius: 5;" +
-                            "-fx-border-color: blue;");
-                } else {
-                    imageView.setStyle(null);
-                }
-                imageView.applyCss();
             }
         });
     }
 
-    // Create an ImageView from the resource folder
-    private ImageView createdImageView(String imageName) {
+    private ImageView createImageView(String imageName) {
         ImageView imageView = new ImageView(new Image(imageName));
         imageView.setFitHeight(50);
         imageView.setFitWidth(40);
-
         return imageView;
     }
 
-
     private void setClickHandlers(ImageView imageView, Element element) {
         imageView.setOnMouseClicked(event -> {
-            // Mettre à jour l'image sélectionnée
-            selectedImageName = element.getImage();
-            adjustImageViewSizes(imageView.getFitWidth());  // Mettre à jour le style immédiatement
+            viewModel.setSelectedElement(element);
         });
-    }
-
-    public static String getSelectedImageName() {
-        Image image = new ImageView(selectedImageName).getImage();
-        return image.getUrl();
     }
 }
