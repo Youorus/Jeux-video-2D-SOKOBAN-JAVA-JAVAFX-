@@ -11,12 +11,12 @@ public class BoardViewModel {
 //    private final BooleanExpression isGridHalfFilled;
 
     private final GridViewModel grilleViewModel;
+
+    private boolean hasPlayer;
+
     private final Board board;
     public BoardViewModel(Board board) {
         this.board = board;
-//        this.filledCellsCount = board.filledCellsCountProperty().asInteger();
-//        this.isGridHalfFilled = filledCellsCount.greaterThanOrEqualTo(Board.maxFilledCells() / 2);
-
         grilleViewModel = new GridViewModel(board);
     }
 
@@ -24,30 +24,12 @@ public class BoardViewModel {
         return grilleViewModel;
     }
 
-//    public IntegerBinding filledCellsCountProperty() {
-//        return filledCellsCount;
-//    }
-//
-//    public BooleanExpression isGridHalfFilledProperty() {
-//        return isGridHalfFilled;
-//    }
-
     public int maxFilledCells() {
         return Board.maxFilledCells();
     }
     public LongBinding filledCellsCountProperty() {
         return board.filledCellsCountProperty();
     }
-
-//    public void addElement() {
-//        gridViewModel.addElement();
-//        board.incrementFilledCellsCount();
-//    }
-//
-//    public void removeElement() {
-//        gridViewModel.removeElement();
-//        board.decrementFilledCellsCount();
-//    }
 
     public static int gridWidth() {
         return Grid.getGridWidth();

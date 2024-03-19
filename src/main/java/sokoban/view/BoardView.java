@@ -21,7 +21,11 @@ import java.util.Objects;
 public class BoardView extends BorderPane {
 
     private BoiteAOutilsViewModel boiteAOutilsViewModel;
+
+
+
     private final BoardViewModel boardViewModel;
+    private ErrorBox errorBox;
 
     private static final int GRID_WIDTH = BoardViewModel.gridWidth();
 
@@ -30,7 +34,6 @@ public class BoardView extends BorderPane {
     private static final int SCENE_MIN_HEIGHT = 520;
     private MenuBar menuBar;
 
-    private VBox errorBox;
 
     //pour le compteur
     private final Label headerLabel = new Label("");
@@ -100,21 +103,24 @@ public class BoardView extends BorderPane {
 
 
     private void createBoiteAOutils(DoubleBinding cellsize){
-        BoiteAOutilsView boiteAOutilsView = new BoiteAOutilsView(cellsize, boiteAOutilsViewModel);
+        BoiteAOutilsView boiteAOutilsView = new BoiteAOutilsView(cellsize);
         boiteAOutilsView.setAlignment(Pos.CENTER_LEFT);
         setLeft(boiteAOutilsView);
     }
+
+
     private void createCompteur(){
 
         headerLabel.textProperty().bind(boardViewModel.filledCellsCountProperty()
                 .asString("Number of filled cells: %d of " + boardViewModel.maxFilledCells()));
         headerLabel.getStyleClass().add("header");
 
-        errorBox = new VBox();
+
+        errorBox = new ErrorBox(); // Utilisez ErrorBox au lieu de VBox
         errorBox.setAlignment(Pos.CENTER);
         errorBox.setSpacing(5);
         listError();
-        errorBox.setVisible(false);
+        errorBox.setVisible(true);
 
         if (errorBox.isVisible()) {
             errorBox.setManaged(true);
@@ -154,17 +160,11 @@ public class BoardView extends BorderPane {
         String errorMessage1 = " * A player is required";
         String errorMessage2 = " * At least one target is required";
         String errorMessage3 = " * At least one box is required";
-        Label errorLabel = new Label(errorMessage);
-        Label errorLabel1 = new Label(errorMessage1);
-        Label errorLabel2 = new Label(errorMessage2);
-        Label errorLabel3 = new Label(errorMessage3);
-        errorLabel.getStyleClass().add("errorBox");
-        errorLabel1.getStyleClass().add("errorBox");
-        errorLabel2.getStyleClass().add("errorBox");
-        errorLabel3.getStyleClass().add("errorBox");
-        errorBox.getChildren().addAll(errorLabel,errorLabel1,errorLabel2,errorLabel3);
 
-        errorBox.setVisible(true);
+        errorBox.addError(errorMessage);
+        errorBox.addError(errorMessage1);
+        errorBox.addError(errorMessage2);
+        errorBox.addError(errorMessage3);
     }
 
 }

@@ -46,13 +46,24 @@ public class Grid {
         return matrix[line][col].getValue();
     }
 
-    public void play(int line, int col, Element playerValue) {
+    public void add(int line, int col, Element playerValue) {
         matrix[line][col].setValue(playerValue);
         filledCellsCount.invalidate();
     }
 
     public LongBinding filledCellsCountProperty() {
         return filledCellsCount;
+    }
+
+    public boolean hasPlayer() {
+        for (int i = 0; i < GRID_HEIGHT; i++) {
+            for (int j = 0; j < GRID_WIDTH; j++) {
+                if (matrix[i][j].getValue() instanceof Player) {
+                    return true; // Un joueur a été trouvé
+                }
+            }
+        }
+        return false; // Aucun joueur trouvé dans la grille
     }
 
     public boolean isEmpty(int line, int col) {

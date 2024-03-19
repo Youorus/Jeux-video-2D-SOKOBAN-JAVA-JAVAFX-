@@ -5,18 +5,20 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
 import sokoban.model.*;
-import sokoban.viewmodel.BoiteAOutilsViewModel;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class BoiteAOutilsView extends VBox {
 
-    private BoiteAOutilsViewModel viewModel;
+    public static Element getElementObject() {
+        return elementObject;
+    }
+
+    private static Element elementObject;
     private final List<Element> elements;
 
-    public BoiteAOutilsView(DoubleBinding cellSize, BoiteAOutilsViewModel viewModel) {
-        this.viewModel = viewModel;
+    public BoiteAOutilsView(DoubleBinding cellSize) {
         this.elements = createElements();
 
         setSpacing(10);
@@ -61,7 +63,10 @@ public class BoiteAOutilsView extends VBox {
 
     private void setClickHandlers(ImageView imageView, Element element) {
         imageView.setOnMouseClicked(event -> {
-            viewModel.setSelectedElement(element);
+            // Mettre à jour l'image sélectionnée
+            elementObject = element;
+           // adjustImageViewSizes(imageView.getFitWidth());  // Mettre à jour le style immédiatement
         });
     }
+
 }
