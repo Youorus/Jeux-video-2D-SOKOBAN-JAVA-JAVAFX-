@@ -3,6 +3,7 @@ package sokoban.view;
 import javafx.beans.binding.DoubleBinding;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import sokoban.model.Ground;
@@ -43,7 +44,12 @@ public class CellView extends StackPane {
         minWidthProperty().bind(widthProperty);
         minHeightProperty().bind(widthProperty);
 
-        this.setOnMouseClicked(e -> viewModel.add());
+        this.setOnMouseClicked(event -> {
+            if (event.getButton() == MouseButton.PRIMARY) {
+                // Action à effectuer en cas de clic gauche
+               viewModel.add();
+            }
+        });
 
         // Adapte la largeur de l'image à celle de la cellule
         imageView.fitWidthProperty().bind(widthProperty);

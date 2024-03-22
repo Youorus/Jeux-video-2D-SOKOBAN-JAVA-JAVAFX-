@@ -21,6 +21,7 @@ public class Cell {
     }
 
     public void add(Element element){
+        cellsElements.clear();
         cellsElements.add(element);
     }
 

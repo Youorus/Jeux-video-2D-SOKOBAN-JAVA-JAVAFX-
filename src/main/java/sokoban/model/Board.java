@@ -51,8 +51,15 @@ public class Board {
     public void add(int line, int col) {
         Element element = ToolsBoxView.getElementObject();
         System.out.println(ToolsBoxView.getElementObject());
-        if (grid.getCellsElements(line, col).contains(wall)) {
-            System.out.println("Impossible d'ajouter un mur ici");
+
+
+        if (grid.getCellsElements(line, col).contains(wall) &&  element.equals(wall) ||
+                grid.getCellsElements(line, col).contains(player) &&  element.equals(player) ||
+                grid.getCellsElements(line, col).contains(goal) &&  element.equals(goal) ||
+                grid.getCellsElements(line, col).contains(box) &&  element.equals(box)) {
+            grid.add(line, col, ground);
+        } else if (grid.getCellsElements(line, col).contains(wall) &&  element.equals(player)) {
+            System.out.println("Impossible d'ajouter un joueur a un mur");
         } else if (grid.getCellsElements(line, col).contains(player) && element.equals(box)) {
             System.out.println("Impossible de placer une caisse sur un joueur");
         } else if (grid.getCellsElements(line, col).contains(goal) && element.equals(goal)) {

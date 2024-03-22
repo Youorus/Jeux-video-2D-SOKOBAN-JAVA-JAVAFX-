@@ -74,4 +74,7 @@ public class Grid {
         return matrix[line][col].isEmpty();
     }
 
+    public Element getValue(int line, int col) {
+        return matrix[line][col].getValue();
+    }
 }
