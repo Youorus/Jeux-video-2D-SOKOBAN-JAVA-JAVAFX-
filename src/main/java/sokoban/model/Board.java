@@ -10,6 +10,10 @@ import sokoban.viewmodel.ToolsBoxViewModel;
 public class Board {
 
     private Ground ground = new Ground();
+    private Wall wall = new Wall();
+    private Player player = new Player();
+    private Box box = new Box();
+    private Goal goal = new Goal();
     static final int MAX_FILLED_CELLS = (Grid.getGridWidth() * Grid.getGridHeight()) / 2;
 
     public Grid getGrid() {
@@ -46,8 +50,16 @@ public class Board {
 
     public void add(int line, int col) {
         Element element = ToolsBoxView.getElementObject();
-
-        //c'est ici que je dois faire la verification de mon board
-        grid.add(line, col, element);
+        System.out.println(ToolsBoxView.getElementObject());
+        if (grid.getCellsElements(line, col).contains(wall)) {
+            System.out.println("Impossible d'ajouter un mur ici");
+        } else if (grid.getCellsElements(line, col).contains(player) && element.equals(box)) {
+            System.out.println("Impossible de placer une caisse sur un joueur");
+        } else if (grid.getCellsElements(line, col).contains(goal) && element.equals(goal)) {
+            System.out.println("Impossible de placer une cible sur une autre cible");
+        } else {
+            grid.add(line, col, element);
+        }
     }
+
 }
