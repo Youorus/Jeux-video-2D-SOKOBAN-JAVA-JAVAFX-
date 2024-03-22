@@ -10,6 +10,8 @@
     import sokoban.model.Grid;
     import sokoban.model.Ground;
 
+    import java.util.Set;
+
 
     public class CellViewModel {
         private static final double DEFAULT_SCALE = 0.5;
@@ -54,10 +56,12 @@
             }
         }
 
+        public Set<Element> getCellsElements() {
+            return board.getGrid().getCellsElements(line, col);
+        }
+
         public void add() {
-            Element ground = new Ground();
-            if (board.add(line, col) == ground)
-                scale.set(DEFAULT_SCALE);
+            board.add(line, col);
         }
 
         public void decrementScale() {

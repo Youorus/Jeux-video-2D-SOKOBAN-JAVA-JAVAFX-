@@ -1,8 +1,6 @@
 package sokoban.viewmodel;
 
 import sokoban.model.Board;
-import sokoban.model.Grid;
-import sokoban.view.BoiteAOutilsView;
 
 public class GridViewModel {
 

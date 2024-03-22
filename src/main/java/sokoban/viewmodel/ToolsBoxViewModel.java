@@ -4,8 +4,8 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import sokoban.model.Element;
 
-public class BoiteAOutilsViewModel {
-    private final ObjectProperty<Element> selectedElement = new SimpleObjectProperty<>();
+public class ToolsBoxViewModel {
+    private static final ObjectProperty<Element> selectedElement = new SimpleObjectProperty<>();
 
     public ObjectProperty<Element> selectedElementProperty() {
         return selectedElement;

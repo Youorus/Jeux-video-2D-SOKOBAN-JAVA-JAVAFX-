@@ -50,20 +50,21 @@ public class CellView extends StackPane {
 
         // Quand la cellule change de valeur, adapter l'image affichée
         viewModel.valueProperty().addListener((obs, old, newVal) -> {
-            Image image = new Image(newVal.getImage());
-            setImage(image);
+            ImageView imageView1 = new ImageView(newVal.getImage());
+            setImage(imageView1);
         });
 
         // Gère le survol de la cellule avec la souris (ajustez selon le besoin)
         hoverProperty().addListener(this::hoverChanged);
     }
 
-    public void setImage(Image image) {
-        imageView.setImage(image);
+    public void setImage(ImageView image) {
+        getChildren().add(image);
+        image.fitWidthProperty().bind(widthProperty);
     }
 
     private void hoverChanged(javafx.beans.value.ObservableValue<? extends Boolean> obs, Boolean oldVal, Boolean newVal) {
-        imageView.setOpacity(newVal ? 0.2 : 1.0);
+        imageView.setOpacity(newVal ? 0.0 : 1.0);
     }
 }
 

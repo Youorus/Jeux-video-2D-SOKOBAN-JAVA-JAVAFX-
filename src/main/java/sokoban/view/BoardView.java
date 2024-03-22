@@ -4,7 +4,6 @@ package sokoban.view;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
@@ -13,14 +12,13 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sokoban.viewmodel.BoardViewModel;
-import sokoban.viewmodel.BoiteAOutilsViewModel;
-import sokoban.viewmodel.CellViewModel;
+import sokoban.viewmodel.ToolsBoxViewModel;
 
 import java.util.Objects;
 
 public class BoardView extends BorderPane {
 
-    private BoiteAOutilsViewModel boiteAOutilsViewModel;
+    private ToolsBoxViewModel boiteAOutilsViewModel;
 
 
 
@@ -103,7 +101,7 @@ public class BoardView extends BorderPane {
 
 
     private void createBoiteAOutils(DoubleBinding cellsize){
-        BoiteAOutilsView boiteAOutilsView = new BoiteAOutilsView(cellsize);
+        ToolsBoxView boiteAOutilsView = new ToolsBoxView(cellsize);
         boiteAOutilsView.setAlignment(Pos.CENTER_LEFT);
         setLeft(boiteAOutilsView);
     }

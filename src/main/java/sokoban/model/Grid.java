@@ -5,12 +5,19 @@ import javafx.beans.binding.LongBinding;
 import javafx.beans.property.ReadOnlyObjectProperty;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Grid {
     private static final int GRID_HEIGHT = 10;
     private static final int GRID_WIDTH = 15;
-    //les rendre non static
 
+    public Set<Element> getGridArrays() {
+        return gridArrays;
+    }
+
+    //les rendre non static
+    private Set<Element> gridArrays = new HashSet<>();
     private final Cell[][] matrix;
     private final LongBinding filledCellsCount;
 
@@ -18,7 +25,7 @@ public class Grid {
         matrix = new Cell[GRID_HEIGHT][GRID_WIDTH];
         for (int i = 0; i < GRID_HEIGHT; ++i) {
             for (int j = 0; j < GRID_WIDTH; ++j) {
-                matrix[i][j] = new Cell();
+                matrix[i][j] = new Cell();// je construis une nouvelle cell
                 matrix[i][j].setValue(new Ground()); // Initialisation avec Ground
             }
         }
@@ -42,29 +49,26 @@ public class Grid {
         return matrix[line][col].valueProperty();
     }
 
-    public Element getValue(int line, int col) {
-        return matrix[line][col].getValue();
-    }
 
-    public void add(int line, int col, Element playerValue) {
-        matrix[line][col].setValue(playerValue);
+    public void add(int line, int col, Element element) {
+        matrix[line][col].setValue(element);
+        matrix[line][col].add(element);
+        System.out.println(matrix[line][col].getCellsElements());
+        gridArrays.add(element);
         filledCellsCount.invalidate();
     }
+
+    public Set<Element> getCellsElements(int line, int col) {
+        return matrix[line][col].getCellsElements();
+    }
+
+
+
 
     public LongBinding filledCellsCountProperty() {
         return filledCellsCount;
     }
 
-    public boolean hasPlayer() {
-        for (int i = 0; i < GRID_HEIGHT; i++) {
-            for (int j = 0; j < GRID_WIDTH; j++) {
-                if (matrix[i][j].getValue() instanceof Player) {
-                    return true; // Un joueur a été trouvé
-                }
-            }
-        }
-        return false; // Aucun joueur trouvé dans la grille
-    }
 
     public boolean isEmpty(int line, int col) {
         return matrix[line][col].isEmpty();

@@ -9,8 +9,7 @@ import sokoban.model.*;
 import java.util.ArrayList;
 import java.util.List;
 
-public class BoiteAOutilsView extends VBox {
-
+public class ToolsBoxView extends VBox {
     public static Element getElementObject() {
         return elementObject;
     }
@@ -18,7 +17,7 @@ public class BoiteAOutilsView extends VBox {
     private static Element elementObject;
     private final List<Element> elements;
 
-    public BoiteAOutilsView(DoubleBinding cellSize) {
+    public ToolsBoxView(DoubleBinding cellSize) {
         this.elements = createElements();
 
         setSpacing(10);
