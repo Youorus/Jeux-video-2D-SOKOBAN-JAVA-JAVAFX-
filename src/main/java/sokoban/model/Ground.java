@@ -27,4 +27,8 @@ public class Ground extends Element {
         // Utilisation de Objects.hash() pour générer le code de hachage
         return Objects.hash(/* attributs à utiliser pour le code de hachage */);
     }
+    @Override
+    public String toString() {
+        return " ";
+    }
 }

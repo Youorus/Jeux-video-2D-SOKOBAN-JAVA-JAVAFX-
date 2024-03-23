@@ -18,6 +18,11 @@ public class Grid {
 
     //les rendre non static
     private Set<Element> gridArrays = new HashSet<>();
+
+    public Cell[][] getMatrix() {
+        return matrix;
+    }
+
     private final Cell[][] matrix;
     private final LongBinding filledCellsCount;
 

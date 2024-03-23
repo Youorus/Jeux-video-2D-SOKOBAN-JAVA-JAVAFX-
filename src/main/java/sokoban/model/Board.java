@@ -48,6 +48,10 @@ public class Board {
         return grid.isEmpty(line, col);
     }
 
+    public Cell[][] getMatrix(){
+        return grid.getMatrix();
+    }
+
     public void add(int line, int col) {
         Element element = ToolsBoxView.getElementObject();
         System.out.println(ToolsBoxView.getElementObject());

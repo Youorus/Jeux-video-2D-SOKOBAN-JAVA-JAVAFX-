@@ -4,6 +4,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.binding.BooleanExpression;
 import javafx.beans.binding.LongBinding;
 import sokoban.model.Board;
+import sokoban.model.Cell;
 import sokoban.model.Grid;
 
 public class BoardViewModel {
@@ -18,6 +19,9 @@ public class BoardViewModel {
     public BoardViewModel(Board board) {
         this.board = board;
         grilleViewModel = new GridViewModel(board);
+    }
+    public Cell[][] getMatrix(){
+       return board.getMatrix();
     }
 
     public GridViewModel getGridViewModel() {

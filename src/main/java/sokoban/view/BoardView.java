@@ -11,6 +11,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import sokoban.model.Cell;
 import sokoban.viewmodel.BoardViewModel;
 import sokoban.viewmodel.ToolsBoxViewModel;
 
@@ -39,6 +40,10 @@ public class BoardView extends BorderPane {
 
     // pour la boite a outils
     private final VBox leftBox = new VBox();
+
+    public Cell[][] getMatrix(){
+        return boardViewModel.getMatrix();
+    }
     public BoardView(Stage primaryStage, BoardViewModel boardViewModel){
         this.boardViewModel = boardViewModel;
         start(primaryStage);
@@ -140,7 +145,7 @@ public class BoardView extends BorderPane {
 
     }
     private void createMenue(){
-        MenueView menueView = new MenueView();
+        MenueView menueView = new MenueView(this);
         menueView.showConfirmationDialog1();
         menuBar = menueView.createMenuBar();
         setTop(menuBar);
