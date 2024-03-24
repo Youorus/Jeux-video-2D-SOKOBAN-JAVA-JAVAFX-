@@ -10,10 +10,12 @@ import sokoban.viewmodel.ToolsBoxViewModel;
 public class Board {
 
     private Ground ground = new Ground();
-    private Wall wall = new Wall();
-    private Player player = new Player();
-    private Box box = new Box();
-    private Goal goal = new Goal();
+    private final Player_goal playerGoal = new Player_goal();
+    private final Box_goal boxGoal = new Box_goal();
+    private final Wall wall = new Wall();
+    private final Player player = new Player();
+    private final Box box = new Box();
+    private final Goal goal = new Goal();
     static final int MAX_FILLED_CELLS = (Grid.getGridWidth() * Grid.getGridHeight()) / 2;
 
     public Grid getGrid() {
@@ -54,7 +56,6 @@ public class Board {
 
     public void add(int line, int col) {
         Element element = ToolsBoxView.getElementObject();
-        System.out.println(ToolsBoxView.getElementObject());
 
 
         if (grid.getCellsElements(line, col).contains(wall) &&  element.equals(wall) ||
@@ -62,6 +63,8 @@ public class Board {
                 grid.getCellsElements(line, col).contains(goal) &&  element.equals(goal) ||
                 grid.getCellsElements(line, col).contains(box) &&  element.equals(box)) {
             grid.add(line, col, ground);
+        } else if (grid.getCellsElements(line, col).contains(wall) &&  element.equals(player )) {
+            System.out.println("impossible de mettre un joueur sur un mur");
         } else if (element.equals(player)) {
             if (grid.hasPlayer()) {
                 // Récupérer les coordonnées actuelles du joueur
@@ -73,6 +76,10 @@ public class Board {
             } else {
                 grid.add(line, col, player);
             }
+        } else if (grid.getCellsElements(line, col).contains(player) && element.equals(goal)) {
+            grid.add(line, col, playerGoal);
+        } else if (grid.getCellsElements(line, col).contains(box) && element.equals(goal)) {
+            grid.add(line, col, boxGoal);
         } else if (grid.getCellsElements(line, col).contains(wall) &&  element.equals(player)) {
             System.out.println("Impossible d'ajouter un joueur a un mur");
         } else if (grid.getCellsElements(line, col).contains(player) && element.equals(box)) {
@@ -82,6 +89,7 @@ public class Board {
         } else {
             grid.add(line, col, element);
         }
+        System.out.println(grid.getCellsElements(line, col));
     }
 
     private int[] getCurrentPlayerPosition() {

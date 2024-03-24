@@ -81,7 +81,6 @@ public class Grid {
     public void add(int line, int col, Element element) {
         matrix[line][col].setValue(element);
         matrix[line][col].add(element);
-        System.out.println(matrix[line][col].getCellsElements());
         gridArrays.add(element);
         filledCellsCount.invalidate();
     }

@@ -2,7 +2,7 @@ package sokoban.model;
 
 import java.util.Objects;
 
-public class Goal extends Element {
+public class Goal extends ElementSuperposable {
 
     @Override
     public String getImage() {
