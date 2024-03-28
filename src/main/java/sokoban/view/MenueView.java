@@ -9,11 +9,16 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Pair;
 import javafx.util.converter.NumberStringConverter;
+import sokoban.model.Element;
+import sokoban.model.Cell;
 import sokoban.viewmodel.BoardViewModel;
 import sokoban.viewmodel.MenueViewModel;
 import javafx.scene.control.Button;
 import javafx.event.ActionEvent;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Optional;
 
 public class MenueView {
@@ -21,9 +26,8 @@ public class MenueView {
     private BoardView boardView;
     private BoardViewModel boardViewModel;
 
-
-    public void setBoadView(BoardView boadView) {
-        this.boardView = boadView;
+    public MenueView(BoardView boardView){
+        this.boardView = boardView;
     }
 
     public void showConfirmationDialog1(){
@@ -43,6 +47,10 @@ public class MenueView {
         MenuItem saveMenuItem = new MenuItem("Save as...");
         MenuItem exitMenuItem = new MenuItem("Exit");
 
+        saveMenuItem.setOnAction(event -> {
+            saveAs(boardView.getMatrix()); // Appel de la méthode saveAs() lorsque le bouton "Save As" est cliqué
+        });
+
         newMenuItem.setOnAction(event -> {
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -59,7 +67,6 @@ public class MenueView {
             Optional<ButtonType> result = alert.showAndWait();
             if(result.get() == yesButton){
                 System.out.println("yes button has been pressed");
-                saveAs();
                 newDimension();
             } else if(result.get()== noButton){
                 System.out.println("no button has been pressed");
@@ -80,6 +87,60 @@ public class MenueView {
         menuBar.getMenus().add(fileMenu);
 
     }
+
+    private void saveAs(Cell[][] matrix) {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Enregistrer la grille");
+
+        // Définir un filtre pour les fichiers .xsb
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Sokoban Board Files (*.xsb)", "*.xsb");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        // Afficher la boîte de dialogue pour choisir l'emplacement et le nom du fichier
+        File file = fileChooser.showSaveDialog(menuBar.getScene().getWindow());
+
+        if (file != null) {
+            // Le fichier a été sélectionné
+            System.out.println("Fichier sélectionné : " + file.getAbsolutePath());
+
+            // Écrire les éléments de la grille dans le fichier
+            writeElementsToFile(file, matrix);
+        }
+    }
+//    private void writeElementsToFile(File file, Cell[][] matrix) {
+//        try (FileWriter writer = new FileWriter(file)) {
+//            // Parcourir la matrice de cellules
+//            for (int i = 0; i < matrix.length; i++) {
+//                for (int j = 0; j < matrix[i].length; j++) {
+//                    // Parcourir les éléments de chaque cellule et les écrire dans le fichier
+//                    for (Element element : matrix[i][j].getCellsElements()) {
+//                        writer.write(element.toString()); // Écrivez l'élément dans le fichier
+//                        writer.write(" "); // Ajoutez un espace entre les éléments
+//                    }
+//                    writer.write("\n"); // Saut de ligne à la fin de chaque ligne de la grille
+//                }
+//            }
+//            System.out.println("Les éléments de la grille ont été écrits dans le fichier.");
+//        } catch (IOException e) {
+//            System.out.println("Erreur lors de l'écriture des éléments dans le fichier : " + e.getMessage());
+//        }
+//    }
+
+    private void writeElementsToFile(File file, Cell[][] matrix) {
+        try (FileWriter writer = new FileWriter(file)) {
+            for (int i = 0; i < matrix.length; i++) {
+                for (int j = 0; j < matrix[i].length; j++) {
+                    Element element = matrix[i][j].getValue(); // Récupérer l'élément de la cellule
+                    writer.write(element.toString()); // Écrire l'élément dans le fichier
+                }
+                writer.write("\n"); // Ajouter un saut de ligne après chaque ligne de la grille
+            }
+            System.out.println("Les éléments de la grille ont été écrits dans le fichier.");
+        } catch (IOException e) {
+            System.out.println("Erreur lors de l'écriture des éléments dans le fichier : " + e.getMessage());
+        }
+    }
+
 
     private void newDimension(){
         MenueViewModel menueViewModel = new MenueViewModel();
@@ -173,14 +234,5 @@ public class MenueView {
 
     }
 
-    private void saveAs(){
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Enregistrer la grille");
 
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Sokoban Board Files (*.xsb)", "*.xsb");
-        fileChooser.getExtensionFilters().add(extFilter);
-
-
-
-    }
 }

@@ -4,7 +4,6 @@ package sokoban.view;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.geometry.Pos;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
@@ -12,11 +11,18 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import sokoban.model.Cell;
 import sokoban.viewmodel.BoardViewModel;
+import sokoban.viewmodel.ToolsBoxViewModel;
 
 import java.util.Objects;
 
 public class BoardView extends BorderPane {
+
+    private ToolsBoxViewModel boiteAOutilsViewModel;
+
+
+
     private final BoardViewModel boardViewModel;
 
     private static final int GRID_WIDTH = BoardViewModel.gridWidth();
@@ -26,15 +32,20 @@ public class BoardView extends BorderPane {
     private static final int SCENE_MIN_HEIGHT = 520;
     private MenuBar menuBar;
 
-    private VBox errorBox;
 
     //pour le compteur
     private final Label headerLabel = new Label("");
     private final HBox headerBox = new HBox();
+    private ErrorBoxView errorBoxView;
 
     // pour la boite a outils
     private final VBox leftBox = new VBox();
+
+    public Cell[][] getMatrix(){
+        return boardViewModel.getMatrix();
+    }
     public BoardView(Stage primaryStage, BoardViewModel boardViewModel){
+        errorBoxView = new ErrorBoxView(boardViewModel.getErrorBoxViewModel());
         this.boardViewModel = boardViewModel;
         start(primaryStage);
 
@@ -93,33 +104,26 @@ public class BoardView extends BorderPane {
         // Grille carrée
 
     }
+
+
     private void createBoiteAOutils(DoubleBinding cellsize){
-        BoiteAOutilsView boiteAOutilsView = new BoiteAOutilsView(cellsize);
+        ToolsBoxView boiteAOutilsView = new ToolsBoxView(cellsize);
         boiteAOutilsView.setAlignment(Pos.CENTER_LEFT);
         setLeft(boiteAOutilsView);
     }
+
+
     private void createCompteur(){
 
         headerLabel.textProperty().bind(boardViewModel.filledCellsCountProperty()
                 .asString("Number of filled cells: %d of " + boardViewModel.maxFilledCells()));
         headerLabel.getStyleClass().add("header");
 
-        errorBox = new VBox();
-        errorBox.setAlignment(Pos.CENTER);
-        errorBox.setSpacing(5);
-        listError();
-        errorBox.setVisible(false);
-
-        if (errorBox.isVisible()) {
-            errorBox.setManaged(true);
-        } else {
-            errorBox.setManaged(false);
-        }
 
 
         VBox headerAndErrorBox = new VBox();
         headerAndErrorBox.setAlignment(Pos.CENTER);
-        headerAndErrorBox.getChildren().addAll(headerLabel, errorBox);
+        headerAndErrorBox.getChildren().addAll(headerLabel, errorBoxView);
 
         headerBox.getChildren().addAll(headerAndErrorBox);
         headerBox.setAlignment(Pos.CENTER);
@@ -130,7 +134,7 @@ public class BoardView extends BorderPane {
 
     }
     private void createMenue(){
-        MenueView menueView = new MenueView();
+        MenueView menueView = new MenueView(this);
         menueView.showConfirmationDialog1();
         menuBar = menueView.createMenuBar();
         setTop(menuBar);
@@ -143,23 +147,6 @@ public class BoardView extends BorderPane {
 //        setTop(menuBar);
     }
 
-    private void listError(){
-        String errorMessage = "Please correct the following error(s):";
-        String errorMessage1 = " * A player is required";
-        String errorMessage2 = " * At least one target is required";
-        String errorMessage3 = " * At least one box is required";
-        Label errorLabel = new Label(errorMessage);
-        Label errorLabel1 = new Label(errorMessage1);
-        Label errorLabel2 = new Label(errorMessage2);
-        Label errorLabel3 = new Label(errorMessage3);
-        errorLabel.getStyleClass().add("errorBox");
-        errorLabel1.getStyleClass().add("errorBox");
-        errorLabel2.getStyleClass().add("errorBox");
-        errorLabel3.getStyleClass().add("errorBox");
-        errorBox.getChildren().addAll(errorLabel,errorLabel1,errorLabel2,errorLabel3);
-
-        errorBox.setVisible(true);
-    }
 
 }
 

@@ -3,29 +3,35 @@ package sokoban.model;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.LongBinding;
 import javafx.beans.property.ReadOnlyObjectProperty;
-import sokoban.model.Cell;
-import sokoban.model.CellValue;
 
 import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class Grid {
     private static final int GRID_HEIGHT = 10;
     private static final int GRID_WIDTH = 15;
+
+    public Set<Element> getGridArrays() {
+        return gridArrays;
+    }
+
     //les rendre non static
+    private Set<Element> gridArrays = new HashSet<>();
+
+    public Cell[][] getMatrix() {
+        return matrix;
+    }
 
     private final Cell[][] matrix;
     private final LongBinding filledCellsCount;
-
-//    public Grid(){
-//        initialiseMatrix(int heigh)
-//    }
 
     public Grid() {
         matrix = new Cell[GRID_HEIGHT][GRID_WIDTH];
         for (int i = 0; i < GRID_HEIGHT; ++i) {
             for (int j = 0; j < GRID_WIDTH; ++j) {
-                matrix[i][j] = new Cell();
-                matrix[i][j].setValue(CellValue.ground);
+                matrix[i][j] = new Cell();// je construis une nouvelle cell
+                matrix[i][j].setValue(new Ground()); // Initialisation avec Ground
             }
         }
 
@@ -44,24 +50,108 @@ public class Grid {
         return GRID_HEIGHT;
     }
 
-    public ReadOnlyObjectProperty<CellValue> valueProperty(int line, int col) {
+    public ReadOnlyObjectProperty<Element> valueProperty(int line, int col) {
         return matrix[line][col].valueProperty();
     }
 
-    public CellValue getValue(int line, int col) {
-        return matrix[line][col].getValue();
+    public boolean hasPlayer() {
+        for (int i = 0; i < GRID_HEIGHT; i++) {
+            for (int j = 0; j < GRID_WIDTH; j++) {
+                if (matrix[i][j].getCellsElements().contains(new Player())) {
+                    return true; // Un joueur a été trouvé
+                }
+            }
+        }
+        return false; // Aucun joueur n'a été trouvé
     }
 
-    public void play(int line, int col, CellValue playerValue) {
-        matrix[line][col].setValue(playerValue);
+    public boolean hasGoal() {
+        for (int i = 0; i < GRID_HEIGHT; i++) {
+            for (int j = 0; j < GRID_WIDTH; j++) {
+                if (matrix[i][j].getCellsElements().contains(new Goal())) {
+                    return true; // Un joueur a été trouvé
+                }
+            }
+        }
+        return false; // Aucun joueur n'a été trouvé
+    }
+
+    public boolean goalTargetEquals() {
+        int goalCount = 0;
+        int boxCount = 0;
+
+        for (int i = 0; i < GRID_HEIGHT; i++) {
+            for (int j = 0; j < GRID_WIDTH; j++) {
+                Cell cell = matrix[i][j];
+                goalCount += (int) cell.getCellsElements().stream()
+                        .filter(element -> element instanceof Goal)
+                        .count();
+                boxCount += (int) cell.getCellsElements().stream()
+                        .filter(element -> element instanceof Box)
+                        .count();
+            }
+        }
+
+        return goalCount == boxCount;
+    }
+
+
+    public boolean hasBox() {
+        for (int i = 0; i < GRID_HEIGHT; i++) {
+            for (int j = 0; j < GRID_WIDTH; j++) {
+                if (matrix[i][j].getCellsElements().contains(new Box())) {
+                    return true; // Une Box  a été trouvé
+                }
+            }
+        }
+        return false; // Aucun Box n'a été trouvé
+    }
+
+
+    public int[] getPlayerPosition() {
+        for (int i = 0; i < GRID_HEIGHT; i++) {
+            for (int j = 0; j < GRID_WIDTH; j++) {
+                if (matrix[i][j].getCellsElements().contains(new Player())) {
+                    return new int[]{i, j}; // Retourne les coordonnées du joueur
+                }
+            }
+        }
+        // Si aucun joueur n'est trouvé, retourne un tableau {-1, -1}
+        return new int[]{-1, -1};
+    }
+
+    public void add(int line, int col, Element element) {
+        matrix[line][col].setValue(element);
+        matrix[line][col].add(element);
+        gridArrays.add(element);
         filledCellsCount.invalidate();
     }
+
+    public void remove(int line, int col) {
+        Element removedElement = matrix[line][col].getValue();
+        matrix[line][col].setValue(new Ground()); // Remplace l'élément par Ground
+        matrix[line][col].getCellsElements().remove(removedElement); // Retire l'élément de la liste des éléments de la cellule
+        gridArrays.remove(removedElement); // Retire l'élément de l'ensemble des éléments de la grille
+        filledCellsCount.invalidate(); // Indique que le nombre de cellules remplies a changé
+    }
+
+    public Set<Element> getCellsElements(int line, int col) {
+        return matrix[line][col].getCellsElements();
+    }
+
+
+
 
     public LongBinding filledCellsCountProperty() {
         return filledCellsCount;
     }
 
+
     public boolean isEmpty(int line, int col) {
         return matrix[line][col].isEmpty();
+    }
+
+    public Element getValue(int line, int col) {
+        return matrix[line][col].getValue();
     }
 }

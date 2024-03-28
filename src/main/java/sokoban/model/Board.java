@@ -3,24 +3,69 @@ package sokoban.model;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.LongBinding;
 import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import sokoban.view.ToolsBoxView;
+import sokoban.viewmodel.ErrorBoxViewModel;
 
 public class Board {
 
+    public void setHasPlayer(boolean hasPlayer) {
+        this.hasPlayer.set(hasPlayer);
+    }
+
+    public ErrorBox getErrorBox() {
+        return errorBox;
+    }
+
+    private final ErrorBox errorBox = new ErrorBox();
+    private final SimpleBooleanProperty hasPlayer = new SimpleBooleanProperty();
+
+    public void setGoalAndTargetEquals(boolean goalAndTargetEquals) {
+        this.goalAndTargetEquals.set(goalAndTargetEquals);
+    }
+
+    private final SimpleBooleanProperty goalAndTargetEquals = new SimpleBooleanProperty();
+
+    public void setHasBox(boolean hasBox) {
+        this.hasBox.set(hasBox);
+    }
+
+    private final SimpleBooleanProperty hasBox = new SimpleBooleanProperty();
+
+    public void setHasGoal(boolean hasGoal) {
+        this.hasGoal.set(hasGoal);
+    }
+
+    private final SimpleBooleanProperty hasGoal = new SimpleBooleanProperty();
+
+    private Ground ground = new Ground();
+    private final Player_goal playerGoal = new Player_goal();
+    private final Box_goal boxGoal = new Box_goal();
+    private final Wall wall = new Wall();
+    private final Player player = new Player();
+    private final Box box = new Box();
+    private final Goal goal = new Goal();
+
+    private final ErrorBoxViewModel errorBoxViewModel = new ErrorBoxViewModel(errorBox);
     static final int MAX_FILLED_CELLS = (Grid.getGridWidth() * Grid.getGridHeight()) / 2;
 
-    private final Grid grid = new Grid();
+    public Grid getGrid() {
+        return grid;
+    }
 
+    private final Grid grid = new Grid();
     private final BooleanBinding isComplete;
 
-    public Board(){
-        isComplete = grid.filledCellsCountProperty().isEqualTo(Board.MAX_FILLED_CELLS);
+    public Board() { // Ajout du constructeur prenant BoardView comme paramètre
+        isComplete = grid.filledCellsCountProperty().isEqualTo(MAX_FILLED_CELLS);
+
     }
 
     public static int maxFilledCells() {
         return MAX_FILLED_CELLS;
     }
 
-    public ReadOnlyObjectProperty<CellValue> valueProperty(int line, int col) {
+    public ReadOnlyObjectProperty<Element> valueProperty(int line, int col) {
         return grid.valueProperty(line, col);
     }
 
@@ -36,6 +81,72 @@ public class Board {
         return grid.isEmpty(line, col);
     }
 
+    public Cell[][] getMatrix(){
+        return grid.getMatrix();
+    }
 
+    public void add(int line, int col) {
+        Element element = ToolsBoxView.getElementObject();
+
+
+        if (grid.getCellsElements(line, col).contains(wall) &&  element.equals(wall) ||
+                grid.getCellsElements(line, col).contains(player) &&  element.equals(player) ||
+                grid.getCellsElements(line, col).contains(goal) &&  element.equals(goal) ||
+                grid.getCellsElements(line, col).contains(box) &&  element.equals(box)) {
+            grid.add(line, col, ground);
+        } else if (grid.getCellsElements(line, col).contains(wall) &&  element.equals(player )) {
+            System.out.println("impossible de mettre un joueur sur un mur");
+        } else if (element.equals(player)) {
+            if (grid.hasPlayer()) {
+                // Récupérer les coordonnées actuelles du joueur
+                int[] playerPosition = grid.getPlayerPosition();
+                // Supprimer le joueur de sa position actuelle
+                grid.remove(playerPosition[0], playerPosition[1]);
+                // Ajouter le joueur à la nouvelle position
+                grid.add(line, col, player);
+            } else {
+                grid.add(line, col, player);
+            }
+        } else if (grid.getCellsElements(line, col).contains(player) && element.equals(goal)) {
+            grid.add(line, col, playerGoal);
+        } else if (grid.getCellsElements(line, col).contains(box) && element.equals(goal)) {
+            grid.add(line, col, boxGoal);
+        } else if (grid.getCellsElements(line, col).contains(wall) &&  element.equals(player)) {
+            System.out.println("Impossible d'ajouter un joueur a un mur");
+        } else if (grid.getCellsElements(line, col).contains(player) && element.equals(box)) {
+            System.out.println("Impossible de placer une caisse sur un joueur");
+        } else if (grid.getCellsElements(line, col).contains(goal) && element.equals(goal)) {
+            System.out.println("Impossible de placer une cible sur une autre cible");
+        } else {
+            grid.add(line, col, element);
+        }
+
+        setHasPlayer(!grid.hasPlayer());
+        errorBoxViewModel.playerErrorProperty().bindBidirectional(hasPlayer);
+
+        setHasBox(!grid.hasBox());
+        errorBoxViewModel.boxErrorProperty().bind(hasBox);
+
+        setHasGoal(!grid.hasGoal());
+        errorBoxViewModel.goalErrorProperty().bind(hasGoal);
+
+        setGoalAndTargetEquals(!grid.goalTargetEquals());
+        errorBoxViewModel.goalAndTargetErrorProperty().bindBidirectional(goalAndTargetEquals);
+
+
+        //System.out.println(grid.getCellsElements(line, col));
+    }
+
+    private int[] getCurrentPlayerPosition() {
+        for (int i = 0; i < Grid.getGridHeight(); i++) {
+            for (int j = 0; j < Grid.getGridWidth(); j++) {
+                if (grid.getCellsElements(i, j).contains(player)) {
+                    return new int[]{i, j};
+                }
+            }
+        }
+        // Retourner une position par défaut si le joueur n'est pas trouvé (cela ne devrait pas se produire)
+        return new int[]{-1, -1};
+    }
 
 }
