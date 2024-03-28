@@ -1,23 +1,24 @@
 package sokoban.model;
 
-import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.beans.property.SimpleObjectProperty;
 
 public class ErrorBox {
-    private final SimpleBooleanProperty playerPresent = new SimpleBooleanProperty(true);
+    private final SimpleBooleanProperty playerError = new SimpleBooleanProperty(true);
 
+    private final SimpleBooleanProperty boxError = new SimpleBooleanProperty(true);
 
-    public boolean isPlayerPresent() {
-        return playerPresent.get();
+    private final SimpleBooleanProperty goalError = new SimpleBooleanProperty(true);
+
+    public SimpleBooleanProperty boxErrorProperty() {
+        return boxError;
     }
 
-    public SimpleBooleanProperty playerPresentProperty() {
-        return playerPresent;
+    public SimpleBooleanProperty goalErrorProperty() {
+        return goalError;
     }
 
-    public void setPlayerPresent(boolean playerPresent) {
-        this.playerPresent.set(playerPresent);
+    public SimpleBooleanProperty playerErrorProperty() {
+        return playerError;
     }
 
 

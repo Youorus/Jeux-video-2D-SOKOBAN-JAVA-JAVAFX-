@@ -9,15 +9,17 @@ public class ErrorBoxViewModel {
         this.errorBox = errorBox;
     }
 
-    public boolean isPlayerPresent() {
-        return errorBox.isPlayerPresent();
-    }
-    public SimpleBooleanProperty playerPresentProperty() {
-        return errorBox.playerPresentProperty();
+    public SimpleBooleanProperty playerErrorProperty() {
+        return errorBox.playerErrorProperty();
     }
 
-    public void setPlayerPresent(boolean playerPresent) {
-        errorBox.setPlayerPresent(playerPresent);
+    public SimpleBooleanProperty boxErrorProperty() {
+        return errorBox.boxErrorProperty();
     }
+
+    public SimpleBooleanProperty goalErrorProperty() {
+        return errorBox.goalErrorProperty();
+    }
+
 
 }

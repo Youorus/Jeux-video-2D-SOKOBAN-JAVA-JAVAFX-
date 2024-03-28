@@ -65,6 +65,28 @@ public class Grid {
         return false; // Aucun joueur n'a été trouvé
     }
 
+    public boolean hasGoal() {
+        for (int i = 0; i < GRID_HEIGHT; i++) {
+            for (int j = 0; j < GRID_WIDTH; j++) {
+                if (matrix[i][j].getCellsElements().contains(new Goal())) {
+                    return true; // Un joueur a été trouvé
+                }
+            }
+        }
+        return false; // Aucun joueur n'a été trouvé
+    }
+
+    public boolean hasBox() {
+        for (int i = 0; i < GRID_HEIGHT; i++) {
+            for (int j = 0; j < GRID_WIDTH; j++) {
+                if (matrix[i][j].getCellsElements().contains(new Box())) {
+                    return true; // Une Box  a été trouvé
+                }
+            }
+        }
+        return false; // Aucun Box n'a été trouvé
+    }
+
 
     public int[] getPlayerPosition() {
         for (int i = 0; i < GRID_HEIGHT; i++) {

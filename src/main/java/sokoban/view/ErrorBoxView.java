@@ -1,7 +1,5 @@
 package sokoban.view;
 
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import sokoban.viewmodel.ErrorBoxViewModel;
@@ -12,7 +10,7 @@ import java.util.Set;
 public class ErrorBoxView extends VBox {
     private Label playerError;
 
-    private Label targetError;
+    private Label goalError;
 
     private  Label boxError;
     private Label listenError;
@@ -27,17 +25,17 @@ public class ErrorBoxView extends VBox {
         playerError = new Label("• A player is required");
         errorList.add(playerError);
 
-        targetError = new Label("• At least one target is required");
-        errorList.add(targetError);
+        goalError = new Label("• At least one target is required");
+        errorList.add(goalError);
 
         boxError =  new Label("• At least one box is required");
         errorList.add(boxError);
 
 
 
-        playerError.visibleProperty().bind(errorBoxViewModel.playerPresentProperty());
+        playerError.visibleProperty().bind(errorBoxViewModel.playerErrorProperty());
 
-        errorBoxViewModel.playerPresentProperty().addListener((olv, lod, val) ->{
+        errorBoxViewModel.playerErrorProperty().addListener((olv, lod, val) ->{
             if (!val) {
                 errorList.remove(playerError);
                 getChildren().remove(playerError);
@@ -50,18 +48,45 @@ public class ErrorBoxView extends VBox {
         });
 
 
+        boxError.visibleProperty().bind(errorBoxViewModel.boxErrorProperty());
+
+        errorBoxViewModel.boxErrorProperty().addListener((olv, lod, val) ->{
+            if (!val) {
+                errorList.remove(boxError);
+                getChildren().remove(boxError);
+            } else {
+                if (!getChildren().contains(boxError)) {
+                    errorList.add(boxError);
+                    getChildren().add(2, boxError);
+                }
+            }
+        });
+
+        goalError.visibleProperty().bind(errorBoxViewModel.goalErrorProperty());
+
+        errorBoxViewModel.goalErrorProperty().addListener((olv, lod, val) ->{
+            if (!val) {
+                errorList.remove(goalError);
+                getChildren().remove(goalError);
+            } else {
+                if (!getChildren().contains(goalError)) {
+                    errorList.add(goalError);
+                    getChildren().add(3, goalError);
+                }
+            }
+        });
 
 
 
 
         playerError.setStyle("-fx-text-fill: red;");
-        targetError.setStyle("-fx-text-fill: red;");
+        goalError.setStyle("-fx-text-fill: red;");
         boxError.setStyle("-fx-text-fill: red;");
         listenError.setStyle("-fx-text-fill: red;");
 
         getChildren().add(listenError);
         getChildren().add(playerError);
-        getChildren().add(targetError);
+        getChildren().add(goalError);
         getChildren().add(boxError);
 
     }

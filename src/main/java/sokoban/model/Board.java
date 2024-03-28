@@ -4,11 +4,8 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.LongBinding;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import sokoban.view.BoardView;
 import sokoban.view.ToolsBoxView;
-import sokoban.viewmodel.BoardViewModel;
 import sokoban.viewmodel.ErrorBoxViewModel;
-import sokoban.viewmodel.ToolsBoxViewModel;
 
 public class Board {
 
@@ -22,6 +19,18 @@ public class Board {
 
     private final ErrorBox errorBox = new ErrorBox();
     private final SimpleBooleanProperty hasPlayer = new SimpleBooleanProperty();
+
+    public void setHasBox(boolean hasBox) {
+        this.hasBox.set(hasBox);
+    }
+
+    private final SimpleBooleanProperty hasBox = new SimpleBooleanProperty();
+
+    public void setHasGoal(boolean hasGoal) {
+        this.hasGoal.set(hasGoal);
+    }
+
+    private final SimpleBooleanProperty hasGoal = new SimpleBooleanProperty();
 
     private Ground ground = new Ground();
     private final Player_goal playerGoal = new Player_goal();
@@ -106,14 +115,18 @@ public class Board {
             grid.add(line, col, element);
         }
 
-        if (grid.hasPlayer())
-            setHasPlayer(false);
-        else
-            setHasPlayer(true);
+        setHasPlayer(!grid.hasPlayer());
+        errorBoxViewModel.playerErrorProperty().bind(hasPlayer);
 
-        System.out.println(hasPlayer.get());
+        setHasBox(!grid.hasBox());
+        errorBoxViewModel.boxErrorProperty().bind(hasBox);
 
-        errorBoxViewModel.playerPresentProperty().bind(hasPlayer);
+        setHasGoal(!grid.hasGoal());
+        errorBoxViewModel.goalErrorProperty().bind(hasGoal);
+
+
+
+
 
         //System.out.println(grid.getCellsElements(line, col));
     }
