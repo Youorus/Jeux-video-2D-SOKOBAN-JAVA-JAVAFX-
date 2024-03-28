@@ -81,7 +81,7 @@ public class ErrorBoxView extends VBox {
         });
 
         goalAndTargetError.visibleProperty().bind(errorBoxViewModel.goalAndTargetErrorProperty());
-        errorBoxViewModel.goalErrorProperty().addListener((olv, lod, val) ->{
+        errorBoxViewModel.goalAndTargetErrorProperty().addListener((olv, lod, val) ->{
             if (!val) {
                 errorBoxViewModel.getErrolist().remove(goalAndTargetError);
                 getChildren().remove(goalAndTargetError);

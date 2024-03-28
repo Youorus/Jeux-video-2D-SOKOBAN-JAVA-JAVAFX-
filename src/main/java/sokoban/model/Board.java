@@ -122,7 +122,7 @@ public class Board {
         }
 
         setHasPlayer(!grid.hasPlayer());
-        errorBoxViewModel.playerErrorProperty().bindBidirectional(hasPlayer);
+        errorBoxViewModel.playerErrorProperty().bind(hasPlayer);
 
         setHasBox(!grid.hasBox());
         errorBoxViewModel.boxErrorProperty().bind(hasBox);
@@ -131,8 +131,9 @@ public class Board {
         errorBoxViewModel.goalErrorProperty().bind(hasGoal);
 
         setGoalAndTargetEquals(!grid.goalTargetEquals());
-        errorBoxViewModel.goalAndTargetErrorProperty().bindBidirectional(goalAndTargetEquals);
+        errorBoxViewModel.goalAndTargetErrorProperty().bind(goalAndTargetEquals);
 
+        //System.out.println(grid.goalTargetEquals());
 
         //System.out.println(grid.getCellsElements(line, col));
     }
