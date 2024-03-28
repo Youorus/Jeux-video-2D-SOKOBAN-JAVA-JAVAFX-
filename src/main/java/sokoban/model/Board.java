@@ -3,11 +3,25 @@ package sokoban.model;
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.LongBinding;
 import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import sokoban.view.BoardView;
 import sokoban.view.ToolsBoxView;
+import sokoban.viewmodel.BoardViewModel;
+import sokoban.viewmodel.ErrorBoxViewModel;
 import sokoban.viewmodel.ToolsBoxViewModel;
 
 public class Board {
+
+    public void setHasPlayer(boolean hasPlayer) {
+        this.hasPlayer.set(hasPlayer);
+    }
+
+    public ErrorBox getErrorBox() {
+        return errorBox;
+    }
+
+    private final ErrorBox errorBox = new ErrorBox();
+    private SimpleBooleanProperty hasPlayer = new SimpleBooleanProperty();
 
     private Ground ground = new Ground();
     private final Player_goal playerGoal = new Player_goal();
@@ -16,6 +30,8 @@ public class Board {
     private final Player player = new Player();
     private final Box box = new Box();
     private final Goal goal = new Goal();
+
+    private final ErrorBoxViewModel errorBoxViewModel = new ErrorBoxViewModel(errorBox);
     static final int MAX_FILLED_CELLS = (Grid.getGridWidth() * Grid.getGridHeight()) / 2;
 
     public Grid getGrid() {
@@ -23,11 +39,11 @@ public class Board {
     }
 
     private final Grid grid = new Grid();
-
     private final BooleanBinding isComplete;
 
     public Board() { // Ajout du constructeur prenant BoardView comme paramètre
         isComplete = grid.filledCellsCountProperty().isEqualTo(MAX_FILLED_CELLS);
+
     }
 
     public static int maxFilledCells() {
@@ -89,7 +105,12 @@ public class Board {
         } else {
             grid.add(line, col, element);
         }
-        System.out.println(grid.getCellsElements(line, col));
+
+        setHasPlayer(grid.hasPlayer());
+
+        errorBoxViewModel.playerPresentProperty().bind(hasPlayer);
+
+        //System.out.println(grid.getCellsElements(line, col));
     }
 
     private int[] getCurrentPlayerPosition() {

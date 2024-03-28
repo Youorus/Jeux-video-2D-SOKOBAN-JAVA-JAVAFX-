@@ -5,6 +5,7 @@ import javafx.beans.binding.BooleanExpression;
 import javafx.beans.binding.LongBinding;
 import sokoban.model.Board;
 import sokoban.model.Cell;
+import sokoban.model.ErrorBox;
 import sokoban.model.Grid;
 
 public class BoardViewModel {
@@ -13,12 +14,16 @@ public class BoardViewModel {
 
     private final GridViewModel grilleViewModel;
 
-    private boolean hasPlayer;
+    public ErrorBoxViewModel getErrorBoxViewModel() {
+        return errorBoxViewModel;
+    }
 
+private final ErrorBoxViewModel errorBoxViewModel;
     private final Board board;
     public BoardViewModel(Board board) {
         this.board = board;
         grilleViewModel = new GridViewModel(board);
+        this.errorBoxViewModel = new ErrorBoxViewModel(board.getErrorBox());
     }
     public Cell[][] getMatrix(){
        return board.getMatrix();

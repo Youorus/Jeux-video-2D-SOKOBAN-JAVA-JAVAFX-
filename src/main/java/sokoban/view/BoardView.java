@@ -24,7 +24,6 @@ public class BoardView extends BorderPane {
 
 
     private final BoardViewModel boardViewModel;
-    private ErrorBox errorBox;
 
     private static final int GRID_WIDTH = BoardViewModel.gridWidth();
 
@@ -37,6 +36,7 @@ public class BoardView extends BorderPane {
     //pour le compteur
     private final Label headerLabel = new Label("");
     private final HBox headerBox = new HBox();
+    private ErrorBoxView errorBoxView;
 
     // pour la boite a outils
     private final VBox leftBox = new VBox();
@@ -45,6 +45,7 @@ public class BoardView extends BorderPane {
         return boardViewModel.getMatrix();
     }
     public BoardView(Stage primaryStage, BoardViewModel boardViewModel){
+        errorBoxView = new ErrorBoxView(boardViewModel.getErrorBoxViewModel());
         this.boardViewModel = boardViewModel;
         start(primaryStage);
 
@@ -119,22 +120,10 @@ public class BoardView extends BorderPane {
         headerLabel.getStyleClass().add("header");
 
 
-        errorBox = new ErrorBox(); // Utilisez ErrorBox au lieu de VBox
-        errorBox.setAlignment(Pos.CENTER);
-        errorBox.setSpacing(5);
-        listError();
-        errorBox.setVisible(true);
-
-        if (errorBox.isVisible()) {
-            errorBox.setManaged(true);
-        } else {
-            errorBox.setManaged(false);
-        }
-
 
         VBox headerAndErrorBox = new VBox();
         headerAndErrorBox.setAlignment(Pos.CENTER);
-        headerAndErrorBox.getChildren().addAll(headerLabel, errorBox);
+        headerAndErrorBox.getChildren().addAll(headerLabel, errorBoxView);
 
         headerBox.getChildren().addAll(headerAndErrorBox);
         headerBox.setAlignment(Pos.CENTER);
@@ -158,17 +147,6 @@ public class BoardView extends BorderPane {
 //        setTop(menuBar);
     }
 
-    private void listError(){
-        String errorMessage = "Please correct the following error(s):";
-        String errorMessage1 = " * A player is required";
-        String errorMessage2 = " * At least one target is required";
-        String errorMessage3 = " * At least one box is required";
-
-        errorBox.addError(errorMessage);
-        errorBox.addError(errorMessage1);
-        errorBox.addError(errorMessage2);
-        errorBox.addError(errorMessage3);
-    }
 
 }
 
