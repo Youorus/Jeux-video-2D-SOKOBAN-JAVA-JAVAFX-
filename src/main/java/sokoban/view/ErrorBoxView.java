@@ -1,5 +1,6 @@
 package sokoban.view;
 
+import javafx.collections.ListChangeListener;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import sokoban.viewmodel.ErrorBoxViewModel;
@@ -15,7 +16,7 @@ public class ErrorBoxView extends VBox {
     private  Label boxError;
     private Label listenError;
 
-    private Set<Label> errorList = new HashSet<>();
+    private Label goalAndTargetError;
 
     private final ErrorBoxViewModel errorBoxViewModel;
     public ErrorBoxView(ErrorBoxViewModel errorBoxViewModel){
@@ -23,13 +24,16 @@ public class ErrorBoxView extends VBox {
         listenError = new Label("Please correct the following error(s) : ");
 
         playerError = new Label("• A player is required");
-        errorList.add(playerError);
+        errorBoxViewModel.getErrolist().add(playerError);
 
         goalError = new Label("• At least one target is required");
-        errorList.add(goalError);
+        errorBoxViewModel.getErrolist().add(goalError);
 
         boxError =  new Label("• At least one box is required");
-        errorList.add(boxError);
+        errorBoxViewModel.getErrolist().add(boxError);
+
+        goalAndTargetError = new Label("• Number of boxes and Targets must be equal");
+        errorBoxViewModel.getErrolist().add(goalAndTargetError);
 
 
 
@@ -37,12 +41,12 @@ public class ErrorBoxView extends VBox {
 
         errorBoxViewModel.playerErrorProperty().addListener((olv, lod, val) ->{
             if (!val) {
-                errorList.remove(playerError);
+                errorBoxViewModel.getErrolist().remove(playerError);
                 getChildren().remove(playerError);
             } else {
                 if (!getChildren().contains(playerError)) {
-                    errorList.add(playerError);
-                    getChildren().add(1, playerError);
+                    errorBoxViewModel.getErrolist().add(playerError);
+                    getChildren().add(1,playerError);
                 }
             }
         });
@@ -52,12 +56,12 @@ public class ErrorBoxView extends VBox {
 
         errorBoxViewModel.boxErrorProperty().addListener((olv, lod, val) ->{
             if (!val) {
-                errorList.remove(boxError);
+                errorBoxViewModel.getErrolist().remove(boxError);
                 getChildren().remove(boxError);
             } else {
                 if (!getChildren().contains(boxError)) {
-                    errorList.add(boxError);
-                    getChildren().add(2, boxError);
+                    errorBoxViewModel.getErrolist().add(boxError);
+                    getChildren().add( boxError);
                 }
             }
         });
@@ -66,12 +70,38 @@ public class ErrorBoxView extends VBox {
 
         errorBoxViewModel.goalErrorProperty().addListener((olv, lod, val) ->{
             if (!val) {
-                errorList.remove(goalError);
+                errorBoxViewModel.getErrolist().remove(goalError);
                 getChildren().remove(goalError);
             } else {
                 if (!getChildren().contains(goalError)) {
-                    errorList.add(goalError);
-                    getChildren().add(3, goalError);
+                    errorBoxViewModel.getErrolist().add(goalError);
+                    getChildren().add( goalError);
+                }
+            }
+        });
+
+        goalAndTargetError.visibleProperty().bind(errorBoxViewModel.goalAndTargetErrorProperty());
+        errorBoxViewModel.goalErrorProperty().addListener((olv, lod, val) ->{
+            if (!val) {
+                errorBoxViewModel.getErrolist().remove(goalAndTargetError);
+                getChildren().remove(goalAndTargetError);
+            } else {
+                if (!getChildren().contains(goalAndTargetError)) {
+                    errorBoxViewModel.getErrolist().add(goalAndTargetError);
+                    getChildren().add(goalAndTargetError);
+                }
+            }
+        });
+
+
+        errorBoxViewModel.errorListProperty().addListener((ListChangeListener<Label>) change -> {
+            if (errorBoxViewModel.getErrolist().isEmpty()) {
+                if (getChildren().contains(listenError)) {
+                    getChildren().remove(listenError);
+                }
+            } else {
+                if (!getChildren().contains(listenError)) {
+                    getChildren().add(0, listenError);
                 }
             }
         });
@@ -83,11 +113,13 @@ public class ErrorBoxView extends VBox {
         goalError.setStyle("-fx-text-fill: red;");
         boxError.setStyle("-fx-text-fill: red;");
         listenError.setStyle("-fx-text-fill: red;");
+        goalAndTargetError.setStyle("-fx-text-fill: red;");
 
-        getChildren().add(listenError);
-        getChildren().add(playerError);
-        getChildren().add(goalError);
-        getChildren().add(boxError);
+        getChildren().add(0, listenError);
+        getChildren().add(1, playerError);
+        getChildren().add(2, goalError);
+        getChildren().add(3, boxError);
+        getChildren().add(4, goalAndTargetError);
 
     }
 }

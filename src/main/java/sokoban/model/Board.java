@@ -20,6 +20,12 @@ public class Board {
     private final ErrorBox errorBox = new ErrorBox();
     private final SimpleBooleanProperty hasPlayer = new SimpleBooleanProperty();
 
+    public void setGoalAndTargetEquals(boolean goalAndTargetEquals) {
+        this.goalAndTargetEquals.set(goalAndTargetEquals);
+    }
+
+    private final SimpleBooleanProperty goalAndTargetEquals = new SimpleBooleanProperty();
+
     public void setHasBox(boolean hasBox) {
         this.hasBox.set(hasBox);
     }
@@ -116,7 +122,7 @@ public class Board {
         }
 
         setHasPlayer(!grid.hasPlayer());
-        errorBoxViewModel.playerErrorProperty().bind(hasPlayer);
+        errorBoxViewModel.playerErrorProperty().bindBidirectional(hasPlayer);
 
         setHasBox(!grid.hasBox());
         errorBoxViewModel.boxErrorProperty().bind(hasBox);
@@ -124,8 +130,8 @@ public class Board {
         setHasGoal(!grid.hasGoal());
         errorBoxViewModel.goalErrorProperty().bind(hasGoal);
 
-
-
+        setGoalAndTargetEquals(!grid.goalTargetEquals());
+        errorBoxViewModel.goalAndTargetErrorProperty().bindBidirectional(goalAndTargetEquals);
 
 
         //System.out.println(grid.getCellsElements(line, col));

@@ -76,6 +76,26 @@ public class Grid {
         return false; // Aucun joueur n'a été trouvé
     }
 
+    public boolean goalTargetEquals() {
+        int goalCount = 0;
+        int boxCount = 0;
+
+        for (int i = 0; i < GRID_HEIGHT; i++) {
+            for (int j = 0; j < GRID_WIDTH; j++) {
+                Cell cell = matrix[i][j];
+                goalCount += (int) cell.getCellsElements().stream()
+                        .filter(element -> element instanceof Goal)
+                        .count();
+                boxCount += (int) cell.getCellsElements().stream()
+                        .filter(element -> element instanceof Box)
+                        .count();
+            }
+        }
+
+        return goalCount == boxCount;
+    }
+
+
     public boolean hasBox() {
         for (int i = 0; i < GRID_HEIGHT; i++) {
             for (int j = 0; j < GRID_WIDTH; j++) {
