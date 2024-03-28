@@ -21,7 +21,7 @@ public class Board {
     }
 
     private final ErrorBox errorBox = new ErrorBox();
-    private SimpleBooleanProperty hasPlayer = new SimpleBooleanProperty();
+    private final SimpleBooleanProperty hasPlayer = new SimpleBooleanProperty();
 
     private Ground ground = new Ground();
     private final Player_goal playerGoal = new Player_goal();
@@ -106,7 +106,12 @@ public class Board {
             grid.add(line, col, element);
         }
 
-        setHasPlayer(grid.hasPlayer());
+        if (grid.hasPlayer())
+            setHasPlayer(false);
+        else
+            setHasPlayer(true);
+
+        System.out.println(hasPlayer.get());
 
         errorBoxViewModel.playerPresentProperty().bind(hasPlayer);
 

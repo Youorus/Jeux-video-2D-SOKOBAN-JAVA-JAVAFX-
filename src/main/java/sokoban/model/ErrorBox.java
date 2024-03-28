@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 
 public class ErrorBox {
-    private final SimpleBooleanProperty playerPresent = new SimpleBooleanProperty(false);
+    private final SimpleBooleanProperty playerPresent = new SimpleBooleanProperty(true);
 
 
     public boolean isPlayerPresent() {
