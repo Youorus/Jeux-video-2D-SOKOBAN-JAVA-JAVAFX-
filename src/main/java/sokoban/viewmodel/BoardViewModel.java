@@ -18,11 +18,18 @@ public class BoardViewModel {
         return errorBoxViewModel;
     }
 
+    public ToolsBoxViewModel getToolsBoxViewModel() {
+        return toolsBoxViewModel;
+    }
+
+    private final ToolsBoxViewModel toolsBoxViewModel;
+
 private final ErrorBoxViewModel errorBoxViewModel;
     private final Board board;
     public BoardViewModel(Board board) {
         this.board = board;
         grilleViewModel = new GridViewModel(board);
+        this.toolsBoxViewModel = new ToolsBoxViewModel(board.getToolsBox());
         this.errorBoxViewModel = new ErrorBoxViewModel(board.getErrorBox());
     }
     public Cell[][] getMatrix(){

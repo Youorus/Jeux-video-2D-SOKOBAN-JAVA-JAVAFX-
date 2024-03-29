@@ -19,10 +19,6 @@ import java.util.Objects;
 
 public class BoardView extends BorderPane {
 
-    private ToolsBoxViewModel boiteAOutilsViewModel;
-
-
-
     private final BoardViewModel boardViewModel;
 
     private static final int GRID_WIDTH = BoardViewModel.gridWidth();
@@ -107,7 +103,7 @@ public class BoardView extends BorderPane {
 
 
     private void createBoiteAOutils(DoubleBinding cellsize){
-        ToolsBoxView boiteAOutilsView = new ToolsBoxView(cellsize);
+        ToolsBoxView boiteAOutilsView = new ToolsBoxView(cellsize, boardViewModel.getToolsBoxViewModel());
         boiteAOutilsView.setAlignment(Pos.CENTER_LEFT);
         setLeft(boiteAOutilsView);
     }

@@ -3,19 +3,26 @@ package sokoban.viewmodel;
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import sokoban.model.Element;
+import sokoban.model.ToolsBox;
 
 public class ToolsBoxViewModel {
-    private static final ObjectProperty<Element> selectedElement = new SimpleObjectProperty<>();
 
-    public ObjectProperty<Element> selectedElementProperty() {
-        return selectedElement;
+    private final ToolsBox toolsBox;
+
+    public ToolsBoxViewModel(ToolsBox toolsBox){
+        this.toolsBox = toolsBox;
     }
 
-    public Element getSelectedElement() {
-        return selectedElement.get();
+    public Element getElementSelect() {
+        return toolsBox.getElementSelect();
     }
 
-    public void setSelectedElement(Element element) {
-        selectedElement.set(element);
+    public SimpleObjectProperty<Element> elementSelectProperty() {
+        return toolsBox.elementSelectProperty();
     }
+
+    public void setElementSelect(Element elementSelect) {
+        toolsBox.setElementSelect(elementSelect);
+    }
+
 }

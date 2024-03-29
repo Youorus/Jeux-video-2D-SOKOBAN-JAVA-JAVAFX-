@@ -17,6 +17,11 @@ public class Board {
         return errorBox;
     }
 
+    public ToolsBox getToolsBox() {
+        return toolsBox;
+    }
+
+    private final ToolsBox toolsBox = new ToolsBox();
     private final ErrorBox errorBox = new ErrorBox();
     private final SimpleBooleanProperty hasPlayer = new SimpleBooleanProperty();
 
@@ -85,9 +90,7 @@ public class Board {
         return grid.getMatrix();
     }
 
-    public void add(int line, int col) {
-        Element element = ToolsBoxView.getElementObject();
-
+    public void add(int line, int col, Element element) {
 
         if (grid.getCellsElements(line, col).contains(wall) &&  element.equals(wall) ||
                 grid.getCellsElements(line, col).contains(player) &&  element.equals(player) ||

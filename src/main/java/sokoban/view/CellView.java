@@ -12,6 +12,7 @@ import sokoban.viewmodel.CellViewModel;
 public class CellView extends StackPane {
     private final CellViewModel viewModel;
     private final DoubleBinding widthProperty;
+
     private final ImageView imageView = new ImageView(new Ground().getImage());
 
     CellView(CellViewModel cellViewModel, DoubleBinding cellWidthProperty) {
@@ -44,10 +45,11 @@ public class CellView extends StackPane {
         minWidthProperty().bind(widthProperty);
         minHeightProperty().bind(widthProperty);
 
+
+        //ajout de l'element
         this.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
-                // Action à effectuer en cas de clic gauche
-               viewModel.add();
+               viewModel.add(viewModel.getToolsBoxViewModel().getElementSelect());
             }
         });
 
