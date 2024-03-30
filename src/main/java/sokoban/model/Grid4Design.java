@@ -8,7 +8,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Grid4Design {
+public class Grid4Design extends Grid<Cell4Design> {
     private static final int GRID_HEIGHT = 10;
     private static final int GRID_WIDTH = 15;
 
@@ -19,24 +19,14 @@ public class Grid4Design {
     //les rendre non static
     private Set<Element> gridArrays = new HashSet<>();
 
-    public Cell4Design[][] getMatrix() {
-        return matrix;
-    }
 
-    private final Cell4Design[][] matrix;
     private final LongBinding filledCellsCount;
 
-    public Grid4Design() {
-        matrix = new Cell4Design[GRID_HEIGHT][GRID_WIDTH];
-        for (int i = 0; i < GRID_HEIGHT; ++i) {
-            for (int j = 0; j < GRID_WIDTH; ++j) {
-                matrix[i][j] = new Cell4Design();// je construis une nouvelle cell
-                matrix[i][j].setValue(new Ground()); // Initialisation avec Ground
-            }
-        }
 
+    public Grid4Design() {
+        super(GRID_HEIGHT, GRID_WIDTH);
         filledCellsCount = Bindings.createLongBinding(() -> Arrays
-                .stream(matrix)
+                .stream(getMatrix())
                 .flatMap(Arrays::stream)
                 .filter(cell -> !cell.isEmpty())
                 .count());
@@ -51,13 +41,13 @@ public class Grid4Design {
     }
 
     public ReadOnlyObjectProperty<Element> valueProperty(int line, int col) {
-        return matrix[line][col].valueProperty();
+        return getMatrix()[line][col].valueProperty();
     }
 
     public boolean hasPlayer() {
         for (int i = 0; i < GRID_HEIGHT; i++) {
             for (int j = 0; j < GRID_WIDTH; j++) {
-                if (matrix[i][j].getCellsElements().contains(new Player())) {
+                if (getMatrix()[i][j].getCellsElements().contains(new Player())) {
                     return true; // Un joueur a été trouvé
                 }
             }
@@ -68,7 +58,7 @@ public class Grid4Design {
     public boolean hasGoal() {
         for (int i = 0; i < GRID_HEIGHT; i++) {
             for (int j = 0; j < GRID_WIDTH; j++) {
-                if (matrix[i][j].getCellsElements().contains(new Goal())) {
+                if (getMatrix()[i][j].getCellsElements().contains(new Goal())) {
                     return true; // Un joueur a été trouvé
                 }
             }
@@ -82,7 +72,7 @@ public class Grid4Design {
 
         for (int i = 0; i < GRID_HEIGHT; i++) {
             for (int j = 0; j < GRID_WIDTH; j++) {
-                Cell4Design cell4Design = matrix[i][j];
+                Cell4Design cell4Design = getMatrix()[i][j];
                 goalCount += (int) cell4Design.getCellsElements().stream()
                         .filter(element -> element instanceof Goal)
                         .count();
@@ -99,7 +89,7 @@ public class Grid4Design {
     public boolean hasBox() {
         for (int i = 0; i < GRID_HEIGHT; i++) {
             for (int j = 0; j < GRID_WIDTH; j++) {
-                if (matrix[i][j].getCellsElements().contains(new Box())) {
+                if (getMatrix()[i][j].getCellsElements().contains(new Box())) {
                     return true; // Une Box  a été trouvé
                 }
             }
@@ -111,7 +101,7 @@ public class Grid4Design {
     public int[] getPlayerPosition() {
         for (int i = 0; i < GRID_HEIGHT; i++) {
             for (int j = 0; j < GRID_WIDTH; j++) {
-                if (matrix[i][j].getCellsElements().contains(new Player())) {
+                if (getMatrix()[i][j].getCellsElements().contains(new Player())) {
                     return new int[]{i, j}; // Retourne les coordonnées du joueur
                 }
             }
@@ -121,22 +111,22 @@ public class Grid4Design {
     }
 
     public void add(int line, int col, Element element) {
-        matrix[line][col].setValue(element);
-        matrix[line][col].add(element);
+        getMatrix()[line][col].setValue(element);
+        getMatrix()[line][col].add(element);
         gridArrays.add(element);
         filledCellsCount.invalidate();
     }
 
     public void remove(int line, int col) {
-        Element removedElement = matrix[line][col].getValue();
-        matrix[line][col].setValue(new Ground()); // Remplace l'élément par Ground
-        matrix[line][col].getCellsElements().remove(removedElement); // Retire l'élément de la liste des éléments de la cellule
+        Element removedElement = getMatrix()[line][col].getValue();
+        getMatrix()[line][col].setValue(new Ground()); // Remplace l'élément par Ground
+        getMatrix()[line][col].getCellsElements().remove(removedElement); // Retire l'élément de la liste des éléments de la cellule
         gridArrays.remove(removedElement); // Retire l'élément de l'ensemble des éléments de la grille
         filledCellsCount.invalidate(); // Indique que le nombre de cellules remplies a changé
     }
 
     public Set<Element> getCellsElements(int line, int col) {
-        return matrix[line][col].getCellsElements();
+        return getMatrix()[line][col].getCellsElements();
     }
 
 
@@ -148,10 +138,20 @@ public class Grid4Design {
 
 
     public boolean isEmpty(int line, int col) {
-        return matrix[line][col].isEmpty();
+        return getMatrix()[line][col].isEmpty();
     }
 
     public Element getValue(int line, int col) {
-        return matrix[line][col].getValue();
+        return getMatrix()[line][col].getValue();
+    }
+
+    @Override
+    public Cell4Design[][] createMatrix(int height, int width) {
+        return new Cell4Design[GRID_HEIGHT][GRID_WIDTH];
+    }
+
+    @Override
+    public Cell4Design createCell() {
+        return new Cell4Design();
     }
 }

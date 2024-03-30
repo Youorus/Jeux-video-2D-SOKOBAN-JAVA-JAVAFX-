@@ -9,7 +9,7 @@
     import java.util.Set;
 
 
-    public class Cell4DesignViewModel {
+    public class Cell4DesignViewModel extends CellViewModel {
 
         private static final double DEFAULT_SCALE = 0.5;
         private static final double EPSILON = 1e-3;

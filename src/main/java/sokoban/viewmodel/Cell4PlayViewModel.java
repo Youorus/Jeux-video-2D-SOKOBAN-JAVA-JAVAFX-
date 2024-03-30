@@ -3,7 +3,7 @@ package sokoban.viewmodel;
 import sokoban.model.Board4Design;
 import sokoban.model.Board4Play;
 
-public class Cell4PlayViewModel {
+public class Cell4PlayViewModel extends CellViewModel {
 
     private final int line, col;
     private final Board4Play board4Play;

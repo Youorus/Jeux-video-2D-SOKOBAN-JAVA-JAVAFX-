@@ -4,19 +4,25 @@ import javafx.beans.binding.Bindings;
 
 import java.util.Arrays;
 
-public class Grid4Play {
+import static sokoban.model.Grid4Design.getGridHeight;
+import static sokoban.model.Grid4Design.getGridWidth;
 
-    private final Cell4Play[][] matrix;
+public class Grid4Play extends Grid<Cell4Play>  {
     private static final int GRID_HEIGHT = 10;
     private static final int GRID_WIDTH = 15;
 
     public Grid4Play() {
-        matrix = new Cell4Play[GRID_HEIGHT][GRID_WIDTH];
-        for (int i = 0; i < GRID_HEIGHT; ++i) {
-            for (int j = 0; j < GRID_WIDTH; ++j) {
-                matrix[i][j] = new Cell4Play();// je construis une nouvelle cell
-                matrix[i][j].setValue(new Ground()); // Initialisation avec Ground
-            }
-        }
+        super(GRID_HEIGHT, GRID_WIDTH);
+    }
+
+
+    @Override
+    protected Cell4Play[][] createMatrix(int height, int width) {
+        return new Cell4Play[GRID_HEIGHT][GRID_WIDTH];
+    }
+
+    @Override
+    public Cell4Play createCell() {
+        return new Cell4Play();
     }
 }
