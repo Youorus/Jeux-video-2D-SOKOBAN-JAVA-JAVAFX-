@@ -11,19 +11,18 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import sokoban.model.Cell;
-import sokoban.viewmodel.BoardViewModel;
-import sokoban.viewmodel.ToolsBoxViewModel;
+import sokoban.model.Cell4Design;
+import sokoban.viewmodel.Board4DesignViewModel;
 
 import java.util.Objects;
 
-public class BoardView extends BorderPane {
+public class Board4DesignView extends BorderPane {
 
-    private final BoardViewModel boardViewModel;
+    private final Board4DesignViewModel board4DesignViewModel;
 
-    private static final int GRID_WIDTH = BoardViewModel.gridWidth();
+    private static final int GRID_WIDTH = Board4DesignViewModel.gridWidth();
 
-    private static final int GRID_HEIGHT = BoardViewModel.gridHeight();
+    private static final int GRID_HEIGHT = Board4DesignViewModel.gridHeight();
     private static final int SCENE_MIN_WIDTH = 520;
     private static final int SCENE_MIN_HEIGHT = 520;
     private MenuBar menuBar;
@@ -37,12 +36,12 @@ public class BoardView extends BorderPane {
     // pour la boite a outils
     private final VBox leftBox = new VBox();
 
-    public Cell[][] getMatrix(){
-        return boardViewModel.getMatrix();
+    public Cell4Design[][] getMatrix(){
+        return board4DesignViewModel.getMatrix();
     }
-    public BoardView(Stage primaryStage, BoardViewModel boardViewModel){
-        errorBoxView = new ErrorBoxView(boardViewModel.getErrorBoxViewModel());
-        this.boardViewModel = boardViewModel;
+    public Board4DesignView(Stage primaryStage, Board4DesignViewModel board4DesignViewModel){
+        errorBoxView = new ErrorBoxView(board4DesignViewModel.getErrorBoxViewModel());
+        this.board4DesignViewModel = board4DesignViewModel;
         start(primaryStage);
 
     }
@@ -87,14 +86,14 @@ public class BoardView extends BorderPane {
         DoubleBinding gridHeightBinding = gridWidthBinding.divide(GRID_WIDTH).multiply(GRID_HEIGHT);
         DoubleBinding cellSizeBinding = gridWidthBinding.divide(GRID_WIDTH);
 
-        GridView gridView = new GridView(boardViewModel.getGridViewModel(), gridWidthBinding, gridHeightBinding);
+        Grid4DesignView grid4DesignView = new Grid4DesignView(board4DesignViewModel.getGridViewModel(), gridWidthBinding, gridHeightBinding);
 
-        gridView.minHeightProperty().bind(gridHeightBinding);
-        gridView.minWidthProperty().bind(gridWidthBinding);
-        gridView.maxHeightProperty().bind(gridHeightBinding);
-        gridView.maxWidthProperty().bind(gridWidthBinding);
+        grid4DesignView.minHeightProperty().bind(gridHeightBinding);
+        grid4DesignView.minWidthProperty().bind(gridWidthBinding);
+        grid4DesignView.maxHeightProperty().bind(gridHeightBinding);
+        grid4DesignView.maxWidthProperty().bind(gridWidthBinding);
 
-        setCenter(gridView);
+        setCenter(grid4DesignView);
         createBoiteAOutils(cellSizeBinding);
 
         // Grille carrée
@@ -103,7 +102,7 @@ public class BoardView extends BorderPane {
 
 
     private void createBoiteAOutils(DoubleBinding cellsize){
-        ToolsBoxView boiteAOutilsView = new ToolsBoxView(cellsize, boardViewModel.getToolsBoxViewModel());
+        ToolsBoxView boiteAOutilsView = new ToolsBoxView(cellsize, board4DesignViewModel.getToolsBoxViewModel());
         boiteAOutilsView.setAlignment(Pos.CENTER_LEFT);
         setLeft(boiteAOutilsView);
     }
@@ -111,8 +110,8 @@ public class BoardView extends BorderPane {
 
     private void createCompteur(){
 
-        headerLabel.textProperty().bind(boardViewModel.filledCellsCountProperty()
-                .asString("Number of filled cells: %d of " + boardViewModel.maxFilledCells()));
+        headerLabel.textProperty().bind(board4DesignViewModel.filledCellsCountProperty()
+                .asString("Number of filled cells: %d of " + board4DesignViewModel.maxFilledCells()));
         headerLabel.getStyleClass().add("header");
 
 

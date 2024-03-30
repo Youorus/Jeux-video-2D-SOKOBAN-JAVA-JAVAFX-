@@ -5,16 +5,13 @@ import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.util.Pair;
 import javafx.util.converter.NumberStringConverter;
 import sokoban.model.Element;
-import sokoban.model.Cell;
-import sokoban.viewmodel.BoardViewModel;
+import sokoban.model.Cell4Design;
+import sokoban.viewmodel.Board4DesignViewModel;
 import sokoban.viewmodel.MenueViewModel;
 import javafx.scene.control.Button;
-import javafx.event.ActionEvent;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -23,11 +20,11 @@ import java.util.Optional;
 
 public class MenueView {
     private MenuBar menuBar;
-    private BoardView boardView;
-    private BoardViewModel boardViewModel;
+    private Board4DesignView board4DesignView;
+    private Board4DesignViewModel board4DesignViewModel;
 
-    public MenueView(BoardView boardView){
-        this.boardView = boardView;
+    public MenueView(Board4DesignView board4DesignView){
+        this.board4DesignView = board4DesignView;
     }
 
     public void showConfirmationDialog1(){
@@ -48,7 +45,7 @@ public class MenueView {
         MenuItem exitMenuItem = new MenuItem("Exit");
 
         saveMenuItem.setOnAction(event -> {
-            saveAs(boardView.getMatrix()); // Appel de la méthode saveAs() lorsque le bouton "Save As" est cliqué
+            saveAs(board4DesignView.getMatrix()); // Appel de la méthode saveAs() lorsque le bouton "Save As" est cliqué
         });
 
         newMenuItem.setOnAction(event -> {
@@ -72,10 +69,10 @@ public class MenueView {
                 System.out.println("no button has been pressed");
                 newDimension();
             } else if(result.get()== cancelButton){
-                if (boardView != null) {
+                if (board4DesignView != null) {
                     // Redirection vers la BoardView
                     Stage stage = (Stage) menuBar.getScene().getWindow();
-                    stage.setScene(boardView.getScene());
+                    stage.setScene(board4DesignView.getScene());
                     stage.show();
                 }
             }
@@ -88,7 +85,7 @@ public class MenueView {
 
     }
 
-    private void saveAs(Cell[][] matrix) {
+    private void saveAs(Cell4Design[][] matrix) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Enregistrer la grille");
 
@@ -126,7 +123,7 @@ public class MenueView {
 //        }
 //    }
 
-    private void writeElementsToFile(File file, Cell[][] matrix) {
+    private void writeElementsToFile(File file, Cell4Design[][] matrix) {
         try (FileWriter writer = new FileWriter(file)) {
             for (int i = 0; i < matrix.length; i++) {
                 for (int j = 0; j < matrix[i].length; j++) {

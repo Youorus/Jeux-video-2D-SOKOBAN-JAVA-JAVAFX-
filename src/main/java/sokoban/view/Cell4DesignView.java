@@ -1,22 +1,20 @@
 package sokoban.view;
 
 import javafx.beans.binding.DoubleBinding;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 import sokoban.model.Ground;
-import sokoban.viewmodel.CellViewModel;
+import sokoban.viewmodel.Cell4DesignViewModel;
 
-public class CellView extends StackPane {
-    private final CellViewModel viewModel;
+public class Cell4DesignView extends StackPane {
+    private final Cell4DesignViewModel cell4DesignViewModel;
     private final DoubleBinding widthProperty;
 
     private final ImageView imageView = new ImageView(new Ground().getImage());
 
-    CellView(CellViewModel cellViewModel, DoubleBinding cellWidthProperty) {
-        this.viewModel = cellViewModel;
+    Cell4DesignView(Cell4DesignViewModel cell4DesignViewModel, DoubleBinding cellWidthProperty) {
+        this.cell4DesignViewModel = cell4DesignViewModel;
         this.widthProperty = cellWidthProperty;
 
         setAlignment(javafx.geometry.Pos.CENTER);
@@ -49,7 +47,7 @@ public class CellView extends StackPane {
         //ajout de l'element
         this.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
-               viewModel.add(viewModel.getToolsBoxViewModel().getElementSelect());
+                cell4DesignViewModel.add(cell4DesignViewModel.getToolsBoxViewModel().getElementSelect());
             }
         });
 
@@ -57,7 +55,7 @@ public class CellView extends StackPane {
         imageView.fitWidthProperty().bind(widthProperty);
 
         // Quand la cellule change de valeur, adapter l'image affichée
-        viewModel.valueProperty().addListener((obs, old, newVal) -> {
+        cell4DesignViewModel.valueProperty().addListener((obs, old, newVal) -> {
             ImageView imageView1 = new ImageView(newVal.getImage());
             setImage(imageView1);
         });
