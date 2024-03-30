@@ -16,12 +16,12 @@ public class SokobanApp extends Application {
     @Override
     public void start(Stage primaryStage) {
         // TODO: basez vous sur l'exercice de la grille comme point de départ pour votre projet
-//        Board4Design board4Design = new Board4Design();
-//        Board4DesignViewModel vm = new Board4DesignViewModel(board4Design);
-//        new Board4DesignView(primaryStage, vm)
-        Board4Play board4Play = new Board4Play();
-        Board4PlayViewModel board4PlayViewModel = new Board4PlayViewModel(board4Play);
-        new Board4PlayView(primaryStage, board4PlayViewModel);
+        Board4Design board4Design = new Board4Design();
+        Board4DesignViewModel vm = new Board4DesignViewModel(board4Design);
+        new Board4DesignView(primaryStage, vm);
+//        Board4Play board4Play = new Board4Play();
+//        Board4PlayViewModel board4PlayViewModel = new Board4PlayViewModel(board4Play);
+//        new Board4PlayView(primaryStage, board4PlayViewModel);
 
     }
 

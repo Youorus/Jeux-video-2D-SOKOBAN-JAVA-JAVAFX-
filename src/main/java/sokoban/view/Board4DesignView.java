@@ -3,6 +3,7 @@ package sokoban.view;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -25,6 +26,8 @@ public class Board4DesignView extends BorderPane {
     private static final int GRID_HEIGHT = Board4DesignViewModel.gridHeight();
     private static final int SCENE_MIN_WIDTH = 520;
     private static final int SCENE_MIN_HEIGHT = 520;
+
+    private final PlayButtonView playButtonView;
     private MenuBar menuBar;
 
 
@@ -41,6 +44,7 @@ public class Board4DesignView extends BorderPane {
     }
     public Board4DesignView(Stage primaryStage, Board4DesignViewModel board4DesignViewModel){
         errorBoxView = new ErrorBoxView(board4DesignViewModel.getErrorBoxViewModel());
+        this.playButtonView = new PlayButtonView(board4DesignViewModel);
         this.board4DesignViewModel = board4DesignViewModel;
         start(primaryStage);
 
@@ -63,6 +67,7 @@ public class Board4DesignView extends BorderPane {
         createMenue();
         createGrid();
         createCompteur();
+        createPlayButton();
 
     }
 
@@ -128,6 +133,14 @@ public class Board4DesignView extends BorderPane {
         setTop(topBox);
 
     }
+
+    private void createPlayButton () {
+        playButtonView.setAlignment(Pos.TOP_CENTER);
+        playButtonView.setPadding(new Insets(16, 16, 16, 16));
+        playButtonView.setPrefHeight(40);
+        setBottom(playButtonView);
+    }
+
     private void createMenue(){
         MenueView menueView = new MenueView(this);
         menueView.showConfirmationDialog1();
