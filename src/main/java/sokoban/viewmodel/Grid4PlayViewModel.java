@@ -3,7 +3,7 @@ package sokoban.viewmodel;
 import sokoban.model.Board4Design;
 import sokoban.model.Board4Play;
 
-public class Grid4PlayViewModel {
+public class Grid4PlayViewModel extends GridViewModel {
 
     private final Board4Play board4Play;
 

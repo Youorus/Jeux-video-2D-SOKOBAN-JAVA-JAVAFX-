@@ -2,7 +2,7 @@ package sokoban.viewmodel;
 
 import sokoban.model.Board4Design;
 
-public class Grid4DesignViewModel {
+public class Grid4DesignViewModel extends GridViewModel{
 
     private final Board4Design board4Design;
     

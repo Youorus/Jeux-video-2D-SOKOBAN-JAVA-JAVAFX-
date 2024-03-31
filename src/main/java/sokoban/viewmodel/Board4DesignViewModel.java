@@ -4,7 +4,7 @@ import sokoban.model.Board4Design;
 import sokoban.model.Cell4Design;
 import sokoban.model.Grid4Design;
 
-public class Board4DesignViewModel {
+public class Board4DesignViewModel extends BoardViewModel{
 //    private final IntegerBinding filledCellsCount;
 //    private final BooleanExpression isGridHalfFilled;
 
@@ -42,16 +42,6 @@ private final ErrorBoxViewModel errorBoxViewModel;
     public LongBinding filledCellsCountProperty() {
         return board4Design.filledCellsCountProperty();
     }
-
-    public static int gridWidth() {
-        return Grid4Design.getGridWidth();
-    }
-
-    public static int gridHeight() {
-        return Grid4Design.getGridHeight();
-    }
-
-
 
 
 }

@@ -4,7 +4,7 @@ import sokoban.model.Board;
 import sokoban.model.Board4Play;
 import sokoban.model.Grid4Design;
 
-public class Board4PlayViewModel {
+public class Board4PlayViewModel extends BoardViewModel {
 
     public Grid4PlayViewModel getGrid4PlayViewModel() {
         return grid4PlayViewModel;
@@ -18,11 +18,4 @@ public class Board4PlayViewModel {
         grid4PlayViewModel = new Grid4PlayViewModel(board4Play);
     }
 
-    public static int gridWidth() {
-        return Grid4Design.getGridWidth();
-    }
-
-    public static int gridHeight() {
-        return Grid4Design.getGridHeight();
-    }
 }
