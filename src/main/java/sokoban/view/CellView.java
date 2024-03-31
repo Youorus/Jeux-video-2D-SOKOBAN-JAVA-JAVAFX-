@@ -7,9 +7,14 @@ import javafx.scene.layout.StackPane;
 import sokoban.model.Ground;
 import sokoban.viewmodel.CellViewModel;
 
-public abstract class CellView<T extends CellViewModel> extends StackPane {
+public class CellView<T extends CellViewModel> extends StackPane {
     protected final ImageView imageView = new ImageView(new Ground().getImage());
     protected final DoubleBinding widthProperty;
+
+    public T getCellViewModel() {
+        return cellViewModel;
+    }
+
     protected final T cellViewModel;
 
     public CellView(T cellViewModel, DoubleBinding cellWidthProperty) {
@@ -18,7 +23,7 @@ public abstract class CellView<T extends CellViewModel> extends StackPane {
 
         setAlignment(javafx.geometry.Pos.CENTER);
         layoutControls();
-       // configureBindings();
+        hoverProperty().addListener(this::hoverChanged);
     }
 
     private void layoutControls() {
@@ -26,28 +31,12 @@ public abstract class CellView<T extends CellViewModel> extends StackPane {
         getChildren().addAll(imageView);
     }
 
-//    protected void configureBindings() {
-//        // Liaisons pour la taille de la cellule
-//        minWidthProperty().bind(widthProperty);
-//        minHeightProperty().bind(widthProperty);
-//
-//        // Gestion du clic de souris
-//        handleMouseClick();
-//
-//        // Liaison pour ajuster la largeur de l'image à celle de la cellule
-//        imageView.fitWidthProperty().bind(widthProperty);
-//
-//        // Liaison pour changer l'image lorsque la valeur de la cellule change
-//        cellViewModel.valueProperty().addListener((obs, oldVal, newVal) -> {
-//            ImageView newImageView = new ImageView(newVal.getImage());
-//            setImage(newImageView);
-//        });
-//
-//        // Gestion du survol de la cellule
-//        hoverProperty().addListener(this::hoverChanged);
-//    }
+    public void configureBindings() {
 
-   // protected abstract void handleMouseClicked(MouseEvent event);
+    }
+
+
+    // protected abstract void handleMouseClicked(MouseEvent event);
 
     protected void setImage(ImageView image) {
         getChildren().add(image);

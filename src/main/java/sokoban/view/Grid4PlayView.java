@@ -8,7 +8,7 @@ import sokoban.viewmodel.Board4DesignViewModel;
 import sokoban.viewmodel.Board4PlayViewModel;
 import sokoban.viewmodel.Grid4PlayViewModel;
 
-public class Grid4PlayView extends GridPane {
+public class Grid4PlayView extends GridView {
     private static final int PADDING = 20;
     private static final int GRID_WIDTH = Board4PlayViewModel.gridWidth();
     private static final int GRID_HEIGHT = Board4PlayViewModel.gridHeight();

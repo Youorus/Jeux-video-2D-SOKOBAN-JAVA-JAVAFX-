@@ -17,81 +17,43 @@ import sokoban.viewmodel.Board4DesignViewModel;
 
 import java.util.Objects;
 
-public class Board4DesignView extends BorderPane {
-
-    private final Board4DesignViewModel board4DesignViewModel;
-
-    private static final int GRID_WIDTH = Board4DesignViewModel.gridWidth();
-
-    private static final int GRID_HEIGHT = Board4DesignViewModel.gridHeight();
-    private static final int SCENE_MIN_WIDTH = 520;
-    private static final int SCENE_MIN_HEIGHT = 520;
-
-    private final PlayButtonView playButtonView;
-    private MenuBar menuBar;
+public class Board4DesignView extends BoardView<Board4DesignViewModel> {
 
 
-    //pour le compteur
-    private final Label headerLabel = new Label("");
-    private final HBox headerBox = new HBox();
+    private Label headerLabel;
+
+    private PlayButtonView playButtonView;
+
     private ErrorBoxView errorBoxView;
 
-    // pour la boite a outils
-    private final VBox leftBox = new VBox();
-
     public Cell4Design[][] getMatrix(){
-        return board4DesignViewModel.getMatrix();
+        return getModel().getMatrix();
     }
     public Board4DesignView(Stage primaryStage, Board4DesignViewModel board4DesignViewModel){
-        errorBoxView = new ErrorBoxView(board4DesignViewModel.getErrorBoxViewModel());
-        this.playButtonView = new PlayButtonView(board4DesignViewModel);
-        this.board4DesignViewModel = board4DesignViewModel;
-        start(primaryStage);
-
+        super(primaryStage, board4DesignViewModel);
     }
 
-    private void start(Stage stage){
-        configMainComponements(stage);
-
-        Scene scene = new Scene(this, SCENE_MIN_WIDTH, SCENE_MIN_HEIGHT);
-        String cssFile = Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm();
-        scene.getStylesheets().add(cssFile);
-        stage.setScene(scene);
-        stage.show();
-        stage.setMinHeight(stage.getHeight());
-        stage.setMinWidth(stage.getWidth());
-    }
-
-    private void configMainComponements(Stage stage){
-        stage.setTitle("Sokoban");
-        createMenue();
-        createGrid();
-        createCompteur();
-        createPlayButton();
-
-    }
-
-    private void createGrid () {
+    public void createGrid () {
 
         DoubleBinding gridWidthBinding = Bindings.createDoubleBinding(
                 () -> {
                     double availableWidth = widthProperty().get();
-                    double availableHeight = heightProperty().get() - headerBox.heightProperty().get();
-                    double aspectRatio = (double) GRID_WIDTH / GRID_HEIGHT;
+                    double availableHeight = heightProperty().get() - getHeaderBox().heightProperty().get();
+                    double aspectRatio = (double) getGRID_WIDTH() / getGRID_HEIGHT();
 
                     double maxWidthBasedOnHeight = (availableHeight * aspectRatio);
                     double finalWidth = Math.min(availableWidth, maxWidthBasedOnHeight);
 
-                    return Math.floor(finalWidth / GRID_WIDTH) * GRID_WIDTH;
+                    return Math.floor(finalWidth / getGRID_WIDTH()) * getGRID_WIDTH();
                 },
                 widthProperty(),
                 heightProperty(),
-                headerBox.heightProperty());
+                getHeaderBox().heightProperty());
 
-        DoubleBinding gridHeightBinding = gridWidthBinding.divide(GRID_WIDTH).multiply(GRID_HEIGHT);
-        DoubleBinding cellSizeBinding = gridWidthBinding.divide(GRID_WIDTH);
+        DoubleBinding gridHeightBinding = gridWidthBinding.divide(getGRID_WIDTH()).multiply(getGRID_HEIGHT());
+        DoubleBinding cellSizeBinding = gridWidthBinding.divide(getGRID_WIDTH());
 
-        Grid4DesignView grid4DesignView = new Grid4DesignView(board4DesignViewModel.getGridViewModel(), gridWidthBinding, gridHeightBinding);
+        Grid4DesignView grid4DesignView = new Grid4DesignView(getModel().getGridViewModel(), gridWidthBinding, gridHeightBinding);
 
         grid4DesignView.minHeightProperty().bind(gridHeightBinding);
         grid4DesignView.minWidthProperty().bind(gridWidthBinding);
@@ -100,61 +62,58 @@ public class Board4DesignView extends BorderPane {
 
         setCenter(grid4DesignView);
         createBoiteAOutils(cellSizeBinding);
-
-        // Grille carrée
-
     }
 
 
     private void createBoiteAOutils(DoubleBinding cellsize){
-        ToolsBoxView boiteAOutilsView = new ToolsBoxView(cellsize, board4DesignViewModel.getToolsBoxViewModel());
+        ToolsBoxView boiteAOutilsView = new ToolsBoxView(cellsize, getModel().getToolsBoxViewModel());
         boiteAOutilsView.setAlignment(Pos.CENTER_LEFT);
         setLeft(boiteAOutilsView);
     }
 
+    public void createCompteur(){
+        errorBoxView = new ErrorBoxView(getModel().getErrorBoxViewModel());
 
-    private void createCompteur(){
-
-        headerLabel.textProperty().bind(board4DesignViewModel.filledCellsCountProperty()
-                .asString("Number of filled cells: %d of " + board4DesignViewModel.maxFilledCells()));
-        headerLabel.getStyleClass().add("header");
-
+        headerLabel = new Label();
+        headerLabel.textProperty().bind(getModel().filledCellsCountProperty()
+              .asString("Number of filled cells: %d of " + getModel().maxFilledCells()));
+       headerLabel.getStyleClass().add("header");
 
 
-        VBox headerAndErrorBox = new VBox();
-        headerAndErrorBox.setAlignment(Pos.CENTER);
-        headerAndErrorBox.getChildren().addAll(headerLabel, errorBoxView);
 
-        headerBox.getChildren().addAll(headerAndErrorBox);
-        headerBox.setAlignment(Pos.CENTER);
-        setTop(headerBox);
+       VBox headerAndErrorBox = new VBox();
+       headerAndErrorBox.setAlignment(Pos.CENTER);
+      headerAndErrorBox.getChildren().add(headerLabel);
+      headerAndErrorBox.getChildren().add(errorBoxView);
+
+     getHeaderBox().getChildren().addAll(headerAndErrorBox);
+        getHeaderBox().setAlignment(Pos.CENTER);
+
+
+        setTop(getHeaderBox());
         VBox topBox = new VBox();
-        topBox.getChildren().addAll(menuBar,headerBox);
+        topBox.getChildren().addAll(getMenuBar(),getHeaderBox());
         setTop(topBox);
 
     }
 
-    private void createPlayButton () {
+    @Override
+    public void createMenu() {
+        MenueView menueView = new MenueView(this);
+        menueView.showConfirmationDialog1();
+        setMenuBar(menueView.createMenuBar());
+        setTop(getMenuBar());
+    }
+
+
+    @Override
+    public void createButton() {
+        playButtonView = new PlayButtonView(getModel());
         playButtonView.setAlignment(Pos.TOP_CENTER);
         playButtonView.setPadding(new Insets(16, 16, 16, 16));
         playButtonView.setPrefHeight(40);
         setBottom(playButtonView);
     }
-
-    private void createMenue(){
-        MenueView menueView = new MenueView(this);
-        menueView.showConfirmationDialog1();
-        menuBar = menueView.createMenuBar();
-        setTop(menuBar);
-//        Menu fileMenu = new Menu("File");
-//        MenuItem newMenuItem = new MenuItem("New");
-//        fileMenu.getItems().add(newMenuItem);
-//
-//        menuBar = new MenuBar();
-//        menuBar.getMenus().add(fileMenu);
-//        setTop(menuBar);
-    }
-
 
 }
 

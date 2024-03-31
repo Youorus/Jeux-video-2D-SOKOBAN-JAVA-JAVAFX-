@@ -7,7 +7,7 @@ import javafx.scene.layout.GridPane;
 import sokoban.viewmodel.Board4DesignViewModel;
 import sokoban.viewmodel.Grid4DesignViewModel;
 
-public class Grid4DesignView extends GridPane {
+public class Grid4DesignView extends GridView {
     private static final int PADDING = 20;
     private static final int GRID_WIDTH = Board4DesignViewModel.gridWidth();
     private static final int GRID_HEIGHT = Board4DesignViewModel.gridHeight();
