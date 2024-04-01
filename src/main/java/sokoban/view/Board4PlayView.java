@@ -2,6 +2,7 @@ package sokoban.view;
 
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -19,6 +20,8 @@ import java.util.Objects;
 public class Board4PlayView extends BoardView<Board4PlayViewModel> {
 
     private Board4PlayViewModel board4PlayViewModel;
+    private ButtonFinish4PlayView buttonFinish4PlayView;
+    private Label headerLabel;
 
     public Board4PlayView(Stage secondaryStage, Board4PlayViewModel board4PlayViewModel){
         super(secondaryStage, board4PlayViewModel);
@@ -80,22 +83,20 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
 
 
     public void createCompteur(){
+        headerLabel = new Label("Score");
+        headerLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 20px"); // Augmenter la taille de la police
+        VBox.setMargin(headerLabel, new Insets(10, 0, 0, 0)); // Ajouter des marges depuis le haut
 
-     //  setHeaderLabel(new Label("Score"));
+        Label otherLabel1 = new Label("Other Label 1");
+        Label otherLabel2 = new Label("Other Label 2");
 
+        VBox headerScore = new VBox(0); // Espacement vertical de 5 pixels entre les enfants
+        headerScore.getChildren().addAll(headerLabel, otherLabel1, otherLabel2);
 
-//
-//        VBox headerAndErrorBox = new VBox();
-//        headerAndErrorBox.setAlignment(Pos.CENTER);
-//        headerAndErrorBox.getChildren().addAll(headerLabel, errorBoxView);
-//
-//        getHeaderBox().getChildren().addAll(headerAndErrorBox);
-//        getHeaderBox().setAlignment(Pos.CENTER);
-//        setTop(getHeaderBox());
-//        VBox topBox = new VBox();
-//        topBox.getChildren().addAll(menuBar,getHeaderBox());
-//        setTop(topBox);
+        getHeaderBox().getChildren().addAll(headerScore);
+        getHeaderBox().setAlignment(Pos.CENTER);
 
+        setTop(getHeaderBox());
     }
 
     @Override
@@ -105,7 +106,11 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
 
     @Override
     public void createButton() {
-        //bouton finish
+        buttonFinish4PlayView = new ButtonFinish4PlayView(getModel());
+        buttonFinish4PlayView.setAlignment(Pos.TOP_CENTER);
+        buttonFinish4PlayView.setPadding(new Insets(16, 16, 16, 16));
+        buttonFinish4PlayView.setPrefHeight(40);
+        setBottom( buttonFinish4PlayView);
     }
 
 }

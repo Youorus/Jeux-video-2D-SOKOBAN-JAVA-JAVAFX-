@@ -2,13 +2,12 @@ package sokoban.view;
 
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.scene.control.Button;
-import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 import sokoban.model.Board4Play;
 import sokoban.viewmodel.Board4DesignViewModel;
 import sokoban.viewmodel.Board4PlayViewModel;
 
-public class PlayButtonView extends HBox {
+public class ButtonPlay4DesignView extends ButtonView<Board4DesignViewModel> {
 
     private final Stage secondaryStage = new Stage();
 
@@ -18,11 +17,10 @@ public class PlayButtonView extends HBox {
     private final Button playBtn = new Button("Play");
 
     private SimpleBooleanProperty errorListIsEmpty = new SimpleBooleanProperty();
-    private final Board4DesignViewModel board4DesignViewModel;
 
 
-    public PlayButtonView(Board4DesignViewModel board4DesignViewModel) {
-        this.board4DesignViewModel = board4DesignViewModel;
+    public ButtonPlay4DesignView(Board4DesignViewModel board4DesignViewModel) {
+        super(board4DesignViewModel);
 
         disableProperty().bind(board4DesignViewModel.getErrorBoxViewModel().errorListProperty().emptyProperty().not());
 

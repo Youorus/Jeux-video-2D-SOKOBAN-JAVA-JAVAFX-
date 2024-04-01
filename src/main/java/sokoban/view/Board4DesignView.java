@@ -5,24 +5,18 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.control.MenuBar;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sokoban.model.Cell4Design;
 import sokoban.viewmodel.Board4DesignViewModel;
-
-import java.util.Objects;
 
 public class Board4DesignView extends BoardView<Board4DesignViewModel> {
 
 
     private Label headerLabel;
 
-    private PlayButtonView playButtonView;
+    private ButtonPlay4DesignView buttonPlay4DesignView;
 
     private ErrorBoxView errorBoxView;
 
@@ -108,11 +102,11 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
 
     @Override
     public void createButton() {
-        playButtonView = new PlayButtonView(getModel());
-        playButtonView.setAlignment(Pos.TOP_CENTER);
-        playButtonView.setPadding(new Insets(16, 16, 16, 16));
-        playButtonView.setPrefHeight(40);
-        setBottom(playButtonView);
+        buttonPlay4DesignView = new ButtonPlay4DesignView(getModel());
+        buttonPlay4DesignView.setAlignment(Pos.TOP_CENTER);
+        buttonPlay4DesignView.setPadding(new Insets(16, 16, 16, 16));
+        buttonPlay4DesignView.setPrefHeight(40);
+        setBottom(buttonPlay4DesignView);
     }
 
 }
