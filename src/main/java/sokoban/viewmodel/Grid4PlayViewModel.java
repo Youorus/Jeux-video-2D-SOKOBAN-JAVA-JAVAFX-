@@ -5,6 +5,10 @@ import sokoban.model.Board4Play;
 
 public class Grid4PlayViewModel extends GridViewModel<Cell4PlayViewModel> {
 
+    public Board4Play getBoard4Play() {
+        return board4Play;
+    }
+
     private final Board4Play board4Play;
 
     Grid4PlayViewModel(Board4Play board4Play){

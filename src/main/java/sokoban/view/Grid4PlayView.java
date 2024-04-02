@@ -4,6 +4,8 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.geometry.Insets;
 import javafx.scene.layout.GridPane;
+import sokoban.model.Box;
+import sokoban.model.Goal;
 import sokoban.viewmodel.Board4DesignViewModel;
 import sokoban.viewmodel.Board4PlayViewModel;
 import sokoban.viewmodel.Grid4PlayViewModel;
@@ -27,6 +29,7 @@ public class Grid4PlayView extends GridView {
         for (int i = 0; i < GRID_HEIGHT; ++i) {
             for (int j = 0; j < GRID_WIDTH; ++j) {
                 Cell4PlayView cell4PlayView = new Cell4PlayView(grid4PlayViewModel.getCellViewModel(i, j), cellSize);
+                grid4PlayViewModel.getBoard4Play().getGrid4Play().add(i,j,new Box());
                 add(cell4PlayView, j, i);
             }
         }
