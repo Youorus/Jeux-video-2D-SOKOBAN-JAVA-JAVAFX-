@@ -131,7 +131,6 @@ public class Grid4Design extends Grid<Cell4Design> {
 
 
 
-
     public LongBinding filledCellsCountProperty() {
         return filledCellsCount;
     }

@@ -9,5 +9,4 @@ import java.util.Set;
 
 public class Cell4Design extends Cell {
 
-
 }
