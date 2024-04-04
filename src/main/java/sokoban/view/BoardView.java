@@ -3,6 +3,7 @@ package sokoban.view;
 import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;
@@ -88,6 +89,12 @@ abstract public class BoardView<T extends BoardViewModel> extends BorderPane {
 
 
     private final HBox headerBox = new HBox();
+
+    public HBox getFooterBox() {
+        return footerBox;
+    }
+
+    private final HBox footerBox = new HBox();
 
 
 }

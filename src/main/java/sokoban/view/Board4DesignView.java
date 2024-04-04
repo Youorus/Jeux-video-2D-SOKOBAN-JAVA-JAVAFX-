@@ -32,17 +32,17 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
         DoubleBinding gridWidthBinding = Bindings.createDoubleBinding(
                 () -> {
                     double availableWidth = widthProperty().get();
-                    double availableHeight = heightProperty().get() - getHeaderBox().heightProperty().get();
-                    double aspectRatio = (double) getGRID_WIDTH() / getGRID_HEIGHT();
+                    double availableHeight = heightProperty().get() - getHeaderBox().heightProperty().get() - getFooterBox().heightProperty().get();
 
-                    double maxWidthBasedOnHeight = (availableHeight * aspectRatio);
-                    double finalWidth = Math.min(availableWidth, maxWidthBasedOnHeight);
-
-                    return Math.floor(finalWidth / getGRID_WIDTH()) * getGRID_WIDTH();
+                    double elementHeight = availableHeight / getGRID_HEIGHT();
+                    double maxWidthBasedOnHeight = elementHeight * getGRID_WIDTH();
+                    return Math.min(maxWidthBasedOnHeight, availableWidth);
                 },
                 widthProperty(),
                 heightProperty(),
-                getHeaderBox().heightProperty());
+                getHeaderBox().heightProperty(),
+                getHeaderBox().heightProperty(),
+                getFooterBox().heightProperty() );
 
         DoubleBinding gridHeightBinding = gridWidthBinding.divide(getGRID_WIDTH()).multiply(getGRID_HEIGHT());
         DoubleBinding cellSizeBinding = gridWidthBinding.divide(getGRID_WIDTH());
@@ -103,10 +103,11 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
     @Override
     public void createButton() {
         buttonPlay4DesignView = new ButtonPlay4DesignView(getModel());
-        buttonPlay4DesignView.setAlignment(Pos.TOP_CENTER);
-        buttonPlay4DesignView.setPadding(new Insets(16, 16, 16, 16));
-        buttonPlay4DesignView.setPrefHeight(40);
-        setBottom(buttonPlay4DesignView);
+        getFooterBox().setAlignment(Pos.TOP_CENTER);
+        getFooterBox().setPrefHeight(70);
+        getFooterBox().setPadding(new Insets(0, 0, 0, 0));
+        getFooterBox().getChildren().add(buttonPlay4DesignView);
+        setBottom(getFooterBox());
     }
 
 }
