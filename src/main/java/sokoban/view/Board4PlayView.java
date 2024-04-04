@@ -53,16 +53,17 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
         DoubleBinding gridWidthBinding = Bindings.createDoubleBinding(
                 () -> {
                     double availableWidth = widthProperty().get();
-                    double aspectRatio = (double) getGRID_WIDTH() / getGRID_HEIGHT();
-                    double availableHeight = heightProperty().get() - getHeaderBox().heightProperty().get();
-                    double maxWidthBasedOnHeight = (availableHeight * aspectRatio);
-                    double finalWidth = Math.min(availableWidth, maxWidthBasedOnHeight);
+                    double availableHeight = heightProperty().get() - getHeaderBox().heightProperty().get() - getFooterBox().heightProperty().get();
 
-                    return Math.floor(finalWidth / getGRID_WIDTH()) * getGRID_WIDTH();
+                    double elementHeight = availableHeight / getGRID_HEIGHT();
+                    double maxWidthBasedOnHeight = elementHeight * getGRID_WIDTH();
+                    return Math.min(maxWidthBasedOnHeight, availableWidth);
                 },
                 widthProperty(),
-                heightProperty());
-                //headerBox.heightProperty());
+                heightProperty(),
+                getHeaderBox().heightProperty(),
+                getHeaderBox().heightProperty(),
+                getFooterBox().heightProperty() );
 
         DoubleBinding gridHeightBinding = gridWidthBinding.divide(getGRID_WIDTH()).multiply(getGRID_HEIGHT());
 
@@ -107,10 +108,11 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
     @Override
     public void createButton() {
         buttonFinish4PlayView = new ButtonFinish4PlayView(getModel());
-        buttonFinish4PlayView.setAlignment(Pos.TOP_CENTER);
-        buttonFinish4PlayView.setPadding(new Insets(16, 16, 16, 16));
-        buttonFinish4PlayView.setPrefHeight(40);
-        setBottom( buttonFinish4PlayView);
+        getFooterBox().setAlignment(Pos.TOP_CENTER);
+        getFooterBox().setPrefHeight(70);
+        getFooterBox().setPadding(new Insets(0, 0, 0, 0));
+        getFooterBox().getChildren().add(buttonFinish4PlayView);
+        setBottom(getFooterBox());
     }
 
 }
