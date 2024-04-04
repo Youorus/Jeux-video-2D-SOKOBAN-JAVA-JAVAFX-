@@ -1,9 +1,11 @@
 package sokoban.view;
 
 import javafx.beans.binding.DoubleBinding;
+import javafx.collections.ListChangeListener;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
+import sokoban.model.Element;
 import sokoban.model.Ground;
 import sokoban.viewmodel.Cell4DesignViewModel;
 
@@ -30,6 +32,7 @@ public class Cell4DesignView extends CellView<Cell4DesignViewModel> {
 
         // Adapte la largeur de l'image à celle de la cellule
         imageView.fitWidthProperty().bind(widthProperty);
+
 
         // Quand la cellule change de valeur, adapter l'image affichée
         getCellViewModel().valueProperty().addListener((obs, old, newVal) -> {

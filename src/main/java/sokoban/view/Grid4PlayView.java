@@ -30,8 +30,7 @@ public class Grid4PlayView extends GridView {
         for (int i = 0; i < GRID_HEIGHT; ++i) {
             for (int j = 0; j < GRID_WIDTH; ++j) {
                 Cell4PlayView cell4PlayView = new Cell4PlayView(grid4PlayViewModel.getCellViewModel(i, j), cellSize);
-//
-                System.out.println(grid4PlayViewModel.getBoard4Design().getGrid().getValue(i,j).toString());
+                System.out.println(cell4PlayView.getCellViewModel().valueProperty().getValue());
                 add(cell4PlayView, j, i);
             }
         }

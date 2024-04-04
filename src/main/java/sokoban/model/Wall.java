@@ -9,22 +9,18 @@ public class Wall extends Element {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        // Dans ce cas, deux objets Wall sont considérés comme égaux
-        return true;
+    public ElementType getType() {
+        return ElementType.Wall;
     }
 
     @Override
-    public int hashCode() {
-        // Utilisation de Objects.hash() pour générer le code de hachage
-        return Objects.hash(/* attributs à utiliser pour le code de hachage */);
+    public boolean equals(Object o) {
+        if(o instanceof Wall w) {
+            return (w.getType() == ((Wall) o).getType());
+        }
+        return false;
     }
+
 
     @Override
     public String toString() {

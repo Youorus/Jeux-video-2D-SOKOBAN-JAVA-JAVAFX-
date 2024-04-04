@@ -4,6 +4,7 @@ import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.LongBinding;
 import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.ObservableList;
 import sokoban.viewmodel.ErrorBoxViewModel;
 
 public class Board4Design extends Board {
@@ -56,6 +57,7 @@ public class Board4Design extends Board {
     public Grid4Design getGrid() {
         return grid4Design;
     }
+
 
     private final Grid4Design grid4Design = new Grid4Design();
     private final BooleanBinding isComplete;
@@ -122,6 +124,7 @@ public class Board4Design extends Board {
         } else {
             grid4Design.add(line, col, element);
         }
+        System.out.println(grid4Design.getCellsElements(line,col).toString());
 
         setHasPlayer(!grid4Design.hasPlayer());
         errorBoxViewModel.playerErrorProperty().bind(hasPlayer);
@@ -135,9 +138,6 @@ public class Board4Design extends Board {
         setGoalAndTargetEquals(!grid4Design.goalTargetEquals());
         errorBoxViewModel.goalAndTargetErrorProperty().bind(goalAndTargetEquals);
 
-        //System.out.println(grid.goalTargetEquals());
-
-        //System.out.println(grid.getCellsElements(line, col));
     }
 
 }

@@ -3,6 +3,7 @@
     import javafx.beans.binding.BooleanBinding;
     import javafx.beans.property.ReadOnlyObjectProperty;
     import javafx.beans.property.SimpleDoubleProperty;
+    import javafx.collections.ObservableList;
     import sokoban.model.*;
     //import sokoban.model.CellValue;
 
@@ -13,11 +14,17 @@
         private final Board4Design board4Design;
         private final ToolsBoxViewModel toolsBoxViewModel;
 
+        private Cell4Design cell4Design;
+
 
         public Cell4DesignViewModel(int line, int col, Board4Design board4Design) {
             super(line, col);
             this.board4Design = board4Design;
             this.toolsBoxViewModel = new ToolsBoxViewModel(board4Design.getToolsBox());
+        }
+
+        public ObservableList<Element> getCellsElements() {
+            return board4Design.getGrid().createCell().getCellsElements();
         }
 
         public ToolsBoxViewModel getToolsBoxViewModel() {

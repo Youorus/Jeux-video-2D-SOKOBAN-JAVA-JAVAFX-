@@ -11,9 +11,9 @@ public class ButtonPlay4DesignView extends ButtonView<Board4DesignViewModel> {
 
     private final Stage secondaryStage = new Stage();
 
-    private Board4Play board4Play = new Board4Play();
+    private Board4Play board4Play ;
 
-    private Board4PlayViewModel board4PlayViewModel = new Board4PlayViewModel(board4Play);
+    private Board4PlayViewModel board4PlayViewModel;
     private final Button playBtn = new Button("Play");
 
     private SimpleBooleanProperty errorListIsEmpty = new SimpleBooleanProperty();
@@ -21,6 +21,8 @@ public class ButtonPlay4DesignView extends ButtonView<Board4DesignViewModel> {
 
     public ButtonPlay4DesignView(Board4DesignViewModel board4DesignViewModel) {
         super(board4DesignViewModel);
+        board4Play = new Board4Play(board4DesignViewModel.getBoard4Design());
+        board4PlayViewModel = new Board4PlayViewModel(board4Play);
 
         disableProperty().bind(board4DesignViewModel.getErrorBoxViewModel().errorListProperty().emptyProperty().not());
 
@@ -31,6 +33,7 @@ public class ButtonPlay4DesignView extends ButtonView<Board4DesignViewModel> {
 
     public void playBtnListener() {
         playBtn.setOnAction(actionEvent -> {
+
             // faire le check de si la grille a été sauvegarder
             //si non ouvrir une boite de dialogue pour demander a la sauvegarder
             //lancer une instance de BoardPlay

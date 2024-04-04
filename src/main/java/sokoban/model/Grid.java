@@ -1,11 +1,20 @@
 package sokoban.model;
 
+import java.util.List;
+import java.util.Set;
+
 abstract public class Grid<T extends Cell> {
 
     public T[][] getMatrix() {
         return matrix;
     }
+    public Element getValue(int line, int col) {
+        return getMatrix()[line][col].getValue();
+    }
 
+    public List<Element> getCellsElements(int line, int col) {
+        return getMatrix()[line][col].getCellsElements();
+    }
     private final T[][] matrix;
     private final int GRID_HEIGHT;
     private final int GRID_WIDTH;
@@ -17,10 +26,11 @@ abstract public class Grid<T extends Cell> {
         for (int i = 0; i < GRID_HEIGHT; ++i) {
             for (int j = 0; j < GRID_WIDTH; ++j) {
                 matrix[i][j] = createCell();
-                matrix[i][j].setValue(new Ground());
             }
         }
     }
+
+
     protected abstract T[][] createMatrix(int height, int width);
 
 

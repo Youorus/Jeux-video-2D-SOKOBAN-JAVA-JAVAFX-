@@ -12,6 +12,8 @@ public class Grid4Design extends Grid<Cell4Design> {
     private static final int GRID_HEIGHT = 10;
     private static final int GRID_WIDTH = 15;
 
+
+
     public Set<Element> getGridArrays() {
         return gridArrays;
     }
@@ -113,9 +115,9 @@ public class Grid4Design extends Grid<Cell4Design> {
     public void add(int line, int col, Element element) {
         getMatrix()[line][col].setValue(element);
         getMatrix()[line][col].add(element);
-        gridArrays.add(element);
         filledCellsCount.invalidate();
     }
+
 
     public void remove(int line, int col) {
         Element removedElement = getMatrix()[line][col].getValue();
@@ -125,9 +127,6 @@ public class Grid4Design extends Grid<Cell4Design> {
         filledCellsCount.invalidate(); // Indique que le nombre de cellules remplies a changé
     }
 
-    public Set<Element> getCellsElements(int line, int col) {
-        return getMatrix()[line][col].getCellsElements();
-    }
 
 
 
@@ -140,9 +139,7 @@ public class Grid4Design extends Grid<Cell4Design> {
         return getMatrix()[line][col].isEmpty();
     }
 
-    public Element getValue(int line, int col) {
-        return getMatrix()[line][col].getValue();
-    }
+
 
     @Override
     public Cell4Design[][] createMatrix(int height, int width) {

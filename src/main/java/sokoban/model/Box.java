@@ -9,21 +9,20 @@ public class Box extends Element {
     }
 
     @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (obj == null || getClass() != obj.getClass()) {
-            return false;
-        }
-        // Dans ce cas, deux objets Wall sont considérés comme égaux
-        return true;
+    public ElementType getType() {
+        return ElementType.Box;
     }
 
     @Override
-    public int hashCode() {
-        // Utilisation de Objects.hash() pour générer le code de hachage
-        return Objects.hash(/* attributs à utiliser pour le code de hachage */);
+    public boolean equals(Object o) {
+        if(o instanceof Box b) {
+            return (b.getType() == ((Box) o).getType());
+        }
+        return false;
+    }
+
+    public void validate(Element element){
+
     }
     @Override
     public String toString() {

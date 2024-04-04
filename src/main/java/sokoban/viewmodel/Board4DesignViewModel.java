@@ -21,6 +21,11 @@ public class Board4DesignViewModel extends BoardViewModel{
     private final ToolsBoxViewModel toolsBoxViewModel;
 
 private final ErrorBoxViewModel errorBoxViewModel;
+
+    public Board4Design getBoard4Design() {
+        return board4Design;
+    }
+
     private final Board4Design board4Design;
     public Board4DesignViewModel(Board4Design board4Design) {
         this.board4Design = board4Design;
