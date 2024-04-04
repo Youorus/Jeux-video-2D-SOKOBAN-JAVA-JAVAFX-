@@ -2,9 +2,14 @@ package sokoban.view;
 
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.SimpleObjectProperty;
+import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Border;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import sokoban.model.*;
 import sokoban.viewmodel.ToolsBoxViewModel;
 
@@ -35,8 +40,12 @@ public class ToolsBoxView extends VBox {
         setSpacing(10);
 
         for (Element element : elements) {
+            VBox vBoxElement = new VBox();
+            //vBoxElement.setBorder(Border.stroke(Color.BLUE));
+            vBoxElement.setPadding(new Insets(1));
             ImageView imageView = createImageView(element.getImage());
-            getChildren().add(imageView);
+            vBoxElement.getChildren().add(imageView);
+            getChildren().add(vBoxElement);
             setClickHandlers(imageView, element);
         }
 
@@ -68,7 +77,7 @@ public class ToolsBoxView extends VBox {
     private ImageView createImageView(String imageName) {
         ImageView imageView = new ImageView(new Image(imageName));
         imageView.setFitHeight(50);
-        imageView.setFitWidth(40);
+        imageView.setFitWidth(50);
         return imageView;
     }
 
@@ -76,8 +85,17 @@ public class ToolsBoxView extends VBox {
         imageView.setOnMouseClicked(event -> {
            setElementSelect(element);
            toolsBoxViewModel.elementSelectProperty().bind(elementSelect);
-           // adjustImageViewSizes(imageView.getFitWidth());  // Mettre à jour le style immédiatement
+
+            for (Node node : getChildren()) {
+                if (node instanceof VBox) {
+                    ((VBox) node).setBorder(null); // Supprimer la bordure
+                }
+            }
+
+            // Appliquer la bordure à l'élément sélectionné
+            ((VBox) imageView.getParent()).setBorder(Border.stroke(Color.BLUE)); // Ajouter une bordure bleue
         });
+
     }
 
 }

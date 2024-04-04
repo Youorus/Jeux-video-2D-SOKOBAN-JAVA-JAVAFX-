@@ -79,6 +79,7 @@ abstract public class BoardView<T extends BoardViewModel> extends BorderPane {
 
     }
 
+
    public abstract void createGrid();
 
     public abstract void createCompteur();
