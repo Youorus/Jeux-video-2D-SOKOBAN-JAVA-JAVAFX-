@@ -1,6 +1,8 @@
 package sokoban.viewmodel;
 
+import javafx.collections.ObservableList;
 import sokoban.model.Board4Design;
+import sokoban.model.Element;
 
 public class Grid4DesignViewModel extends GridViewModel<Cell4DesignViewModel>{
 

@@ -10,9 +10,9 @@ public class Board4Play extends Board{
 
     private Grid4Play grid4Play = new Grid4Play();
 
-    public ReadOnlyObjectProperty<Element> valueProperty(int line, int col) {
-        return grid4Play.valueProperty(line, col);
-    }
+//    public ReadOnlyObjectProperty<Element> valueProperty(int line, int col) {
+//        return grid4Play.valueProperty(line, col);
+//    }
     public Board4Play(Board4Design board4Design){
         this.grid4Play.copyElements(board4Design.getGrid());
     }

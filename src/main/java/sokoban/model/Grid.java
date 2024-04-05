@@ -1,5 +1,8 @@
 package sokoban.model;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+
 import java.util.List;
 import java.util.Set;
 
@@ -8,13 +11,12 @@ abstract public class Grid<T extends Cell> {
     public T[][] getMatrix() {
         return matrix;
     }
-    public Element getValue(int line, int col) {
-        return getMatrix()[line][col].getValue();
-    }
 
-    public List<Element> getCellsElements(int line, int col) {
+
+    public ObservableList<Element> getCellsElements(int line, int col) {
         return getMatrix()[line][col].getCellsElements();
     }
+
     private final T[][] matrix;
     private final int GRID_HEIGHT;
     private final int GRID_WIDTH;

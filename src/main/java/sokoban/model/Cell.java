@@ -11,14 +11,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Cell {
-    public Element getValue() {
-        return value.get();
-    }
-
-    Cell(){
-
-    }
-
+//    public Element getValue() {
+//        return value.get();
+//    }
 
 
 
@@ -29,22 +24,29 @@ public class Cell {
     private ObservableList<Element> cellsElements = FXCollections.observableArrayList();
 
 
+public boolean isEmpty(){
+    return cellsElements.isEmpty();
+}
 
     public void add(Element element){
         cellsElements.add(element);
     }
-    public void setValue(Element value) {
-        this.value.set(value);
+
+    public void remove(Element element){
+        cellsElements.remove(element);
     }
+//    public void setValue(Element value) {
+//        this.value.set(value);
+//    }
 
 
-    public boolean isEmpty() {
-        return value.get() instanceof Ground;
-    }
+//    public boolean isEmpty() {
+//        return value.get() instanceof Ground;
+//    }
 
-    public ReadOnlyObjectProperty<Element> valueProperty() {
-        return value;
-    }
+//    public ReadOnlyObjectProperty<Element> valueProperty() {
+//        return value;
+//    }
 
-    private final ObjectProperty<Element> value = new SimpleObjectProperty<>(new Ground());
+  //  private final ObjectProperty<Element> value = new SimpleObjectProperty<>(new Ground());
 }

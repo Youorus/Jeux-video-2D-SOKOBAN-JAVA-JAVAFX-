@@ -23,12 +23,12 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
 
         // Adapte la largeur de l'image à celle de la cellule
         imageView.fitWidthProperty().bind(widthProperty);
-
-        getCellViewModel().valueProperty().addListener((obs, old, newVal) -> {
-            ImageView imageView1 = new ImageView(newVal.getImage());
-            setImage(imageView1);
-
-        });
+//
+//        getCellViewModel().valueProperty().addListener((obs, old, newVal) -> {
+//            ImageView imageView1 = new ImageView(newVal.getImage());
+//            setImage(imageView1);
+//
+//        });
 
 
 

@@ -22,12 +22,8 @@ public class Grid4Play extends Grid<Cell4Play>  {
     protected Cell4Play[][] createMatrix(int height, int width) {
         return new Cell4Play[GRID_HEIGHT][GRID_WIDTH];
     }
-    public ReadOnlyObjectProperty<Element> valueProperty(int line, int col) {
-        return getMatrix()[line][col].valueProperty();
-    }
 
     public void add(int line, int col, Element element) {
-        getMatrix()[line][col].setValue(element);
         getMatrix()[line][col].add(element);
     }
     @Override

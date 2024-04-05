@@ -71,9 +71,9 @@ public class Board4Design extends Board {
         return MAX_FILLED_CELLS;
     }
 
-    public ReadOnlyObjectProperty<Element> valueProperty(int line, int col) {
-        return grid4Design.valueProperty(line, col);
-    }
+//    public ReadOnlyObjectProperty<Element> valueProperty(int line, int col) {
+//        return grid4Design.valueProperty(line, col);
+//    }
 
     public LongBinding filledCellsCountProperty() {
         return grid4Design.filledCellsCountProperty();
@@ -105,7 +105,7 @@ public class Board4Design extends Board {
                 // Récupérer les coordonnées actuelles du joueur
                 int[] playerPosition = grid4Design.getPlayerPosition();
                 // Supprimer le joueur de sa position actuelle
-                grid4Design.remove(playerPosition[0], playerPosition[1]);
+                grid4Design.remove(playerPosition[0], playerPosition[1], player);
                 // Ajouter le joueur à la nouvelle position
                 grid4Design.add(line, col, player);
             } else {

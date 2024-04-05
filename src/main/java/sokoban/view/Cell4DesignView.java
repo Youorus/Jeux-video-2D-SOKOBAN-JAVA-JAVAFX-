@@ -2,6 +2,7 @@ package sokoban.view;
 
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.ListChangeListener;
+import javafx.collections.ObservableList;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
@@ -10,7 +11,7 @@ import sokoban.model.Ground;
 import sokoban.viewmodel.Cell4DesignViewModel;
 
 public class Cell4DesignView extends CellView<Cell4DesignViewModel> {
-    private final ImageView imageView = new ImageView(new Ground().getImage());
+    private final ImageView imageView = new ImageView();
 
     Cell4DesignView(Cell4DesignViewModel cell4DesignViewModel, DoubleBinding cellWidthProperty) {
         super(cell4DesignViewModel, cellWidthProperty);
@@ -30,17 +31,32 @@ public class Cell4DesignView extends CellView<Cell4DesignViewModel> {
             }
         });
 
+               getCellViewModel().getCellsElements().addListener((ListChangeListener<Element>) change -> {
+                   updateImageView();
+        });
+
+
         // Adapte la largeur de l'image à celle de la cellule
         imageView.fitWidthProperty().bind(widthProperty);
 
 
-        // Quand la cellule change de valeur, adapter l'image affichée
-        getCellViewModel().valueProperty().addListener((obs, old, newVal) -> {
-            ImageView imageView1 = new ImageView(newVal.getImage());
-            setImage(imageView1);
-        });
+    }
 
-        // Gère le survol de la cellule avec la souris (ajustez selon le besoin)
+    private void updateImageView() {
+        // Efface l'image actuelle
+        imageView.setImage(null);
+
+        // Récupère les éléments de la cellule
+        ObservableList<Element> elements = getCellViewModel().getCellsElements();
+
+        // Parcourt les éléments et les ajoute à l'image
+        for (Element element : elements) {
+            ImageView elementView = new ImageView(element.getImage());
+            elementView.fitWidthProperty().bind(widthProperty());
+//            elementView.fitHeightProperty().bind(heightProperty());
+
+            setImage(elementView);
+        }
     }
 
 }

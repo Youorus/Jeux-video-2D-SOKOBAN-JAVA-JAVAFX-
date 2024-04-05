@@ -24,16 +24,17 @@
         }
 
         public ObservableList<Element> getCellsElements() {
-            return board4Design.getGrid().createCell().getCellsElements();
+            return board4Design.getGrid().getCellsElements(getLine(),getCol());
         }
+
 
         public ToolsBoxViewModel getToolsBoxViewModel() {
             return toolsBoxViewModel;
         }
 
-        public ReadOnlyObjectProperty<Element> valueProperty() {
-            return board4Design.valueProperty(getLine(), getCol());
-        }
+//        public ReadOnlyObjectProperty<Element> valueProperty() {
+//            return board4Design.valueProperty(getLine(), getCol());
+//        }
 
         public void add(Element element) {
             board4Design.add(getLine(), getCol(), element);

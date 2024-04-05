@@ -17,6 +17,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Optional;
+import java.util.Set;
 
 public class MenueView {
     private MenuBar menuBar;
@@ -127,8 +128,11 @@ public class MenueView {
         try (FileWriter writer = new FileWriter(file)) {
             for (int i = 0; i < matrix.length; i++) {
                 for (int j = 0; j < matrix[i].length; j++) {
-                    Element element = matrix[i][j].getValue(); // Récupérer l'élément de la cellule
-                    writer.write(element.toString()); // Écrire l'élément dans le fichier
+                    for (Element element : matrix[i][j].getCellsElements()) {
+                        writer.write(element.toString());
+                        writer.write(" "); // Ajouter un espace entre les éléments de la cellule
+                    }
+                    writer.write("\t"); // Ajouter un séparateur de colonne après chaque cellule
                 }
                 writer.write("\n"); // Ajouter un saut de ligne après chaque ligne de la grille
             }
