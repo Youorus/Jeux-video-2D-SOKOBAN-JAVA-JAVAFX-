@@ -17,8 +17,8 @@ public class Ground extends Element {
 
     @Override
     public boolean equals(Object o) {
-        if(o instanceof Goal G) {
-            return (G.getType() == ((Goal) o).getType());
+        if(o instanceof Ground g) {
+            return (g.getType() == ((Ground) o).getType());
         }
         return false;
     }
@@ -29,6 +29,6 @@ public class Ground extends Element {
 
     @Override
     public String toString() {
-        return " ";
+        return "x";
     }
 }

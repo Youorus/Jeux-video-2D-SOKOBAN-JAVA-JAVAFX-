@@ -3,6 +3,7 @@ package sokoban.view;
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
@@ -28,11 +29,12 @@ public class Cell4DesignView extends CellView<Cell4DesignViewModel> {
         this.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
                 getCellViewModel().add(getCellViewModel().getToolsBoxViewModel().getElementSelect());
+                System.out.println(getCellViewModel().getToolsBoxViewModel().getElementSelect());
             }
         });
 
                getCellViewModel().getCellsElements().addListener((ListChangeListener<Element>) change -> {
-                   updateImageView();
+                   imageViewAdd();
         });
 
 
@@ -42,22 +44,30 @@ public class Cell4DesignView extends CellView<Cell4DesignViewModel> {
 
     }
 
-    private void updateImageView() {
-        // Efface l'image actuelle
-        imageView.setImage(null);
+    private void imageViewAdd() {
+        // Vérifie si l'image actuelle est nulle
+        if (imageView.getImage() == null) {
+            // Récupère les éléments de la cellule
+            ObservableList<Element> elements = getCellViewModel().getCellsElements();
 
-        // Récupère les éléments de la cellule
-        ObservableList<Element> elements = getCellViewModel().getCellsElements();
+            if (elements.isEmpty()){
+                ImageView elementView = new ImageView(new Image(new Ground().getImage()));
+                setImage(elementView);
+            }else {
+                for (Element element : elements) {
+                    ImageView elementView = new ImageView(element.getImage());
+                    elementView.fitWidthProperty().bind(widthProperty());
+                    elementView.fitHeightProperty().bind(heightProperty());
 
-        // Parcourt les éléments et les ajoute à l'image
-        for (Element element : elements) {
-            ImageView elementView = new ImageView(element.getImage());
-            elementView.fitWidthProperty().bind(widthProperty());
-//            elementView.fitHeightProperty().bind(heightProperty());
+                    setImage(elementView);
+                }
+            }
 
-            setImage(elementView);
+            // Parcourt les éléments et les ajoute à l'image
+
         }
     }
+
 
 }
 

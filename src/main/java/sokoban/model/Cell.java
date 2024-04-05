@@ -35,6 +35,10 @@ public boolean isEmpty(){
     public void remove(Element element){
         cellsElements.remove(element);
     }
+
+    public boolean removeAll(){
+        return cellsElements.removeAll();
+    }
 //    public void setValue(Element value) {
 //        this.value.set(value);
 //    }

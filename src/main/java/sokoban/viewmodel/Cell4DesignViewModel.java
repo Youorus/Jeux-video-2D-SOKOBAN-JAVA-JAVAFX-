@@ -4,6 +4,7 @@
     import javafx.beans.property.ReadOnlyObjectProperty;
     import javafx.beans.property.SimpleDoubleProperty;
     import javafx.collections.ObservableList;
+    import javafx.collections.ObservableSet;
     import sokoban.model.*;
     //import sokoban.model.CellValue;
 

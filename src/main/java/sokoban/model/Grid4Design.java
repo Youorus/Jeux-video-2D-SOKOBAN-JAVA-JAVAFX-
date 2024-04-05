@@ -108,11 +108,16 @@
             filledCellsCount.invalidate();
         }
 
-
         public void remove(int line, int col, Element element) {
-             getMatrix()[line][col].remove(element);
-            filledCellsCount.invalidate(); // Indique que le nombre de cellules remplies a changé
+            getMatrix()[line][col].remove(element);
+            filledCellsCount.invalidate();
         }
+
+        public void removeAll(int line, int col) {
+            getMatrix()[line][col].removeAll();
+            filledCellsCount.invalidate();
+        }
+
 
 
 

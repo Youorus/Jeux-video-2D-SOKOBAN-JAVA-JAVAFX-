@@ -93,25 +93,28 @@ public class Board4Design extends Board {
 
     public void add(int line, int col, Element element) {
 
-        if (grid4Design.getCellsElements(line, col).contains(wall) &&  element.equals(wall) ||
-                grid4Design.getCellsElements(line, col).contains(player) &&  element.equals(player) ||
-                grid4Design.getCellsElements(line, col).contains(goal) &&  element.equals(goal) ||
-                grid4Design.getCellsElements(line, col).contains(box) &&  element.equals(box)) {
-            grid4Design.add(line, col, ground);
+
+        if (element.equals(ground)) {
+            grid4Design.getCellsElements(line, col).clear();
+        }else if (grid4Design.getCellsElements(line, col).contains(element) ) {
+            grid4Design.remove(line, col, element);
         } else if (grid4Design.getCellsElements(line, col).contains(wall) &&  element.equals(player )) {
+            System.out.println("impossible de mettre un joueur sur un mur");
+        } else if (grid4Design.getCellsElements(line, col).contains(player) &&  element.equals(wall)) {
             System.out.println("impossible de mettre un joueur sur un mur");
         } else if (element.equals(player)) {
             if (grid4Design.hasPlayer()) {
                 // Récupérer les coordonnées actuelles du joueur
                 int[] playerPosition = grid4Design.getPlayerPosition();
                 // Supprimer le joueur de sa position actuelle
+                //grid4Design.remove(playerPosition[0], playerPosition[1]);
                 grid4Design.remove(playerPosition[0], playerPosition[1], player);
                 // Ajouter le joueur à la nouvelle position
                 grid4Design.add(line, col, player);
             } else {
                 grid4Design.add(line, col, player);
             }
-        } else if (grid4Design.getCellsElements(line, col).contains(player) && element.equals(goal)) {
+        }else if (grid4Design.getCellsElements(line, col).contains(player) && element.equals(goal)) {
             grid4Design.add(line, col, playerGoal);
         } else if (grid4Design.getCellsElements(line, col).contains(box) && element.equals(goal)) {
             grid4Design.add(line, col, boxGoal);
@@ -125,19 +128,14 @@ public class Board4Design extends Board {
             grid4Design.add(line, col, element);
         }
         System.out.println(grid4Design.getCellsElements(line,col).toString());
-
         setHasPlayer(!grid4Design.hasPlayer());
         errorBoxViewModel.playerErrorProperty().bind(hasPlayer);
-
         setHasBox(!grid4Design.hasBox());
         errorBoxViewModel.boxErrorProperty().bind(hasBox);
-
         setHasGoal(!grid4Design.hasGoal());
         errorBoxViewModel.goalErrorProperty().bind(hasGoal);
-
         setGoalAndTargetEquals(!grid4Design.goalTargetEquals());
         errorBoxViewModel.goalAndTargetErrorProperty().bind(goalAndTargetEquals);
-
     }
 
 }

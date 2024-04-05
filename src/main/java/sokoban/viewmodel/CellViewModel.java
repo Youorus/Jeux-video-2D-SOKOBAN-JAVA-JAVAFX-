@@ -10,6 +10,7 @@ import java.util.HashSet;
 
 abstract public class CellViewModel {
 
+
     public int getLine() {
         return line;
     }

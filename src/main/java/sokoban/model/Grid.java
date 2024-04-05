@@ -2,6 +2,7 @@ package sokoban.model;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import javafx.collections.ObservableSet;
 
 import java.util.List;
 import java.util.Set;
