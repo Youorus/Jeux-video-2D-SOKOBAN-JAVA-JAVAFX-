@@ -3,9 +3,15 @@ package sokoban.view;
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Text;
+import sokoban.model.Board4Play;
+import sokoban.model.Box;
 import sokoban.model.Element;
 import sokoban.model.Ground;
 import sokoban.viewmodel.Cell4PlayViewModel;
@@ -32,7 +38,7 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
 
         this.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
-                System.out.println(getCellViewModel().getCellsElements().toString());
+                //System.out.println(getCellViewModel().getCellsElements().toString());
             }
         });
 
@@ -40,19 +46,31 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
     }
 
     private void updateCellImages() {
-        // Efface toutes les images actuelles des cellules
+
+        ObservableList<Element> elements = getCellViewModel().getCellsElements();
+        // Variable pour garder le compte des boîtes dans la cellule
 
 
-                // Récupère les éléments de la cellule actuelle
-                ObservableList<Element> elements = getCellViewModel().getCellsElements();
-                System.out.println(elements);
-                // Parcourt les éléments de la cellule et met à jour l'image de la cellule
-                for (Element element : elements) {
-                    ImageView elementView = new ImageView(element.getImage());
-                    elementView.fitWidthProperty().bind(widthProperty());
-                    setImage(elementView);
-                }
+        // Parcourt les éléments de la cellule et met à jour l'image de la cellule
+        for (Element element : elements) {
+            int boxCount = 1;
+            ImageView elementView = new ImageView(element.getImage());
+            elementView.fitWidthProperty().bind(widthProperty());
+            setImage(elementView);
 
+            if (element instanceof Box) {
+                Label boxNumberText = new Label(Integer.toString(boxCount));
+                // Ajoute le style de texte pour le numéro
+                boxNumberText.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-fill: black;-fx-background-color: white; -fx-padding: 4px;");
+                // Ajoute le numéro au-dessus de l'image de la boîte
+                getChildren().add(boxNumberText);
+                boxCount++; // Incrémente le numéro de boîte
+            }
+        }
+        // Si la cellule contient au moins une boîte, ajoute un numéro au-dessus de l'image de la boîte
+//        if (boxCount > 0) {
 
+//        }
     }
+
 }

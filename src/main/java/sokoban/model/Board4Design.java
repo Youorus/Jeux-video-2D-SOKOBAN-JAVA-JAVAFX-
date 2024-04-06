@@ -127,7 +127,7 @@ public class Board4Design extends Board {
         } else {
             grid4Design.add(line, col, element);
         }
-        System.out.println(grid4Design.getCellsElements(line,col).toString());
+        
         setHasPlayer(!grid4Design.hasPlayer());
         errorBoxViewModel.playerErrorProperty().bind(hasPlayer);
         setHasBox(!grid4Design.hasBox());

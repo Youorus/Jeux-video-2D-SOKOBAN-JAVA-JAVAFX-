@@ -16,4 +16,8 @@ public class Board4Play extends Board{
     public Board4Play(Board4Design board4Design){
         this.grid4Play.copyElements(board4Design.getGrid());
     }
+
+    public int numberBox() {
+       return getGrid4Play().numberBox();
+    }
 }

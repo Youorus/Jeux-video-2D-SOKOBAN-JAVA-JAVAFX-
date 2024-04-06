@@ -47,4 +47,16 @@ public class Grid4Play extends Grid<Cell4Play>  {
         }
     }
 
+    public int numberBox() {
+        int boxCount = 0;
+        for (int i = 0; i < GRID_HEIGHT; i++) {
+            for (int j = 0; j < GRID_WIDTH; j++) {
+                if (getMatrix()[i][j].getCellsElements().contains(new Box())) {
+                    boxCount++;
+                }
+            }
+        }
+        return boxCount;
+    }
+
 }
