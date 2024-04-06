@@ -36,7 +36,13 @@ public class Grid4Play extends Grid<Cell4Play>  {
     public void copyElements(Grid4Design grid4Design){
         for (int i = 0; i < getGridHeight(); ++i) {
             for (int j = 0; j < getGridWidth(); ++j) {
-                this.getCellsElements(i,j).addAll(grid4Design.getCellsElements(i,j));
+                // Récupérer la liste des éléments de la cellule de grid4Design
+                // et la vider
+                this.getCellsElements(i, j).clear();
+
+                // Ajouter tous les éléments de la cellule de grid4Design
+                // à la cellule correspondante de grid4Play
+                this.getCellsElements(i, j).addAll(grid4Design.getCellsElements(i, j));
             }
         }
     }
