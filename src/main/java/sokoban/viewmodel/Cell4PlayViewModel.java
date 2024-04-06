@@ -6,6 +6,7 @@ import javafx.collections.ObservableSet;
 import sokoban.model.Board4Design;
 import sokoban.model.Board4Play;
 import sokoban.model.Element;
+import sokoban.model.Grid4Design;
 
 public class Cell4PlayViewModel extends CellViewModel {
 
@@ -23,4 +24,5 @@ public class Cell4PlayViewModel extends CellViewModel {
     public ObservableList<Element> getCellsElements() {
         return board4Play.getGrid4Play().getCellsElements(getLine(),getCol());
     }
+
 }
