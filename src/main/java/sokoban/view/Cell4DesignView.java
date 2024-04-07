@@ -43,8 +43,6 @@ public class Cell4DesignView extends CellView<Cell4DesignViewModel> {
             }else {
                 for (Element element : elements) {
                     ImageView elementView = new ImageView(element.getImage());
-                    elementView.fitWidthProperty().bind(widthProperty());
-                    elementView.fitHeightProperty().bind(heightProperty());
 
                     setImage(elementView);
                 }

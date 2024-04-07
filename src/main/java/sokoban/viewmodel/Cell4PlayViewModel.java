@@ -11,9 +11,6 @@ public class Cell4PlayViewModel extends CellViewModel {
 
     private final Board4Play board4Play;
 
-//    public ReadOnlyObjectProperty<Element> valueProperty() {
-//        return board4Play.valueProperty(getLine(), getCol());
-//    }
 
     Cell4PlayViewModel(int line, int col, Board4Play board4Play){
        super(line, col);
@@ -22,6 +19,11 @@ public class Cell4PlayViewModel extends CellViewModel {
 
     public int  numberBox() {
         return board4Play.numberGoal();
+    }
+
+    public void movePlayerUp(){
+       board4Play.movePlayerUp();
+
     }
 
     public ObservableList<Element> getCellsElements() {

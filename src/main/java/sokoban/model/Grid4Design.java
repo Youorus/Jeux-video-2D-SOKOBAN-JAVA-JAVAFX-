@@ -2,12 +2,8 @@
 
     import javafx.beans.binding.Bindings;
     import javafx.beans.binding.LongBinding;
-    import javafx.beans.property.ReadOnlyObjectProperty;
-    import javafx.collections.ObservableList;
 
     import java.util.Arrays;
-    import java.util.HashSet;
-    import java.util.Set;
 
     public class Grid4Design extends Grid<Cell4Design> {
         private static final int GRID_HEIGHT = 10;
@@ -93,30 +89,17 @@
 
 
 
-        public int[] getPlayerPosition() {
-            for (int i = 0; i < GRID_HEIGHT; i++) {
-                for (int j = 0; j < GRID_WIDTH; j++) {
-                    if (getMatrix()[i][j].getCellsElements().contains(new Player())) {
-                        return new int[]{i, j}; // Retourne les coordonnées du joueur
-                    }
-                }
-            }
-            // Si aucun joueur n'est trouvé, retourne un tableau {-1, -1}
-            return new int[]{-1, -1};
-        }
-
         public void add(int line, int col, Element element) {
-            getMatrix()[line][col].add(element);
+            getMatrix()[line][col].getCellsElements().add(element);
             filledCellsCount.invalidate();
         }
+
+
+
+
 
         public void remove(int line, int col, Element element) {
-            getMatrix()[line][col].remove(element);
-            filledCellsCount.invalidate();
-        }
-
-        public void removeAll(int line, int col) {
-            getMatrix()[line][col].removeAll();
+            getMatrix()[line][col].getCellsElements().remove(element);
             filledCellsCount.invalidate();
         }
 

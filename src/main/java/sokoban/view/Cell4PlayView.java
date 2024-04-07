@@ -29,6 +29,22 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
         updateCellImages();
         setFocusTraversable(true); // focus sur l'entrée des touchees
         setOnKeyPressed(this::handleKeyPressed);
+
+        getCellViewModel().getCellsElements().addListener((ListChangeListener<Element>) change -> {
+
+            ObservableList<Element> elements = getCellViewModel().getCellsElements();
+            if (elements.isEmpty()) {
+                ImageView elementView = new ImageView(new Image(new Ground().getImage()));
+                setImage(elementView);
+            } else {
+                for (Element element : elements) {
+                    ImageView elementView = new ImageView(element.getImage());
+                    elementView.fitWidthProperty().bind(widthProperty());
+                    setImage(elementView);
+                }
+            }
+
+        });
     }
 
 
@@ -56,11 +72,28 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
     }
 
     private void handleKeyPressed(KeyEvent event) {
-        if (event.getCode() == KeyCode.W) {
-            // Déclencher votre événement ici
-            System.out.println("Touche W pressée !");
-            // Vous pouvez invoquer une méthode ou émettre un événement personnalisé ici
+        switch (event.getCode()) {
+            case Z:
+              getCellViewModel().movePlayerUp();
+                break;
+            case Q:
+                System.out.println("Touche Q pressée !");
+                // Traitement pour la touche Q
+                break;
+            case S:
+                System.out.println("Touche S pressée !");
+                // Traitement pour la touche S
+                break;
+            case D:
+                System.out.println("Touche D pressée !");
+                // Traitement pour la touche D
+                break;
+            default:
+                // Autre touche pressée
+                break;
         }
     }
+
+
 }
 

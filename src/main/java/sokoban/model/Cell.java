@@ -11,16 +11,9 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class Cell {
-//    public Element getValue() {
-//        return value.get();
-//    }
-
-
-
     public ObservableList<Element> getCellsElements() {
         return cellsElements;
     }
-
     private ObservableList<Element> cellsElements = FXCollections.observableArrayList();
 
 
@@ -28,29 +21,4 @@ public boolean isEmpty(){
     return cellsElements.isEmpty();
 }
 
-    public void add(Element element){
-        cellsElements.add(element);
-    }
-
-    public void remove(Element element){
-        cellsElements.remove(element);
-    }
-
-    public boolean removeAll(){
-        return cellsElements.removeAll();
-    }
-//    public void setValue(Element value) {
-//        this.value.set(value);
-//    }
-
-
-//    public boolean isEmpty() {
-//        return value.get() instanceof Ground;
-//    }
-
-//    public ReadOnlyObjectProperty<Element> valueProperty() {
-//        return value;
-//    }
-
-  //  private final ObjectProperty<Element> value = new SimpleObjectProperty<>(new Ground());
 }

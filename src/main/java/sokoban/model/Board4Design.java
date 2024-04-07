@@ -46,10 +46,10 @@ public class Board4Design extends Board {
     private Ground ground = new Ground();
     private final Player_goal playerGoal = new Player_goal();
     private final Box_goal boxGoal = new Box_goal();
-    private final Wall wall = new Wall();
-    private final Player player = new Player();
-    private final Box box = new Box();
-    private final Goal goal = new Goal();
+
+
+
+
 
     private final ErrorBoxViewModel errorBoxViewModel = new ErrorBoxViewModel(errorBox);
     static final int MAX_FILLED_CELLS = (Grid4Design.getGridWidth() * Grid4Design.getGridHeight()) / 2;
@@ -98,31 +98,31 @@ public class Board4Design extends Board {
             grid4Design.getCellsElements(line, col).clear();
         }else if (grid4Design.getCellsElements(line, col).contains(element) ) {
             grid4Design.remove(line, col, element);
-        } else if (grid4Design.getCellsElements(line, col).contains(wall) &&  element.equals(player )) {
+        } else if (grid4Design.getCellsElements(line, col).contains(getWall()) &&  element.equals(getPlayer())) {
             System.out.println("impossible de mettre un joueur sur un mur");
-        } else if (grid4Design.getCellsElements(line, col).contains(player) &&  element.equals(wall)) {
+        } else if (grid4Design.getCellsElements(line, col).contains(getPlayer()) &&  element.equals(getWall())) {
             System.out.println("impossible de mettre un joueur sur un mur");
-        } else if (element.equals(player)) {
+        } else if (element.equals(getPlayer())) {
             if (grid4Design.hasPlayer()) {
                 // Récupérer les coordonnées actuelles du joueur
                 int[] playerPosition = grid4Design.getPlayerPosition();
                 // Supprimer le joueur de sa position actuelle
                 //grid4Design.remove(playerPosition[0], playerPosition[1]);
-                grid4Design.remove(playerPosition[0], playerPosition[1], player);
+                grid4Design.remove(playerPosition[0], playerPosition[1], getPlayer());
                 // Ajouter le joueur à la nouvelle position
-                grid4Design.add(line, col, player);
+                grid4Design.add(line, col, getPlayer());
             } else {
-                grid4Design.add(line, col, player);
+                grid4Design.add(line, col, getPlayer());
             }
-        }else if (grid4Design.getCellsElements(line, col).contains(player) && element.equals(goal)) {
+        }else if (grid4Design.getCellsElements(line, col).contains(getPlayer()) && element.equals(getGoal())) {
             grid4Design.add(line, col, playerGoal);
-        } else if (grid4Design.getCellsElements(line, col).contains(box) && element.equals(goal)) {
+        } else if (grid4Design.getCellsElements(line, col).contains(getBox()) && element.equals(getGoal())) {
             grid4Design.add(line, col, boxGoal);
-        } else if (grid4Design.getCellsElements(line, col).contains(wall) &&  element.equals(player)) {
+        } else if (grid4Design.getCellsElements(line, col).contains(getWall()) &&  element.equals(getPlayer())) {
             System.out.println("Impossible d'ajouter un joueur a un mur");
-        } else if (grid4Design.getCellsElements(line, col).contains(player) && element.equals(box)) {
+        } else if (grid4Design.getCellsElements(line, col).contains(getPlayer()) && element.equals(getBox())) {
             System.out.println("Impossible de placer une caisse sur un joueur");
-        } else if (grid4Design.getCellsElements(line, col).contains(goal) && element.equals(goal)) {
+        } else if (grid4Design.getCellsElements(line, col).contains(getGoal()) && element.equals(getGoal())) {
             System.out.println("Impossible de placer une cible sur une autre cible");
         } else {
             grid4Design.add(line, col, element);

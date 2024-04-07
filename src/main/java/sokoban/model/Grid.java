@@ -1,11 +1,6 @@
 package sokoban.model;
 
-import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.collections.ObservableSet;
-
-import java.util.List;
-import java.util.Set;
 
 abstract public class Grid<T extends Cell> {
 
@@ -22,6 +17,7 @@ abstract public class Grid<T extends Cell> {
     private final int GRID_HEIGHT;
     private final int GRID_WIDTH;
 
+
     public Grid(int height, int width){
         this.GRID_HEIGHT = height;
         this.GRID_WIDTH = width;
@@ -32,6 +28,23 @@ abstract public class Grid<T extends Cell> {
             }
         }
     }
+
+    public int[] getPlayerPosition() {
+        for (int i = 0; i < GRID_HEIGHT; i++) {
+            for (int j = 0; j < GRID_WIDTH; j++) {
+                if (getMatrix()[i][j].getCellsElements().contains(new Player())) {
+                    return new int[]{i, j}; // Retourne les coordonnées du joueur
+                }
+            }
+        }
+        // Si aucun joueur n'est trouvé, retourne un tableau {-1, -1}
+        return new int[]{-1, -1};
+    }
+
+    protected abstract void remove(int line, int col, Element element);
+
+    protected abstract void add(int line, int col, Element element);
+
 
 
     protected abstract T[][] createMatrix(int height, int width);

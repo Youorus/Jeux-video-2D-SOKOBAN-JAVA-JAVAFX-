@@ -19,6 +19,13 @@ public class Board4Play extends Board{
         this.grid4Play.copyElements(board4Design.getGrid());
     }
 
+    public void movePlayerUp(){
+      grid4Play.movePlayerUp(getPlayer());
+    }
+
+
+
+
     public int numberGoal() {
        return getGrid4Play().numberGoal();
     }

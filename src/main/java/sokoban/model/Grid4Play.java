@@ -23,9 +23,6 @@ public class Grid4Play extends Grid<Cell4Play>  {
         return new Cell4Play[GRID_HEIGHT][GRID_WIDTH];
     }
 
-    public void add(int line, int col, Element element) {
-        getMatrix()[line][col].add(element);
-    }
     @Override
     public Cell4Play createCell() {
         return new Cell4Play();
@@ -44,6 +41,29 @@ public class Grid4Play extends Grid<Cell4Play>  {
                 // à la cellule correspondante de grid4Play
                 this.getCellsElements(i, j).addAll(grid4Design.getCellsElements(i, j));
             }
+        }
+    }
+
+    public void add(int line, int col, Element element) {
+        getMatrix()[line][col].getCellsElements().add(element);
+    }
+
+    public void remove(int line, int col, Element element) {
+        getMatrix()[line][col].getCellsElements().remove(element);
+    }
+
+
+    public void movePlayerUp(Element player) {
+        // Récupérer la position actuelle du joueur
+        int[] playerPosition = getPlayerPosition();
+
+        // Supprimer le joueur de sa position actuelle
+        remove(playerPosition[0], playerPosition[1], player);
+
+        // Vérifier si le joueur peut se déplacer vers le haut (il ne peut pas sortir de la grille)
+        if (playerPosition[0] > 0) {
+            // Ajouter le joueur à la cellule juste au-dessus
+            add(playerPosition[0] - 1, playerPosition[1], player);
         }
     }
 
