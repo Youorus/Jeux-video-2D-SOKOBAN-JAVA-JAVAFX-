@@ -89,7 +89,7 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
         VBox.setMargin(headerLabel, new Insets(10, 0, 0, 0)); // Ajouter des marges depuis le haut
 
         Label otherLabel1 = new Label("Number of moves played: 0");
-        Label otherLabel2 = new Label("Number of goals reached: 0 of 0");
+        Label otherLabel2 = new Label("Number of goals reached: 0 of " + getModel().getGrid4PlayViewModel().getBoard4Play().numberGoal());
 
         VBox headerScore = new VBox(0); // Espacement vertical de 5 pixels entre les enfants
         headerScore.getChildren().addAll(headerLabel, otherLabel1, otherLabel2);

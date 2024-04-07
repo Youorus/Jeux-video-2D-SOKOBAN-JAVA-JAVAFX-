@@ -5,6 +5,8 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 import sokoban.model.*;
 
+import java.util.List;
+
 public class Cell4PlayViewModel extends CellViewModel {
 
     private final Board4Play board4Play;
@@ -18,8 +20,8 @@ public class Cell4PlayViewModel extends CellViewModel {
         this.board4Play = board4Play;
     }
 
-    public int numberBox() {
-        return board4Play.numberBox();
+    public int  numberBox() {
+        return board4Play.numberGoal();
     }
 
     public ObservableList<Element> getCellsElements() {

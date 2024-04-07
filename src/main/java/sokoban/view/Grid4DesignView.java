@@ -17,8 +17,6 @@ public class Grid4DesignView extends GridView {
         setGridLinesVisible(true);
         setPadding(new Insets(PADDING));
 
-
-
         DoubleBinding cellSize = Bindings.createDoubleBinding(() ->
                         Math.min(
                                 gridWidth.subtract(PADDING * 2).get() / GRID_WIDTH,

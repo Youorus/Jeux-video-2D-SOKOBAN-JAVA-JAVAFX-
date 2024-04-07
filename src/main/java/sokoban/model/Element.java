@@ -12,4 +12,5 @@ public abstract class Element {
     public abstract String getImage();
 
     public abstract ElementType getType();
+
 }

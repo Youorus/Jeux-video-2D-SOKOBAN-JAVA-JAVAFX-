@@ -2,6 +2,8 @@ package sokoban.model;
 
 import javafx.beans.property.ReadOnlyObjectProperty;
 
+import java.util.List;
+
 public class Board4Play extends Board{
 
     public Grid4Play getGrid4Play() {
@@ -17,7 +19,7 @@ public class Board4Play extends Board{
         this.grid4Play.copyElements(board4Design.getGrid());
     }
 
-    public int numberBox() {
-       return getGrid4Play().numberBox();
+    public int numberGoal() {
+       return getGrid4Play().numberGoal();
     }
 }

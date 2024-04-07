@@ -23,6 +23,7 @@ public class CellView<T extends CellViewModel> extends StackPane {
 
         setAlignment(javafx.geometry.Pos.CENTER);
         layoutControls();
+        configureBindings();
         hoverProperty().addListener(this::hoverChanged);
     }
 
@@ -32,7 +33,9 @@ public class CellView<T extends CellViewModel> extends StackPane {
     }
 
     public void configureBindings() {
-
+        minWidthProperty().bind(widthProperty);
+        minHeightProperty().bind(widthProperty);
+        imageView.fitWidthProperty().bind(widthProperty);
     }
 
 

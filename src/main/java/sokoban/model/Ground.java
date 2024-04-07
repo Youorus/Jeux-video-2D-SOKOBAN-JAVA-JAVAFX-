@@ -29,6 +29,6 @@ public class Ground extends Element {
 
     @Override
     public String toString() {
-        return "x";
+        return " ";
     }
 }
