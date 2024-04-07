@@ -43,7 +43,7 @@ public class Board4Design extends Board {
 
     private final SimpleBooleanProperty hasGoal = new SimpleBooleanProperty();
 
-    private Ground ground = new Ground();
+
     private final Player_goal playerGoal = new Player_goal();
     private final Box_goal boxGoal = new Box_goal();
 
@@ -94,7 +94,7 @@ public class Board4Design extends Board {
     public void add(int line, int col, Element element) {
 
 
-        if (element.equals(ground)) {
+        if (element.equals(getGround())) {
             grid4Design.getCellsElements(line, col).clear();
         }else if (grid4Design.getCellsElements(line, col).contains(element) ) {
             grid4Design.remove(line, col, element);

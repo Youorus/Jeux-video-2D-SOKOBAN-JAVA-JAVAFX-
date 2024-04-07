@@ -43,19 +43,19 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
         // Parcourt les éléments de la cellule et met à jour l'image de la cellule
         for (Element element : elements) {
             ImageView elementView = new ImageView(element.getImage());
-            elementView.fitWidthProperty().bind(widthProperty());
+            //elementView.fitWidthProperty().bind(widthProperty());
             setImage(elementView);
 
-            if (element.equals(new Box())) {
-                // Pas besoin d'incrémenter boxCount ici
-                Label boxNumberText = new Label(Integer.toString(boxCount++));
-                // Ajoute le style de texte pour le numéro
-                boxNumberText.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-fill: black;-fx-background-color: white; -fx-padding: 4px;");
-                // Positionne le numéro au-dessus de l'image de la boîte
-                StackPane.setAlignment(boxNumberText, Pos.CENTER);
-                // Ajoute le numéro au-dessus de l'image de la boîte
-                getChildren().add(boxNumberText);
-            }
+//            if (element.equals(new Box())) {
+//                // Pas besoin d'incrémenter boxCount ici
+//                Label boxNumberText = new Label(Integer.toString(boxCount++));
+//                // Ajoute le style de texte pour le numéro
+//                boxNumberText.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-fill: black;-fx-background-color: white; -fx-padding: 4px;");
+//                // Positionne le numéro au-dessus de l'image de la boîte
+//                StackPane.setAlignment(boxNumberText, Pos.CENTER);
+//                // Ajoute le numéro au-dessus de l'image de la boîte
+//                getChildren().add(boxNumberText);
+//            }
         }
     }
 
@@ -68,6 +68,7 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
             case Q:
                 //deplacement du joueur sur la gauche
                 getCellViewModel().movePlayerLeft();
+                System.out.println(getCellViewModel().getCellsElements());
                 break;
             case S:
                 //deplacement du joueur sur la droite

@@ -96,19 +96,41 @@ public class Grid4Play extends Grid<Cell4Play>  {
         }
     }
 
-    public void movePlayerLeft(Element player) {
+    public void movePlayerLeft(Element player, Element wall, Element box) {
         // Récupérer la position actuelle du joueur
         int[] playerPosition = getPlayerPosition();
+        int currentRow = playerPosition[0];
+        int nextColumn = playerPosition[1] - 1; // Déplacement vers la gauche
 
         // Supprimer le joueur de sa position actuelle
-        remove(playerPosition[0], playerPosition[1], player);
+        remove(currentRow, playerPosition[1], player);
 
-        // Vérifier si le joueur peut se déplacer vers le haut (il ne peut pas sortir de la grille)
-        if (playerPosition[0] > 0) {
-            // Ajouter le joueur à la cellule juste au-dessus
-            add(playerPosition[0], playerPosition[1] - 1, player);
+        if (nextColumn >= 0 && nextColumn < GRID_WIDTH) {
+            if (getCellsElements(currentRow, nextColumn).contains(wall)){
+                // Si la cellule suivante contient un mur, garder le joueur à sa position actuelle
+                add(currentRow, playerPosition[1], player);
+            } else if (getCellsElements(currentRow, nextColumn).contains(box)){
+                // Vérifier si la cellule après la boîte contient un mur
+                boolean nextCellAfterBoxContainsWall = getCellsElements(currentRow, nextColumn - 1).contains(wall);
+                if (nextCellAfterBoxContainsWall) {
+                    // Si la cellule après la boîte contient un mur, garder le joueur à sa position actuelle
+                    add(currentRow, playerPosition[1], player);
+                } else {
+                    // Sinon, déplacer le joueur et la boîte vers la cellule suivante
+                    remove(currentRow, nextColumn, box);
+                    add(currentRow, nextColumn - 1, box);
+                    add(currentRow, nextColumn, player);
+                }
+            } else {
+                // Sinon, déplacer le joueur vers la cellule suivante
+                add(currentRow, nextColumn, player);
+            }
+        } else {
+            // Si le joueur atteint la bordure de la grille, le garder à sa position actuelle
+            add(currentRow, playerPosition[1], player);
         }
     }
+
 
     public int numberGoal() {
         int x = 0;

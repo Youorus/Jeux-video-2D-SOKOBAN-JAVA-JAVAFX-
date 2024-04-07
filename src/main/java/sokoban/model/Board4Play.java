@@ -28,7 +28,7 @@ public class Board4Play extends Board{
     }
 
     public void movePlayerLeft(){
-        grid4Play.movePlayerLeft(getPlayer());
+        grid4Play.movePlayerLeft(getPlayer(), getWall(), getBox());
     }
 
 

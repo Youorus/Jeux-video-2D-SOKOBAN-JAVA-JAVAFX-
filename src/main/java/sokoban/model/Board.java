@@ -6,6 +6,12 @@ abstract public class Board {
         return wall;
     }
 
+    public Ground getGround() {
+        return ground;
+    }
+
+    private Ground ground = new Ground();
+
     private final Player player = new Player();
     private final Box box = new Box();
 
