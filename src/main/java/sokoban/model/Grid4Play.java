@@ -67,6 +67,49 @@ public class Grid4Play extends Grid<Cell4Play>  {
         }
     }
 
+    public void movePlayerDown(Element player) {
+        // Récupérer la position actuelle du joueur
+        int[] playerPosition = getPlayerPosition();
+
+        // Supprimer le joueur de sa position actuelle
+        remove(playerPosition[0], playerPosition[1], player);
+
+        // Vérifier si le joueur peut se déplacer vers le haut (il ne peut pas sortir de la grille)
+        if (playerPosition[0] > 0) {
+            // Ajouter le joueur à la cellule juste au-dessus
+            add(playerPosition[0] + 1, playerPosition[1], player);
+        }
+    }
+
+
+    public void movePlayerRight(Element player) {
+        // Récupérer la position actuelle du joueur
+        int[] playerPosition = getPlayerPosition();
+
+        // Supprimer le joueur de sa position actuelle
+        remove(playerPosition[0], playerPosition[1], player);
+
+        // Vérifier si le joueur peut se déplacer vers le haut (il ne peut pas sortir de la grille)
+        if (playerPosition[0] > 0) {
+            // Ajouter le joueur à la cellule juste au-dessus
+            add(playerPosition[0], playerPosition[1] + 1, player);
+        }
+    }
+
+    public void movePlayerLeft(Element player) {
+        // Récupérer la position actuelle du joueur
+        int[] playerPosition = getPlayerPosition();
+
+        // Supprimer le joueur de sa position actuelle
+        remove(playerPosition[0], playerPosition[1], player);
+
+        // Vérifier si le joueur peut se déplacer vers le haut (il ne peut pas sortir de la grille)
+        if (playerPosition[0] > 0) {
+            // Ajouter le joueur à la cellule juste au-dessus
+            add(playerPosition[0], playerPosition[1] - 1, player);
+        }
+    }
+
     public int numberGoal() {
         int x = 0;
         for (int i = 0; i < GRID_HEIGHT; i++) {

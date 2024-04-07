@@ -31,19 +31,7 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
         setOnKeyPressed(this::handleKeyPressed);
 
         getCellViewModel().getCellsElements().addListener((ListChangeListener<Element>) change -> {
-
-            ObservableList<Element> elements = getCellViewModel().getCellsElements();
-            if (elements.isEmpty()) {
-                ImageView elementView = new ImageView(new Image(new Ground().getImage()));
-                setImage(elementView);
-            } else {
-                for (Element element : elements) {
-                    ImageView elementView = new ImageView(element.getImage());
-                    elementView.fitWidthProperty().bind(widthProperty());
-                    setImage(elementView);
-                }
-            }
-
+            imageViewUpdate(getCellViewModel().getCellsElements());
         });
     }
 
@@ -74,19 +62,20 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
     private void handleKeyPressed(KeyEvent event) {
         switch (event.getCode()) {
             case Z:
+                //deplacement verrs le haut
               getCellViewModel().movePlayerUp();
                 break;
             case Q:
-                System.out.println("Touche Q pressée !");
-                // Traitement pour la touche Q
+                //deplacement du joueur sur la gauche
+                getCellViewModel().movePlayerLeft();
                 break;
             case S:
-                System.out.println("Touche S pressée !");
-                // Traitement pour la touche S
+                //deplacement du joueur sur la droite
+                getCellViewModel().movePlayerDown();
                 break;
             case D:
-                System.out.println("Touche D pressée !");
-                // Traitement pour la touche D
+                //deplacement du joueur vers le bas
+                getCellViewModel().movePlayerRight();
                 break;
             default:
                 // Autre touche pressée

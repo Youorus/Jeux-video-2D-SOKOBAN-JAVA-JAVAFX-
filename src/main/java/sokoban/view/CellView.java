@@ -1,9 +1,12 @@
 package sokoban.view;
 
 import javafx.beans.binding.DoubleBinding;
+import javafx.collections.ObservableList;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import sokoban.model.Element;
 import sokoban.model.Ground;
 import sokoban.viewmodel.CellViewModel;
 
@@ -35,7 +38,6 @@ public class CellView<T extends CellViewModel> extends StackPane {
     public void configureBindings() {
         minWidthProperty().bind(widthProperty);
         minHeightProperty().bind(widthProperty);
-        imageView.fitWidthProperty().bind(widthProperty);
     }
 
 
@@ -46,7 +48,23 @@ public class CellView<T extends CellViewModel> extends StackPane {
         image.fitWidthProperty().bind(widthProperty);
     }
 
+    protected void imageViewUpdate(ObservableList<Element> elementObservableList) {
+
+            if (elementObservableList.isEmpty()) {
+                ImageView elementView = new ImageView(new Image(new Ground().getImage()));
+                setImage(elementView);
+            } else {
+                for (Element element : elementObservableList) {
+                    ImageView elementView = new ImageView(element.getImage());
+
+                    setImage(elementView);
+                }
+            }
+
+        }
+
+
     private void hoverChanged(javafx.beans.value.ObservableValue<? extends Boolean> obs, Boolean oldVal, Boolean newVal) {
-        imageView.setOpacity(newVal ? 0.0 : 1.0);
+        imageView.setOpacity(newVal ? 0.0 : 2.0);
     }
 }

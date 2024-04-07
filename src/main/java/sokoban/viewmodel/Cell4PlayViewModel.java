@@ -25,6 +25,17 @@ public class Cell4PlayViewModel extends CellViewModel {
        board4Play.movePlayerUp();
 
     }
+    public void movePlayerDown(){
+        board4Play.movePlayerDown();
+
+    }
+    public void movePlayerRight(){
+        board4Play.movePlayerRight();
+    }
+
+    public void movePlayerLeft(){
+        board4Play.movePlayerLeft();
+    }
 
     public ObservableList<Element> getCellsElements() {
         return board4Play.getGrid4Play().getCellsElements(getLine(),getCol());

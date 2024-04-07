@@ -11,11 +11,14 @@ import sokoban.model.Ground;
 import sokoban.viewmodel.Cell4DesignViewModel;
 
 public class Cell4DesignView extends CellView<Cell4DesignViewModel> {
-    private final ImageView imageView = new ImageView();
 
     Cell4DesignView(Cell4DesignViewModel cell4DesignViewModel, DoubleBinding cellWidthProperty) {
         super(cell4DesignViewModel, cellWidthProperty);
         eventClickAdd();
+
+        getCellViewModel().getCellsElements().addListener((ListChangeListener<Element>) change -> {
+            imageViewUpdate(getCellViewModel().getCellsElements());
+        });
     }
 
 
@@ -26,33 +29,9 @@ public class Cell4DesignView extends CellView<Cell4DesignViewModel> {
             }
         });
 
-        getCellViewModel().getCellsElements().addListener((ListChangeListener<Element>) change -> {
-            imageViewAdd();
-        });
-    }
-
-    private void imageViewAdd() {
-        // Vérifie si l'image actuelle est nulle
-        if (imageView.getImage() == null) {
-            // Récupère les éléments de la cellule
-            ObservableList<Element> elements = getCellViewModel().getCellsElements();
-
-            if (elements.isEmpty()){
-                ImageView elementView = new ImageView(new Image(new Ground().getImage()));
-                setImage(elementView);
-            }else {
-                for (Element element : elements) {
-                    ImageView elementView = new ImageView(element.getImage());
-
-                    setImage(elementView);
-                }
-            }
-
-            // Parcourt les éléments et les ajoute à l'image
-
-        }
     }
 
 
 }
+
 
