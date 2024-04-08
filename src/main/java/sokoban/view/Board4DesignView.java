@@ -21,7 +21,7 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
     private ErrorBoxView errorBoxView;
 
     public Cell4Design[][] getMatrix(){
-        return getModel().getMatrix();
+        return getViewModel().getMatrix();
     }
     public Board4DesignView(Stage primaryStage, Board4DesignViewModel board4DesignViewModel){
         super(primaryStage, board4DesignViewModel);
@@ -47,7 +47,7 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
         DoubleBinding gridHeightBinding = gridWidthBinding.divide(getGRID_WIDTH()).multiply(getGRID_HEIGHT());
         DoubleBinding cellSizeBinding = gridWidthBinding.divide(getGRID_WIDTH());
 
-        Grid4DesignView grid4DesignView = new Grid4DesignView(getModel().getGridViewModel(), gridWidthBinding, gridHeightBinding);
+        Grid4DesignView grid4DesignView = new Grid4DesignView(getViewModel().getGridViewModel(), gridWidthBinding, gridHeightBinding);
 
         grid4DesignView.minHeightProperty().bind(gridHeightBinding);
         grid4DesignView.minWidthProperty().bind(gridWidthBinding);
@@ -60,17 +60,17 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
 
 
     private void createBoiteAOutils(DoubleBinding cellsize){
-        ToolsBoxView boiteAOutilsView = new ToolsBoxView(cellsize, getModel().getToolsBoxViewModel());
+        ToolsBoxView boiteAOutilsView = new ToolsBoxView(cellsize, getViewModel().getToolsBoxViewModel());
         boiteAOutilsView.setAlignment(Pos.CENTER_LEFT);
         setLeft(boiteAOutilsView);
     }
 
     public void createCompteur(){
-        errorBoxView = new ErrorBoxView(getModel().getErrorBoxViewModel());
+        errorBoxView = new ErrorBoxView(getViewModel().getErrorBoxViewModel());
 
         headerLabel = new Label();
-        headerLabel.textProperty().bind(getModel().filledCellsCountProperty()
-              .asString("Number of filled cells: %d of " + getModel().maxFilledCells()));
+        headerLabel.textProperty().bind(getViewModel().filledCellsCountProperty()
+              .asString("Number of filled cells: %d of " + getViewModel().maxFilledCells()));
        headerLabel.getStyleClass().add("header");
 
 
@@ -102,7 +102,7 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
 
     @Override
     public void createButton() {
-        buttonPlay4DesignView = new ButtonPlay4DesignView(getModel());
+        buttonPlay4DesignView = new ButtonPlay4DesignView(getViewModel());
         getFooterBox().setAlignment(Pos.TOP_CENTER);
         getFooterBox().setPrefHeight(70);
         getFooterBox().setPadding(new Insets(0, 0, 0, 0));

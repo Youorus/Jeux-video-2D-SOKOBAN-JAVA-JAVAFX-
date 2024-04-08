@@ -4,18 +4,10 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Scene;
 import javafx.scene.control.Label;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import sokoban.viewmodel.Board4DesignViewModel;
 import sokoban.viewmodel.Board4PlayViewModel;
-import sokoban.viewmodel.BoardViewModel;
-import sokoban.viewmodel.Grid4PlayViewModel;
-
-import java.util.Objects;
 
 public class Board4PlayView extends BoardView<Board4PlayViewModel> {
 
@@ -67,7 +59,7 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
 
         DoubleBinding gridHeightBinding = gridWidthBinding.divide(getGRID_WIDTH()).multiply(getGRID_HEIGHT());
 
-        Grid4PlayView grid4PlayView = new Grid4PlayView(getModel().getGrid4PlayViewModel(),gridWidthBinding, gridHeightBinding);
+        Grid4PlayView grid4PlayView = new Grid4PlayView(getViewModel().getGrid4PlayViewModel(),gridWidthBinding, gridHeightBinding);
 
 
         grid4PlayView.minHeightProperty().bind(gridHeightBinding);
@@ -88,11 +80,12 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
         headerLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 20px"); // Augmenter la taille de la police
         VBox.setMargin(headerLabel, new Insets(10, 0, 0, 0)); // Ajouter des marges depuis le haut
 
-        Label otherLabel1 = new Label("Number of moves played: 0");
-        Label otherLabel2 = new Label("Number of goals reached: 0 of " + getModel().getGrid4PlayViewModel().getBoard4Play().numberGoal());
+        Label moveCount = new Label();
+        moveCount.textProperty().bind(getViewModel().moveCountProperty().asString("Number of moves played: %d"));
+        Label otherLabel2 = new Label("Number of goals reached: 0 of " + getViewModel().getGrid4PlayViewModel().getBoard4Play().numberGoal());
 
         VBox headerScore = new VBox(0); // Espacement vertical de 5 pixels entre les enfants
-        headerScore.getChildren().addAll(headerLabel, otherLabel1, otherLabel2);
+        headerScore.getChildren().addAll(headerLabel, moveCount, otherLabel2);
 
         getHeaderBox().getChildren().addAll(headerScore);
         getHeaderBox().setAlignment(Pos.CENTER);
@@ -107,7 +100,7 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
 
     @Override
     public void createButton() {
-        buttonFinish4PlayView = new ButtonFinish4PlayView(getModel());
+        buttonFinish4PlayView = new ButtonFinish4PlayView(getViewModel());
         getFooterBox().setAlignment(Pos.TOP_CENTER);
         getFooterBox().setPrefHeight(70);
         getFooterBox().setPadding(new Insets(0, 0, 0, 0));

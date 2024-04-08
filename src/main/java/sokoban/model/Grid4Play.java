@@ -1,7 +1,9 @@
 package sokoban.model;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 
 import java.util.Arrays;
 
@@ -11,6 +13,20 @@ import static sokoban.model.Grid4Design.getGridWidth;
 public class Grid4Play extends Grid<Cell4Play>  {
     private static final int GRID_HEIGHT = 10;
     private static final int GRID_WIDTH = 15;
+
+    public int getMoveCount() {
+        return moveCount.get();
+    }
+
+    public IntegerProperty moveCountProperty() {
+        return moveCount;
+    }
+
+    public void setMoveCount(int moveCount) {
+        this.moveCount.set(moveCount);
+    }
+
+    private final IntegerProperty moveCount = new SimpleIntegerProperty(0);
 
 
     public Grid4Play() {
@@ -105,6 +121,7 @@ public class Grid4Play extends Grid<Cell4Play>  {
         // Supprimer le joueur de sa position actuelle
         remove(currentRow, playerPosition[1], player);
 
+        //verifie si le deplacement du joueur est possible dans les bornes de la grille
         if (nextColumn >= 0 && nextColumn < GRID_WIDTH) {
             if (getCellsElements(currentRow, nextColumn).contains(wall)){
                 // Si la cellule suivante contient un mur, garder le joueur à sa position actuelle
@@ -120,10 +137,14 @@ public class Grid4Play extends Grid<Cell4Play>  {
                     remove(currentRow, nextColumn, box);
                     add(currentRow, nextColumn - 1, box);
                     add(currentRow, nextColumn, player);
+
+                    //counter le deplacement du joueur
+                    setMoveCount(moveCount.get() + 1);
                 }
             } else {
                 // Sinon, déplacer le joueur vers la cellule suivante
                 add(currentRow, nextColumn, player);
+                moveCount.set(moveCount.get() + 1);
             }
         } else {
             // Si le joueur atteint la bordure de la grille, le garder à sa position actuelle

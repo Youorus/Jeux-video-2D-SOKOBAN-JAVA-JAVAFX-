@@ -1,15 +1,10 @@
 package sokoban.view;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.DoubleBinding;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
-import sokoban.viewmodel.Board4PlayViewModel;
 import sokoban.viewmodel.BoardViewModel;
 
 import java.util.Objects;
@@ -35,7 +30,7 @@ abstract public class BoardView<T extends BoardViewModel> extends BorderPane {
         return GRID_WIDTH;
     }
 
-    public T getModel() {
+    public T getViewModel() {
         return model;
     }
 

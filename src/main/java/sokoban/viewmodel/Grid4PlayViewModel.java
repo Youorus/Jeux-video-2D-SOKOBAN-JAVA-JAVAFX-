@@ -1,5 +1,6 @@
 package sokoban.viewmodel;
 
+import javafx.beans.property.IntegerProperty;
 import sokoban.model.Board4Design;
 import sokoban.model.Board4Play;
 
@@ -18,4 +19,5 @@ public class Grid4PlayViewModel extends GridViewModel<Cell4PlayViewModel> {
     public Cell4PlayViewModel getCellViewModel(int line, int col) {
         return new Cell4PlayViewModel(line, col, board4Play);
     }
+
 }
