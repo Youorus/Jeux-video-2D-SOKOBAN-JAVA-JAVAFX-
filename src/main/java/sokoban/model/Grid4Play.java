@@ -69,88 +69,77 @@ public class Grid4Play extends Grid<Cell4Play>  {
     }
 
 
-    public void movePlayerUp(Element player) {
-        // Récupérer la position actuelle du joueur
+    public void movePlayerUp(Element player, Element wall, Element box) {
         int[] playerPosition = getPlayerPosition();
+        int nextRow = playerPosition[0] - 1;
+        int currentColumn = playerPosition[1];
 
-        // Supprimer le joueur de sa position actuelle
-        remove(playerPosition[0], playerPosition[1], player);
-
-        // Vérifier si le joueur peut se déplacer vers le haut (il ne peut pas sortir de la grille)
-        if (playerPosition[0] > 0) {
-            // Ajouter le joueur à la cellule juste au-dessus
-            add(playerPosition[0] - 1, playerPosition[1], player);
-        }
+        movePlayer(player, wall, box, nextRow, currentColumn, -1, 0);
     }
 
-    public void movePlayerDown(Element player) {
-        // Récupérer la position actuelle du joueur
+    public void movePlayerDown(Element player, Element wall, Element box) {
         int[] playerPosition = getPlayerPosition();
+        int nextRow = playerPosition[0] + 1;
+        int currentColumn = playerPosition[1];
 
-        // Supprimer le joueur de sa position actuelle
-        remove(playerPosition[0], playerPosition[1], player);
-
-        // Vérifier si le joueur peut se déplacer vers le haut (il ne peut pas sortir de la grille)
-        if (playerPosition[0] > 0) {
-            // Ajouter le joueur à la cellule juste au-dessus
-            add(playerPosition[0] + 1, playerPosition[1], player);
-        }
+        movePlayer(player, wall, box, nextRow, currentColumn, 1, 0);
     }
 
-
-    public void movePlayerRight(Element player) {
-        // Récupérer la position actuelle du joueur
+    public void movePlayerRight(Element player, Element wall, Element box) {
         int[] playerPosition = getPlayerPosition();
+        int currentRow = playerPosition[0];
+        int nextColumn = playerPosition[1] + 1;
 
-        // Supprimer le joueur de sa position actuelle
-        remove(playerPosition[0], playerPosition[1], player);
-
-        // Vérifier si le joueur peut se déplacer vers le haut (il ne peut pas sortir de la grille)
-        if (playerPosition[0] > 0) {
-            // Ajouter le joueur à la cellule juste au-dessus
-            add(playerPosition[0], playerPosition[1] + 1, player);
-        }
+        movePlayer(player, wall, box, currentRow, nextColumn, 0, 1);
     }
 
     public void movePlayerLeft(Element player, Element wall, Element box) {
-        // Récupérer la position actuelle du joueur
         int[] playerPosition = getPlayerPosition();
         int currentRow = playerPosition[0];
-        int nextColumn = playerPosition[1] - 1; // Déplacement vers la gauche
+        int nextColumn = playerPosition[1] - 1;
 
-        // Supprimer le joueur de sa position actuelle
-        remove(currentRow, playerPosition[1], player);
+        movePlayer(player, wall, box, currentRow, nextColumn, 0, -1);
+    }
 
-        //verifie si le deplacement du joueur est possible dans les bornes de la grille
-        if (nextColumn >= 0 && nextColumn < GRID_WIDTH) {
-            if (getCellsElements(currentRow, nextColumn).contains(wall)){
+    private void movePlayer(Element player, Element wall, Element box, int nextRow, int nextColumn, int rowChange, int colChange) {
+        int[] playerPosition = getPlayerPosition();
+
+        if (nextRow >= 0 && nextRow < GRID_HEIGHT && nextColumn >= 0 && nextColumn < GRID_WIDTH) {
+            if (getCellsElements(nextRow, nextColumn).contains(wall)) {
                 // Si la cellule suivante contient un mur, garder le joueur à sa position actuelle
-                add(currentRow, playerPosition[1], player);
-            } else if (getCellsElements(currentRow, nextColumn).contains(box)){
+                add(playerPosition[0], playerPosition[1], player);
+            } else if (getCellsElements(nextRow, nextColumn).contains(box)) {
                 // Vérifier si la cellule après la boîte contient un mur
-                boolean nextCellAfterBoxContainsWall = getCellsElements(currentRow, nextColumn - 1).contains(wall);
-                if (nextCellAfterBoxContainsWall) {
-                    // Si la cellule après la boîte contient un mur, garder le joueur à sa position actuelle
-                    add(currentRow, playerPosition[1], player);
+                boolean nextCellAfterBoxContainsWall = getCellsElements(nextRow + rowChange, nextColumn + colChange).contains(wall);
+                if (nextCellAfterBoxContainsWall || nextRow == GRID_HEIGHT - 1 || nextColumn == GRID_WIDTH - 1) {
+                    // Si la cellule après la boîte contient un mur ou si la boîte est à la fin de la grille, garder le joueur à sa position actuelle
+                    add(playerPosition[0], playerPosition[1], player);
+                } else if (getCellsElements(nextRow + rowChange, nextColumn + colChange).contains(box)) {
+                    add(playerPosition[0], playerPosition[1], player);
                 } else {
                     // Sinon, déplacer le joueur et la boîte vers la cellule suivante
-                    remove(currentRow, nextColumn, box);
-                    add(currentRow, nextColumn - 1, box);
-                    add(currentRow, nextColumn, player);
-
-                    //counter le deplacement du joueur
+                    remove(nextRow, nextColumn, box);
+                    add(nextRow + rowChange, nextColumn + colChange, box);
+                    add(nextRow, nextColumn, player);
+                    // Compter le déplacement du joueur
                     setMoveCount(moveCount.get() + 1);
                 }
             } else {
                 // Sinon, déplacer le joueur vers la cellule suivante
-                add(currentRow, nextColumn, player);
+                add(nextRow, nextColumn, player);
                 moveCount.set(moveCount.get() + 1);
             }
         } else {
             // Si le joueur atteint la bordure de la grille, le garder à sa position actuelle
-            add(currentRow, playerPosition[1], player);
+            add(playerPosition[0], playerPosition[1], player);
         }
+
+        // Supprimer le joueur de sa position actuelle
+        remove(playerPosition[0], playerPosition[1], player);
     }
+
+
+
 
 
     public int numberGoal() {

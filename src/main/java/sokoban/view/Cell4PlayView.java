@@ -68,7 +68,6 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
             case Q:
                 //deplacement du joueur sur la gauche
                 getCellViewModel().movePlayerLeft();
-                System.out.println(getCellViewModel().getCellsElements());
                 break;
             case S:
                 //deplacement du joueur sur la droite

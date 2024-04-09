@@ -22,14 +22,14 @@ public class Board4Play extends Board{
     }
 
     public void movePlayerUp(){
-      grid4Play.movePlayerUp(getPlayer());
+      grid4Play.movePlayerUp(getPlayer(), getWall(), getBox());
     }
     public void movePlayerDown(){
-        grid4Play.movePlayerDown(getPlayer());
+        grid4Play.movePlayerDown(getPlayer(), getWall(), getBox());
     }
 
     public void movePlayerRight(){
-        grid4Play.movePlayerRight(getPlayer());
+        grid4Play.movePlayerRight(getPlayer(), getWall(), getBox());
     }
 
     public void movePlayerLeft(){
