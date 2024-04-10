@@ -1,11 +1,7 @@
 package sokoban.model;
 
-import javafx.beans.binding.Bindings;
 import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-
-import java.util.Arrays;
 
 import static sokoban.model.Grid4Design.getGridHeight;
 import static sokoban.model.Grid4Design.getGridWidth;
@@ -21,6 +17,20 @@ public class Grid4Play extends Grid<Cell4Play>  {
     public IntegerProperty moveCountProperty() {
         return moveCount;
     }
+
+    public int getBoxOnGoalCount() {
+        return boxOnGoalCount.get();
+    }
+
+    public IntegerProperty boxOnGoalCountProperty() {
+        return boxOnGoalCount;
+    }
+
+    public void setBoxOnGoalCount(int boxOnGoalCount) {
+        this.boxOnGoalCount.set(boxOnGoalCount);
+    }
+
+    private final  IntegerProperty boxOnGoalCount = new SimpleIntegerProperty(0);
 
     public void setMoveCount(int moveCount) {
         this.moveCount.set(moveCount);
@@ -69,45 +79,48 @@ public class Grid4Play extends Grid<Cell4Play>  {
     }
 
 
-    public void movePlayerUp(Element player, Element wall, Element box) {
+    public void movePlayerUp(Element player, Element wall, Element box, Element goal) {
         int[] playerPosition = getPlayerPosition();
         int nextRow = playerPosition[0] - 1;
         int currentColumn = playerPosition[1];
 
-        movePlayer(player, wall, box, nextRow, currentColumn, -1, 0);
+        movePlayer(player, wall, box, goal, nextRow, currentColumn, -1, 0);
     }
 
-    public void movePlayerDown(Element player, Element wall, Element box) {
+    public void movePlayerDown(Element player, Element wall, Element box, Element goal) {
         int[] playerPosition = getPlayerPosition();
         int nextRow = playerPosition[0] + 1;
         int currentColumn = playerPosition[1];
 
-        movePlayer(player, wall, box, nextRow, currentColumn, 1, 0);
+        movePlayer(player, wall, box,goal, nextRow, currentColumn, 1, 0);
     }
 
-    public void movePlayerRight(Element player, Element wall, Element box) {
+    public void movePlayerRight(Element player, Element wall, Element box,Element goal) {
         int[] playerPosition = getPlayerPosition();
         int currentRow = playerPosition[0];
         int nextColumn = playerPosition[1] + 1;
 
-        movePlayer(player, wall, box, currentRow, nextColumn, 0, 1);
+        movePlayer(player, wall, box,goal, currentRow, nextColumn, 0, 1);
     }
 
-    public void movePlayerLeft(Element player, Element wall, Element box) {
+    public void movePlayerLeft(Element player, Element wall, Element box, Element goal) {
         int[] playerPosition = getPlayerPosition();
         int currentRow = playerPosition[0];
         int nextColumn = playerPosition[1] - 1;
 
-        movePlayer(player, wall, box, currentRow, nextColumn, 0, -1);
+        movePlayer(player, wall, box, goal, currentRow, nextColumn, 0, -1);
     }
 
-    private void movePlayer(Element player, Element wall, Element box, int nextRow, int nextColumn, int rowChange, int colChange) {
+    private void movePlayer(Element player, Element wall, Element box, Element goal, int nextRow, int nextColumn, int rowChange, int colChange) {
         int[] playerPosition = getPlayerPosition();
 
         if (nextRow >= 0 && nextRow < GRID_HEIGHT && nextColumn >= 0 && nextColumn < GRID_WIDTH) {
             if (getCellsElements(nextRow, nextColumn).contains(wall)) {
                 // Si la cellule suivante contient un mur, garder le joueur à sa position actuelle
                 add(playerPosition[0], playerPosition[1], player);
+            } else if (getCellsElements(nextRow, nextColumn).contains(goal)) {
+                //si la cells suivante contient un goal, mettre le joueur a la cells apres le goal
+                add(nextRow, nextColumn + colChange, player);
             } else if (getCellsElements(nextRow, nextColumn).contains(box)) {
                 // Vérifier si la cellule après la boîte contient un mur
                 boolean nextCellAfterBoxContainsWall = getCellsElements(nextRow + rowChange, nextColumn + colChange).contains(wall);
@@ -120,6 +133,9 @@ public class Grid4Play extends Grid<Cell4Play>  {
                     // Sinon, déplacer le joueur et la boîte vers la cellule suivante
                     remove(nextRow, nextColumn, box);
                     add(nextRow + rowChange, nextColumn + colChange, box);
+                    if (getCellsElements(nextRow + rowChange, nextColumn + colChange).contains(goal)){
+                        setBoxOnGoalCount(boxOnGoalCount.get() + 1);
+                    }
                     add(nextRow, nextColumn, player);
                     // Compter le déplacement du joueur
                     setMoveCount(moveCount.get() + 1);
@@ -136,6 +152,7 @@ public class Grid4Play extends Grid<Cell4Play>  {
 
         // Supprimer le joueur de sa position actuelle
         remove(playerPosition[0], playerPosition[1], player);
+
     }
 
 

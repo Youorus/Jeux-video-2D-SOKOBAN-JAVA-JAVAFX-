@@ -82,10 +82,13 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
 
         Label moveCount = new Label();
         moveCount.textProperty().bind(getViewModel().moveCountProperty().asString("Number of moves played: %d"));
-        Label otherLabel2 = new Label("Number of goals reached: 0 of " + getViewModel().getGrid4PlayViewModel().getBoard4Play().numberGoal());
+
+        Label boxOnGoalCount = new Label();
+        boxOnGoalCount.textProperty().bind(getViewModel().boxAndGoalCountProperty().asString("Number of goals reached: %d of " + getViewModel().getGrid4PlayViewModel().getBoard4Play().numberGoal()));
+
 
         VBox headerScore = new VBox(0); // Espacement vertical de 5 pixels entre les enfants
-        headerScore.getChildren().addAll(headerLabel, moveCount, otherLabel2);
+        headerScore.getChildren().addAll(headerLabel, moveCount, boxOnGoalCount);
 
         getHeaderBox().getChildren().addAll(headerScore);
         getHeaderBox().setAlignment(Pos.CENTER);

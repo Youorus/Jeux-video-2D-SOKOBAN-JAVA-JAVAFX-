@@ -22,4 +22,9 @@ public class Board4PlayViewModel extends BoardViewModel {
     public IntegerProperty moveCountProperty() {
         return board4Play.moveCountProperty();
     }
+
+    public IntegerProperty boxAndGoalCountProperty() {
+        return board4Play.boxAndGoalCountProperty();
+    }
+
 }

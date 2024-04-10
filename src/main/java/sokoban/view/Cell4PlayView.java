@@ -32,6 +32,7 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
 
         getCellViewModel().getCellsElements().addListener((ListChangeListener<Element>) change -> {
             imageViewUpdate(getCellViewModel().getCellsElements());
+            updateCellImages();
         });
     }
 
@@ -46,16 +47,16 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
             //elementView.fitWidthProperty().bind(widthProperty());
             setImage(elementView);
 
-//            if (element.equals(new Box())) {
-//                // Pas besoin d'incrémenter boxCount ici
-//                Label boxNumberText = new Label(Integer.toString(boxCount++));
-//                // Ajoute le style de texte pour le numéro
-//                boxNumberText.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-fill: black;-fx-background-color: white; -fx-padding: 4px;");
-//                // Positionne le numéro au-dessus de l'image de la boîte
-//                StackPane.setAlignment(boxNumberText, Pos.CENTER);
-//                // Ajoute le numéro au-dessus de l'image de la boîte
-//                getChildren().add(boxNumberText);
-//            }
+            if (element.equals(new Box())) {
+                // Pas besoin d'incrémenter boxCount ici
+                Label boxNumberText = new Label(Integer.toString(boxCount++));
+                // Ajoute le style de texte pour le numéro
+                boxNumberText.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-fill: black;-fx-background-color: white; -fx-padding: 4px;");
+                // Positionne le numéro au-dessus de l'image de la boîte
+                StackPane.setAlignment(boxNumberText, Pos.CENTER);
+                // Ajoute le numéro au-dessus de l'image de la boîte
+                getChildren().add(boxNumberText);
+            }
         }
     }
 
