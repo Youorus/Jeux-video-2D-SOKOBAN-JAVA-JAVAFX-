@@ -1,6 +1,7 @@
 package sokoban.viewmodel;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import sokoban.model.Board;
 import sokoban.model.Board4Play;
 import sokoban.model.Grid4Design;
@@ -19,8 +20,16 @@ public class Board4PlayViewModel extends BoardViewModel {
         grid4PlayViewModel = new Grid4PlayViewModel(board4Play);
     }
 
+    public int getMoveCount() {
+        return board4Play.getMoveCount();
+    }
+
     public IntegerProperty moveCountProperty() {
         return board4Play.moveCountProperty();
+    }
+
+    public SimpleBooleanProperty playerWinProperty() {
+        return board4Play.playerWinProperty();
     }
 
     public IntegerProperty boxAndGoalCountProperty() {

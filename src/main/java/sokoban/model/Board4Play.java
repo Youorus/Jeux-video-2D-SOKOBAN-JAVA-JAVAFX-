@@ -1,6 +1,7 @@
 package sokoban.model;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 
 public class Board4Play extends Board{
 
@@ -37,6 +38,13 @@ public class Board4Play extends Board{
         grid4Play.movePlayerLeft(getPlayer(), getWall(), getBox(), getGoal());
     }
 
+    public SimpleBooleanProperty playerWinProperty() {
+        return getGrid4Play().playerWinProperty();
+    }
+
+    public int getMoveCount() {
+        return grid4Play.getMoveCount();
+    }
 
 
     public int numberGoal() {

@@ -1,6 +1,7 @@
 package sokoban.model;
 
 import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
 import static sokoban.model.Grid4Design.getGridHeight;
@@ -30,7 +31,21 @@ public class Grid4Play extends Grid<Cell4Play>  {
         this.boxOnGoalCount.set(boxOnGoalCount);
     }
 
-    private final  IntegerProperty boxOnGoalCount = new SimpleIntegerProperty(0);
+    public boolean isPlayerWin() {
+        return playerWin.get();
+    }
+
+    public SimpleBooleanProperty playerWinProperty() {
+        return playerWin;
+    }
+
+    public void setPlayerWin(boolean playerWin) {
+        this.playerWin.set(playerWin);
+    }
+
+    private final SimpleBooleanProperty playerWin = new SimpleBooleanProperty(false);
+
+    private final  IntegerProperty boxOnGoalCount = new SimpleIntegerProperty();
 
     public void setMoveCount(int moveCount) {
         this.moveCount.set(moveCount);
@@ -114,36 +129,38 @@ public class Grid4Play extends Grid<Cell4Play>  {
     private void movePlayer(Element player, Element wall, Element box, Element goal, int nextRow, int nextColumn, int rowChange, int colChange) {
         int[] playerPosition = getPlayerPosition();
 
+
         if (nextRow >= 0 && nextRow < GRID_HEIGHT && nextColumn >= 0 && nextColumn < GRID_WIDTH) {
             if (getCellsElements(nextRow, nextColumn).contains(wall)) {
                 // Si la cellule suivante contient un mur, garder le joueur à sa position actuelle
                 add(playerPosition[0], playerPosition[1], player);
             } else if (getCellsElements(nextRow, nextColumn).contains(goal)) {
                 //si la cells suivante contient un goal, mettre le joueur a la cells apres le goal
-                add(nextRow, nextColumn + colChange, player);
+                add(nextRow + rowChange, nextColumn + colChange, player);
             } else if (getCellsElements(nextRow, nextColumn).contains(box)) {
                 // Vérifier si la cellule après la boîte contient un mur
                 boolean nextCellAfterBoxContainsWall = getCellsElements(nextRow + rowChange, nextColumn + colChange).contains(wall);
-                if (nextCellAfterBoxContainsWall || nextRow == GRID_HEIGHT - 1 || nextColumn == GRID_WIDTH - 1) {
+                if (nextCellAfterBoxContainsWall ) {
                     // Si la cellule après la boîte contient un mur ou si la boîte est à la fin de la grille, garder le joueur à sa position actuelle
                     add(playerPosition[0], playerPosition[1], player);
                 } else if (getCellsElements(nextRow + rowChange, nextColumn + colChange).contains(box)) {
                     add(playerPosition[0], playerPosition[1], player);
-                } else {
+                } else{
                     // Sinon, déplacer le joueur et la boîte vers la cellule suivante
                     remove(nextRow, nextColumn, box);
                     add(nextRow + rowChange, nextColumn + colChange, box);
+
                     if (getCellsElements(nextRow + rowChange, nextColumn + colChange).contains(goal)){
                         setBoxOnGoalCount(boxOnGoalCount.get() + 1);
                     }
                     add(nextRow, nextColumn, player);
                     // Compter le déplacement du joueur
-                    setMoveCount(moveCount.get() + 1);
+                    setMoveCount(getMoveCount() + 1);
                 }
             } else {
                 // Sinon, déplacer le joueur vers la cellule suivante
                 add(nextRow, nextColumn, player);
-                moveCount.set(moveCount.get() + 1);
+                setMoveCount(getMoveCount() + 1);
             }
         } else {
             // Si le joueur atteint la bordure de la grille, le garder à sa position actuelle
@@ -153,7 +170,15 @@ public class Grid4Play extends Grid<Cell4Play>  {
         // Supprimer le joueur de sa position actuelle
         remove(playerPosition[0], playerPosition[1], player);
 
+
+        if (boxOnGoalCount.get() == numberGoal()){
+            setPlayerWin(true);
+        }
+
     }
+
+
+
 
 
 
