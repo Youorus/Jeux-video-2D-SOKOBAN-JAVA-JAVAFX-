@@ -1,34 +1,35 @@
 package sokoban.view;
 
 import javafx.beans.binding.DoubleBinding;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
-import javafx.scene.text.Text;
-import sokoban.model.Board4Play;
 import sokoban.model.Box;
 import sokoban.model.Element;
 import sokoban.model.Ground;
 import sokoban.viewmodel.Cell4PlayViewModel;
 
-import static sokoban.model.Grid4Design.getGridHeight;
-import static sokoban.model.Grid4Design.getGridWidth;
-
 public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
     private final ImageView imageView = new ImageView(new Ground().getImage());
+
 
     Cell4PlayView(Cell4PlayViewModel cell4PlayViewModel, DoubleBinding cellWidthProperty) {
         super(cell4PlayViewModel, cellWidthProperty);
         updateCellImages();
         setFocusTraversable(true); // focus sur l'entrée des touchees
         setOnKeyPressed(this::handleKeyPressed);
+
+
+        getCellViewModel().playerWinProperty().addListener((obs, oldValue, newValue) ->{
+           setOnKeyPressed(null);
+        });
+
+
 
         getCellViewModel().getCellsElements().addListener((ListChangeListener<Element>) change -> {
             imageViewUpdate(getCellViewModel().getCellsElements());
@@ -60,29 +61,31 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
         }
     }
 
-    private void handleKeyPressed(KeyEvent event) {
-        switch (event.getCode()) {
-            case Z:
-                //deplacement verrs le haut
-              getCellViewModel().movePlayerUp();
-                break;
-            case Q:
-                //deplacement du joueur sur la gauche
-                getCellViewModel().movePlayerLeft();
-                break;
-            case S:
-                //deplacement du joueur sur la droite
-                getCellViewModel().movePlayerDown();
-                break;
-            case D:
-                //deplacement du joueur vers le bas
-                getCellViewModel().movePlayerRight();
-                break;
-            default:
-                // Autre touche pressée
-                break;
-        }
+
+        private void handleKeyPressed(KeyEvent event) {
+                    switch (event.getCode()) {
+                        case Z:
+                            //deplacement verrs le haut
+                            getCellViewModel().movePlayerUp();
+                            break;
+                        case Q:
+                            //deplacement du joueur sur la gauche
+                            getCellViewModel().movePlayerLeft();
+                            break;
+                        case S:
+                            //deplacement du joueur sur la droite
+                            getCellViewModel().movePlayerDown();
+                            break;
+                        case D:
+                            //deplacement du joueur vers le bas
+                            getCellViewModel().movePlayerRight();
+                            break;
+                        default:
+                            // Autre touche pressée
+                            break;
+                    }
     }
+
 
 
 }

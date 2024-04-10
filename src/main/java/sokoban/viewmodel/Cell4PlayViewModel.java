@@ -1,6 +1,7 @@
 package sokoban.viewmodel;
 
 import javafx.beans.property.ReadOnlyObjectProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 import sokoban.model.*;
@@ -19,6 +20,10 @@ public class Cell4PlayViewModel extends CellViewModel {
 
     public int  numberBox() {
         return board4Play.numberGoal();
+    }
+
+    public SimpleBooleanProperty playerWinProperty() {
+        return board4Play.playerWinProperty();
     }
 
     public void movePlayerUp(){
