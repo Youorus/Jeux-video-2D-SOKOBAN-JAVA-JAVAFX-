@@ -2,9 +2,7 @@ package sokoban.model;
 
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.LongBinding;
-import javafx.beans.property.ReadOnlyObjectProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.collections.ObservableList;
 import sokoban.viewmodel.ErrorBoxViewModel;
 
 public class Board4Design extends Board {
@@ -47,12 +45,10 @@ public class Board4Design extends Board {
     private final Player_goal playerGoal = new Player_goal();
     private final Box_goal boxGoal = new Box_goal();
 
-
-
-
-
     private final ErrorBoxViewModel errorBoxViewModel = new ErrorBoxViewModel(errorBox);
-    static final int MAX_FILLED_CELLS = (Grid4Design.getGridWidth() * Grid4Design.getGridHeight()) / 2;
+    public int getMaxCellsFilds(){
+        return (grid4Design.getGridWidth() * grid4Design.getGridHeight()) / 2;
+    }
 
     public Grid4Design getGrid() {
         return grid4Design;
@@ -63,13 +59,13 @@ public class Board4Design extends Board {
     private final BooleanBinding isComplete;
 
     public Board4Design() {
-        isComplete = grid4Design.filledCellsCountProperty().isEqualTo(MAX_FILLED_CELLS);
+        isComplete = grid4Design.filledCellsCountProperty().isEqualTo(getMaxCellsFilds());
 
     }
 
-    public static int maxFilledCells() {
-        return MAX_FILLED_CELLS;
-    }
+//    public  int maxFilledCells() {
+//        return getMaxCellsFilds;
+//    }
 
 //    public ReadOnlyObjectProperty<Element> valueProperty(int line, int col) {
 //        return grid4Design.valueProperty(line, col);

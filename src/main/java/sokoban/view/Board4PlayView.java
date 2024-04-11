@@ -41,33 +41,33 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
 //    }
 
     public void createGrid () {
-
-        DoubleBinding gridWidthBinding = Bindings.createDoubleBinding(
-                () -> {
-                    double availableWidth = widthProperty().get();
-                    double availableHeight = heightProperty().get() - getHeaderBox().heightProperty().get() - getFooterBox().heightProperty().get();
-
-                    double elementHeight = availableHeight / getGRID_HEIGHT();
-                    double maxWidthBasedOnHeight = elementHeight * getGRID_WIDTH();
-                    return Math.min(maxWidthBasedOnHeight, availableWidth);
-                },
-                widthProperty(),
-                heightProperty(),
-                getHeaderBox().heightProperty(),
-                getHeaderBox().heightProperty(),
-                getFooterBox().heightProperty() );
-
-        DoubleBinding gridHeightBinding = gridWidthBinding.divide(getGRID_WIDTH()).multiply(getGRID_HEIGHT());
-
-        Grid4PlayView grid4PlayView = new Grid4PlayView(getViewModel().getGrid4PlayViewModel(),gridWidthBinding, gridHeightBinding);
-
-
-        grid4PlayView.minHeightProperty().bind(gridHeightBinding);
-        grid4PlayView.minWidthProperty().bind(gridWidthBinding);
-        grid4PlayView.maxHeightProperty().bind(gridHeightBinding);
-        grid4PlayView.maxWidthProperty().bind(gridWidthBinding);
-
-        setCenter(grid4PlayView);
+//
+//        DoubleBinding gridWidthBinding = Bindings.createDoubleBinding(
+//                () -> {
+//                    double availableWidth = widthProperty().get();
+//                    double availableHeight = heightProperty().get() - getHeaderBox().heightProperty().get() - getFooterBox().heightProperty().get();
+//
+//                    double elementHeight = availableHeight / getGRID_HEIGHT();
+//                    double maxWidthBasedOnHeight = elementHeight * getGRID_WIDTH();
+//                    return Math.min(maxWidthBasedOnHeight, availableWidth);
+//                },
+//                widthProperty(),
+//                heightProperty(),
+//                getHeaderBox().heightProperty(),
+//                getHeaderBox().heightProperty(),
+//                getFooterBox().heightProperty() );
+//
+//        DoubleBinding gridHeightBinding = gridWidthBinding.divide(getGRID_WIDTH()).multiply(getGRID_HEIGHT());
+//
+//        Grid4PlayView grid4PlayView = new Grid4PlayView(getViewModel().getGrid4PlayViewModel(),gridWidthBinding, gridHeightBinding);
+//
+//
+//        grid4PlayView.minHeightProperty().bind(gridHeightBinding);
+//        grid4PlayView.minWidthProperty().bind(gridWidthBinding);
+//        grid4PlayView.maxHeightProperty().bind(gridHeightBinding);
+//        grid4PlayView.maxWidthProperty().bind(gridWidthBinding);
+//
+//        setCenter(grid4PlayView);
 
 
         // Grille carrée

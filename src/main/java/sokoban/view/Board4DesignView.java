@@ -10,6 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sokoban.model.Cell4Design;
 import sokoban.viewmodel.Board4DesignViewModel;
+import sokoban.viewmodel.MenueViewModel;
 
 public class Board4DesignView extends BoardView<Board4DesignViewModel> {
 
@@ -17,6 +18,8 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
     private Label headerLabel;
 
     private ButtonPlay4DesignView buttonPlay4DesignView;
+
+    private MenueView menueView;
 
     private ErrorBoxView errorBoxView;
 
@@ -28,15 +31,20 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
     }
 
     public void createGrid () {
+        setCenter(null);
+        int gridWidth = getViewModel().getBoard4Design().getGrid().getGridWidth();
+        int gridHeight = getViewModel().getBoard4Design().getGrid().getGridHeight();
 
         DoubleBinding gridWidthBinding = Bindings.createDoubleBinding(
                 () -> {
-                    double availableWidth = widthProperty().get();
-                    double availableHeight = heightProperty().get() - getHeaderBox().heightProperty().get() - getFooterBox().heightProperty().get();
+                    double availableWidth = widthProperty().get() - 55;
+                    double availableHeight = heightProperty().get() - getHeaderBox().heightProperty().get() - getFooterBox().heightProperty().get() - 55;
+                    double aspectRatio = (double) gridWidth / gridHeight;
+                    double maxWidthBasedOnHeight = (availableHeight * aspectRatio);
+                    double finalWidth = Math.min(availableWidth, maxWidthBasedOnHeight);
 
-                    double elementHeight = availableHeight / getGRID_HEIGHT();
-                    double maxWidthBasedOnHeight = elementHeight * getGRID_WIDTH();
-                    return Math.min(maxWidthBasedOnHeight, availableWidth);
+                    return Math.floor(finalWidth);
+
                 },
                 widthProperty(),
                 heightProperty(),
@@ -44,8 +52,8 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
                 getHeaderBox().heightProperty(),
                 getFooterBox().heightProperty() );
 
-        DoubleBinding gridHeightBinding = gridWidthBinding.divide(getGRID_WIDTH()).multiply(getGRID_HEIGHT());
-        DoubleBinding cellSizeBinding = gridWidthBinding.divide(getGRID_WIDTH());
+        DoubleBinding gridHeightBinding = gridWidthBinding.divide(gridWidth).multiply(gridHeight);
+        DoubleBinding cellSizeBinding = gridWidthBinding.divide(gridWidth);
 
         Grid4DesignView grid4DesignView = new Grid4DesignView(getViewModel().getGridViewModel(), gridWidthBinding, gridHeightBinding);
 
@@ -54,6 +62,7 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
         grid4DesignView.maxHeightProperty().bind(gridHeightBinding);
         grid4DesignView.maxWidthProperty().bind(gridWidthBinding);
 
+        setCenter(null);
         setCenter(grid4DesignView);
         createBoiteAOutils(cellSizeBinding);
     }
@@ -86,17 +95,18 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
 
         setTop(getHeaderBox());
         VBox topBox = new VBox();
-        topBox.getChildren().addAll(getMenuBar(),getHeaderBox());
+        topBox.getChildren().addAll(menueView,getHeaderBox());
+        setTop(null);
         setTop(topBox);
 
     }
 
     @Override
     public void createMenu() {
-        MenueView menueView = new MenueView(this);
+        this.setTop(null);
+        menueView = new MenueView(new MenueViewModel(this));
         menueView.showConfirmationDialog1();
-        setMenuBar(menueView.createMenuBar());
-        setTop(getMenuBar());
+        setTop(menueView);
     }
 
 

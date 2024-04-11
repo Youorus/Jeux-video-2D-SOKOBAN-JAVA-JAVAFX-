@@ -1,7 +1,6 @@
 package sokoban.view;
 
 import javafx.scene.Scene;
-import javafx.scene.control.MenuBar;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
@@ -11,50 +10,34 @@ import java.util.Objects;
 
 abstract public class BoardView<T extends BoardViewModel> extends BorderPane {
 
-    public void setMenuBar(MenuBar menuBar) {
-        this.menuBar = menuBar;
-    }
-
-    public MenuBar getMenuBar() {
-        return menuBar;
-    }
-
-    private MenuBar menuBar;
-
     private static final int SCENE_MIN_WIDTH = 520;
     private static final int SCENE_MIN_HEIGHT = 520;
 
-    private  final int GRID_WIDTH = BoardViewModel.gridWidth();
-
-    public int getGRID_WIDTH() {
-        return GRID_WIDTH;
-    }
 
     public T getViewModel() {
-        return model;
+        return viewModel;
     }
 
-    private final T model;
+    private  T viewModel;
 
-    public BoardView(Stage stage, T model){
-        this.model = model;
+    public void setViewModel(T viewModel) {
+        this.viewModel = viewModel;
+    }
+
+    public BoardView(Stage stage, T viewModel){
+        this.viewModel = viewModel;
         start(stage);
     }
 
-    public int getGRID_HEIGHT() {
-        return GRID_HEIGHT;
-    }
-
-    private  final int GRID_HEIGHT = BoardViewModel.gridHeight();
 
     public HBox getHeaderBox() {
         return headerBox;
     }
 
     private void start(Stage stage){
-       configMainComponements(stage);
 
         stage.setTitle("Sokoban");
+       configMainComponements();
 
         Scene scene = new Scene(this, SCENE_MIN_WIDTH, SCENE_MIN_HEIGHT);
         String cssFile = Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm();
@@ -63,15 +46,13 @@ abstract public class BoardView<T extends BoardViewModel> extends BorderPane {
         stage.show();
         stage.setMinHeight(stage.getHeight());
         stage.setMinWidth(stage.getWidth());
+        createButton();
     }
 
-    private void configMainComponements(Stage stage){
-        stage.setTitle("Sokoban");
+    public void configMainComponements(){
         createMenu();
         createGrid();
        createCompteur();
-        createButton();
-
     }
 
 

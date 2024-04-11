@@ -6,6 +6,10 @@ import sokoban.model.Element;
 
 public class Grid4DesignViewModel extends GridViewModel<Cell4DesignViewModel>{
 
+    public Board4Design getBoard4Design() {
+        return board4Design;
+    }
+
     private final Board4Design board4Design;
     
 

@@ -13,25 +13,41 @@ abstract public class Grid<T extends Cell> {
         return getMatrix()[line][col].getCellsElements();
     }
 
-    private final T[][] matrix;
-    private final int GRID_HEIGHT;
-    private final int GRID_WIDTH;
+    private  T[][] matrix;
 
+    public int getGridHeight() {
+        return gridHeight;
+    }
 
-    public Grid(int height, int width){
-        this.GRID_HEIGHT = height;
-        this.GRID_WIDTH = width;
-        this.matrix = createMatrix(GRID_HEIGHT, GRID_WIDTH);
-        for (int i = 0; i < GRID_HEIGHT; ++i) {
-            for (int j = 0; j < GRID_WIDTH; ++j) {
+    public void setGridHeight(int gridHeight) {
+        this.gridHeight = gridHeight;
+    }
+
+    public int getGridWidth() {
+        return gridWidth;
+    }
+
+    public void setGridWidth(int gridWidth) {
+        this.gridWidth = gridWidth;
+    }
+
+    private int gridHeight;
+    private int gridWidth;
+
+    public void reset(int height, int width){
+        this.gridHeight = height;
+        this.gridWidth = width;
+        this.matrix = createMatrix(height, width);
+        for (int i = 0; i < gridHeight; ++i) {
+            for (int j = 0; j < gridWidth; ++j) {
                 matrix[i][j] = createCell();
             }
         }
     }
 
     public int[] getPlayerPosition() {
-        for (int i = 0; i < GRID_HEIGHT; i++) {
-            for (int j = 0; j < GRID_WIDTH; j++) {
+        for (int i = 0; i < gridHeight; i++) {
+            for (int j = 0; j < gridWidth; j++) {
                 if (getMatrix()[i][j].getCellsElements().contains(new Player())) {
                     return new int[]{i, j}; // Retourne les coordonnées du joueur
                 }

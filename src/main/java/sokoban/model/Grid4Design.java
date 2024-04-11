@@ -6,16 +6,13 @@
     import java.util.Arrays;
 
     public class Grid4Design extends Grid<Cell4Design> {
-        private static final int GRID_HEIGHT = 10;
-        private static final int GRID_WIDTH = 15;
-
-
-
+        private static final int Widht = 10;
+        private static final int  Height = 15;
         private final LongBinding filledCellsCount;
 
 
         public Grid4Design() {
-            super(GRID_HEIGHT, GRID_WIDTH);
+            reset(Widht, Height);
             filledCellsCount = Bindings.createLongBinding(() -> Arrays
                     .stream(getMatrix())
                     .flatMap(Arrays::stream)
@@ -23,19 +20,12 @@
                     .count());
         }
 
-        public static int getGridWidth() {
-            return GRID_WIDTH;
-        }
-
-        public static int getGridHeight() {
-            return GRID_HEIGHT;
-        }
 
 
 
         public boolean hasPlayer() {
-            for (int i = 0; i < GRID_HEIGHT; i++) {
-                for (int j = 0; j < GRID_WIDTH; j++) {
+            for (int i = 0; i < getGridHeight(); i++) {
+                for (int j = 0; j < getGridWidth(); j++) {
                     if (getMatrix()[i][j].getCellsElements().contains(new Player())) {
                         return true; // Un joueur a été trouvé
                     }
@@ -45,8 +35,8 @@
         }
 
         public boolean hasGoal() {
-            for (int i = 0; i < GRID_HEIGHT; i++) {
-                for (int j = 0; j < GRID_WIDTH; j++) {
+            for (int i = 0; i < getGridHeight(); i++) {
+                for (int j = 0; j < getGridWidth(); j++) {
                     if (getMatrix()[i][j].getCellsElements().contains(new Goal())) {
                         return true; // Un joueur a été trouvé
                     }
@@ -59,8 +49,8 @@
             int goalCount = 0;
             int boxCount = 0;
 
-            for (int i = 0; i < GRID_HEIGHT; i++) {
-                for (int j = 0; j < GRID_WIDTH; j++) {
+            for (int i = 0; i < getGridHeight(); i++) {
+                for (int j = 0; j < getGridWidth(); j++) {
                     Cell4Design cell4Design = getMatrix()[i][j];
                     goalCount += (int) cell4Design.getCellsElements().stream()
                             .filter(element -> element instanceof Goal)
@@ -76,8 +66,8 @@
 
 
         public boolean hasBox() {
-            for (int i = 0; i < GRID_HEIGHT; i++) {
-                for (int j = 0; j < GRID_WIDTH; j++) {
+            for (int i = 0; i < getGridHeight(); i++) {
+                for (int j = 0; j < getGridWidth(); j++) {
                     if (getMatrix()[i][j].getCellsElements().contains(new Box())) {
                         return true; // Une Box  a été trouvé
                     }
@@ -119,7 +109,7 @@
 
         @Override
         public Cell4Design[][] createMatrix(int height, int width) {
-            return new Cell4Design[GRID_HEIGHT][GRID_WIDTH];
+            return new Cell4Design[getGridHeight()][getGridWidth()];
         }
 
         @Override

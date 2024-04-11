@@ -19,36 +19,32 @@ import java.io.IOException;
 import java.util.Optional;
 import java.util.Set;
 
-public class MenueView {
-    private MenuBar menuBar;
-    private Board4DesignView board4DesignView;
-    private Board4DesignViewModel board4DesignViewModel;
+public class MenueView  extends  MenuBar{
 
-    public MenueView(Board4DesignView board4DesignView){
-        this.board4DesignView = board4DesignView;
+    private final MenueViewModel menueViewModel;
+
+    public MenueView(MenueViewModel menueViewModel) {
+        this.menueViewModel = menueViewModel;
+        menueCreation();
     }
 
-    public void showConfirmationDialog1(){
+
+    public void showConfirmationDialog1() {
         confirmationDialog1();
     }
 
-    public MenuBar createMenuBar(){
-        confirmationDialog1();
-        return menuBar;
-    }
-
-    private  void confirmationDialog1(){
-        menuBar = new MenuBar();
+    public void menueCreation(){
         Menu fileMenu = new Menu("File");
-        MenuItem newMenuItem = new MenuItem("New...");
+        MenuItem newMenuItem = createNewMenuItem();
         MenuItem openMenuItem = new MenuItem("Open...");
         MenuItem saveMenuItem = new MenuItem("Save as...");
         MenuItem exitMenuItem = new MenuItem("Exit");
+        fileMenu.getItems().addAll(newMenuItem, openMenuItem, saveMenuItem, exitMenuItem);
 
-        saveMenuItem.setOnAction(event -> {
-            saveAs(board4DesignView.getMatrix()); // Appel de la méthode saveAs() lorsque le bouton "Save As" est cliqué
-        });
-
+        this.getMenus().add(fileMenu);
+    }
+    private MenuItem createNewMenuItem(){
+        MenuItem newMenuItem = new MenuItem("New...");
         newMenuItem.setOnAction(event -> {
 
             Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
@@ -60,91 +56,27 @@ public class MenueView {
             ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
             ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-            alert.getButtonTypes().setAll(yesButton,noButton,cancelButton);
+            alert.getButtonTypes().setAll(yesButton, noButton, cancelButton);
 
             Optional<ButtonType> result = alert.showAndWait();
-            if(result.get() == yesButton){
+            if (result.get() == yesButton) {
                 System.out.println("yes button has been pressed");
+                saveAs();
                 newDimension();
-            } else if(result.get()== noButton){
+            } else if (result.get() == noButton) {
                 System.out.println("no button has been pressed");
                 newDimension();
-            } else if(result.get()== cancelButton){
-                if (board4DesignView != null) {
-                    // Redirection vers la BoardView
-                    Stage stage = (Stage) menuBar.getScene().getWindow();
-                    stage.setScene(board4DesignView.getScene());
-                    stage.show();
-                }
             }
         });
 
-
-        fileMenu.getItems().addAll(newMenuItem,openMenuItem,saveMenuItem,exitMenuItem);
-
-        menuBar.getMenus().add(fileMenu);
-
+        return newMenuItem;
+    }
+    private void confirmationDialog1() {
+        createNewMenuItem();
     }
 
-    private void saveAs(Cell4Design[][] matrix) {
-        FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Enregistrer la grille");
+    private void newDimension() {
 
-        // Définir un filtre pour les fichiers .xsb
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Sokoban Board Files (*.xsb)", "*.xsb");
-        fileChooser.getExtensionFilters().add(extFilter);
-
-        // Afficher la boîte de dialogue pour choisir l'emplacement et le nom du fichier
-        File file = fileChooser.showSaveDialog(menuBar.getScene().getWindow());
-
-        if (file != null) {
-            // Le fichier a été sélectionné
-            System.out.println("Fichier sélectionné : " + file.getAbsolutePath());
-
-            // Écrire les éléments de la grille dans le fichier
-            writeElementsToFile(file, matrix);
-        }
-    }
-//    private void writeElementsToFile(File file, Cell[][] matrix) {
-//        try (FileWriter writer = new FileWriter(file)) {
-//            // Parcourir la matrice de cellules
-//            for (int i = 0; i < matrix.length; i++) {
-//                for (int j = 0; j < matrix[i].length; j++) {
-//                    // Parcourir les éléments de chaque cellule et les écrire dans le fichier
-//                    for (Element element : matrix[i][j].getCellsElements()) {
-//                        writer.write(element.toString()); // Écrivez l'élément dans le fichier
-//                        writer.write(" "); // Ajoutez un espace entre les éléments
-//                    }
-//                    writer.write("\n"); // Saut de ligne à la fin de chaque ligne de la grille
-//                }
-//            }
-//            System.out.println("Les éléments de la grille ont été écrits dans le fichier.");
-//        } catch (IOException e) {
-//            System.out.println("Erreur lors de l'écriture des éléments dans le fichier : " + e.getMessage());
-//        }
-//    }
-
-    private void writeElementsToFile(File file, Cell4Design[][] matrix) {
-        try (FileWriter writer = new FileWriter(file)) {
-            for (int i = 0; i < matrix.length; i++) {
-                for (int j = 0; j < matrix[i].length; j++) {
-                    for (Element element : matrix[i][j].getCellsElements()) {
-                        writer.write(element.toString());
-                        writer.write(" "); // Ajouter un espace entre les éléments de la cellule
-                    }
-                    writer.write("\t"); // Ajouter un séparateur de colonne après chaque cellule
-                }
-                writer.write("\n"); // Ajouter un saut de ligne après chaque ligne de la grille
-            }
-            System.out.println("Les éléments de la grille ont été écrits dans le fichier.");
-        } catch (IOException e) {
-            System.out.println("Erreur lors de l'écriture des éléments dans le fichier : " + e.getMessage());
-        }
-    }
-
-
-    private void newDimension(){
-        MenueViewModel menueViewModel = new MenueViewModel();
         Alert newDimensionGrille = new Alert(Alert.AlertType.NONE);
         newDimensionGrille.setTitle("Sokoban");
         newDimensionGrille.setHeaderText("Give new game dimensions");
@@ -166,7 +98,6 @@ public class MenueView {
         widthError.setTextFill(Color.RED);
 
 
-
         Label heightError = new Label("Height must be between 10 and 50");
         heightError.setTextFill(Color.RED);
 
@@ -179,7 +110,6 @@ public class MenueView {
         intField2.textProperty().addListener((observable, oldValue, newValue) -> {
             menueViewModel.validateHeight(newValue);
         });
-
 
 
         GridPane grid = new GridPane();
@@ -195,7 +125,6 @@ public class MenueView {
         widthError.visibleProperty().bind(menueViewModel.isValidWidthProperty().not());
 
 
-
         grid.add(heightError, 1, 3);
         heightError.managedProperty().bind(heightError.visibleProperty());
         heightError.visibleProperty().bind(menueViewModel.isValidHeightProperty().not());
@@ -204,7 +133,7 @@ public class MenueView {
         widthError.setWrapText(true);
         heightError.setWrapText(true);
 
-        newDimensionGrille.getDialogPane().setPrefSize(250,250);
+        newDimensionGrille.getDialogPane().setPrefSize(250, 250);
         ColumnConstraints column1 = new ColumnConstraints();
         column1.setMinWidth(50);
         ColumnConstraints column2 = new ColumnConstraints();
@@ -215,7 +144,7 @@ public class MenueView {
 
         ButtonType okButton = new ButtonType("OK", ButtonBar.ButtonData.OK_DONE);
         ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
-        newDimensionGrille.getButtonTypes().setAll(okButton,cancelButton);
+        newDimensionGrille.getButtonTypes().setAll(okButton, cancelButton);
 
         Button okButtonNode = (Button) newDimensionGrille.getDialogPane().lookupButton(okButton);
         okButtonNode.disableProperty().bind(
@@ -223,17 +152,21 @@ public class MenueView {
                         .or(menueViewModel.isValidHeightProperty().not())
         );
 
-        Optional<ButtonType> result = newDimensionGrille.showAndWait();
-        if (result.isPresent() && result.get() == okButton) {
-            // L'utilisateur a cliqué sur ok
-            menueViewModel.updateModel();
-            int newWidth = menueViewModel.getWidth();
-            int newHeight = menueViewModel.getHeight();
-            //boardViewModel.updateBoardDimensions(newWidth,newHeight);
-        }
+        newDimensionGrille
+                .showAndWait()
+                .filter(button -> button == okButton)
+                // L'utilisateur a cliqué sur ok
+                .ifPresent(button -> menueViewModel.updateModel());
+    }
+
+    private void saveAs() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Enregistrer la grille");
+
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Sokoban Board Files (*.xsb)", "*.xsb");
+        fileChooser.getExtensionFilters().add(extFilter);
 
 
     }
-
 
 }

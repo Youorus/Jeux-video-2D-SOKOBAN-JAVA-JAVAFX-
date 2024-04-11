@@ -4,8 +4,6 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
-import static sokoban.model.Grid4Design.getGridHeight;
-import static sokoban.model.Grid4Design.getGridWidth;
 
 public class Grid4Play extends Grid<Cell4Play>  {
     private static final int GRID_HEIGHT = 10;
@@ -55,7 +53,7 @@ public class Grid4Play extends Grid<Cell4Play>  {
 
 
     public Grid4Play() {
-        super(GRID_HEIGHT, GRID_WIDTH);
+        reset(GRID_HEIGHT, GRID_WIDTH);
     }
 
 

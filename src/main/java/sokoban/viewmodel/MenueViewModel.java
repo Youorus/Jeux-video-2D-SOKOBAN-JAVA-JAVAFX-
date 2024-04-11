@@ -6,26 +6,34 @@ import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
+import sokoban.model.Board;
+import sokoban.model.Board4Design;
 import sokoban.model.Menue;
+import sokoban.view.Board4DesignView;
+import sokoban.view.BoardView;
 
 public class MenueViewModel {
-    private final IntegerProperty Width = new SimpleIntegerProperty();
-    private final IntegerProperty Height = new SimpleIntegerProperty();
+
+    private final IntegerProperty width = new SimpleIntegerProperty();
+    private final IntegerProperty height = new SimpleIntegerProperty();
     private final BooleanProperty validWidth = new SimpleBooleanProperty(true);
     private final BooleanProperty validHeight = new SimpleBooleanProperty(true);
-    private final Menue menue = new Menue();
-    public MenueViewModel(){
-        Width.addListener((obs, oldVal, newVal) -> validWidth.set(menue.isValidWidth(newVal.intValue())));
-        Height.addListener((obs, oldVal, newVal) -> validHeight.set(menue.isValidHeight(newVal.intValue())));
 
+    private final Board4DesignView board4DesignView;
+    public MenueViewModel(Board4DesignView board4DesignView){
+        this.board4DesignView = board4DesignView;
+
+        width.addListener((obs, oldVal, newVal) -> validWidth.set(isValidWidth(newVal.intValue())));
+        height.addListener((obs, oldVal, newVal) -> validHeight.set(isValidHeight(newVal.intValue())));
     }
 
+
     public int getWidth() {
-        return Width.get();
+        return width.get();
     }
 
     public int getHeight() {
-        return Height.get();
+        return height.get();
     }
 
 
@@ -49,11 +57,11 @@ public class MenueViewModel {
     }
 
     public IntegerProperty widthProperty() {
-        return Width;
+        return width;
     }
 
     public IntegerProperty heightProperty() {
-        return Height;
+        return height;
     }
 
     public BooleanProperty isValidWidthProperty() {
@@ -67,14 +75,22 @@ public class MenueViewModel {
 
     public void updateModel() {
         if (validWidth.get() && validHeight.get()) {
-            menue.setWidth(Width.get());
-            menue.setHeight(Height.get());
-            // Mise à jour du modèle avec les nouvelles dimensions valides
+            Board4DesignViewModel board4DesignViewModelNew = new Board4DesignViewModel(new Board4Design());
+            //this.board4DesignView.getViewModel().getBoard4Design().getGrid().reset(height.get(),width.get());
+            board4DesignViewModelNew.getBoard4Design().getGrid().reset(height.get(),width.get());
+            this.board4DesignView.setViewModel(board4DesignViewModelNew);
+            this.board4DesignView.configMainComponements();
+
         }
     }
 
+    private boolean isValidWidth(int Width){
+        return Width >= 10 && Width <= 50;
+    }
 
-
+    private boolean isValidHeight(int Height){
+        return Height >= 10 && Height <= 50;
+    }
 
 
 

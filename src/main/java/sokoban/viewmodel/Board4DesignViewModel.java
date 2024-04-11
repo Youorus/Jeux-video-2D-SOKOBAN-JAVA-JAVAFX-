@@ -33,6 +33,8 @@ private final ErrorBoxViewModel errorBoxViewModel;
         this.toolsBoxViewModel = new ToolsBoxViewModel(board4Design.getToolsBox());
         this.errorBoxViewModel = new ErrorBoxViewModel(board4Design.getErrorBox());
     }
+
+
     public Cell4Design[][] getMatrix(){
        return board4Design.getMatrix();
     }
@@ -42,7 +44,7 @@ private final ErrorBoxViewModel errorBoxViewModel;
     }
 
     public int maxFilledCells() {
-        return Board4Design.maxFilledCells();
+        return board4Design.getMaxCellsFilds();
     }
     public LongBinding filledCellsCountProperty() {
         return board4Design.filledCellsCountProperty();
