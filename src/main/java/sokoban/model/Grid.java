@@ -1,5 +1,7 @@
 package sokoban.model;
 
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.collections.ObservableList;
 
 abstract public class Grid<T extends Cell> {
@@ -15,39 +17,52 @@ abstract public class Grid<T extends Cell> {
 
     private  T[][] matrix;
 
-    public int getGridHeight() {
+
+
+
+
+    public IntegerProperty gridHeightProperty() {
         return gridHeight;
     }
 
     public void setGridHeight(int gridHeight) {
-        this.gridHeight = gridHeight;
+        this.gridHeight.set(gridHeight);
     }
 
-    public int getGridWidth() {
+    public int getGridHeight() {
+        return gridHeight.get();
+    }
+
+    private IntegerProperty gridHeight = new SimpleIntegerProperty();
+
+    public IntegerProperty gridWidthProperty() {
         return gridWidth;
     }
 
     public void setGridWidth(int gridWidth) {
-        this.gridWidth = gridWidth;
+        this.gridWidth.set(gridWidth);
     }
 
-    private int gridHeight;
-    private int gridWidth;
+    public int getGridWidth() {
+        return gridWidth.get();
+    }
+
+    private IntegerProperty gridWidth = new SimpleIntegerProperty();
 
     public void reset(int height, int width){
-        this.gridHeight = height;
-        this.gridWidth = width;
+        this.gridHeight.set(height);
+        this.gridWidth.set(width);
         this.matrix = createMatrix(height, width);
-        for (int i = 0; i < gridHeight; ++i) {
-            for (int j = 0; j < gridWidth; ++j) {
+        for (int i = 0; i < gridHeight.get(); ++i) {
+            for (int j = 0; j < gridWidth.get(); ++j) {
                 matrix[i][j] = createCell();
             }
         }
     }
 
     public int[] getPlayerPosition() {
-        for (int i = 0; i < gridHeight; i++) {
-            for (int j = 0; j < gridWidth; j++) {
+        for (int i = 0; i < getGridHeight(); i++) {
+            for (int j = 0; j < getGridWidth(); j++) {
                 if (getMatrix()[i][j].getCellsElements().contains(new Player())) {
                     return new int[]{i, j}; // Retourne les coordonnées du joueur
                 }

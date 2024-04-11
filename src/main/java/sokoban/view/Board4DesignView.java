@@ -28,10 +28,15 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
     }
     public Board4DesignView(Stage primaryStage, Board4DesignViewModel board4DesignViewModel){
         super(primaryStage, board4DesignViewModel);
+
+
     }
 
     public void createGrid () {
-        setCenter(null);
+        this.getViewModel().getBoard4Design().getGrid().gridWidthProperty().addListener((ols,val,newVal) ->{
+            setCenter(null);
+        });
+
         int gridWidth = getViewModel().getBoard4Design().getGrid().getGridWidth();
         int gridHeight = getViewModel().getBoard4Design().getGrid().getGridHeight();
 
@@ -62,7 +67,7 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
         grid4DesignView.maxHeightProperty().bind(gridHeightBinding);
         grid4DesignView.maxWidthProperty().bind(gridWidthBinding);
 
-        setCenter(null);
+
         setCenter(grid4DesignView);
         createBoiteAOutils(cellSizeBinding);
     }
@@ -75,6 +80,13 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
     }
 
     public void createCompteur(){
+        this.getViewModel().getBoard4Design().getGrid().gridWidthProperty().addListener((ols,val,newVal) ->{
+            headerLabel.textProperty().bind(getViewModel().filledCellsCountProperty()
+                    .asString("Number of filled cells: %d of " + getViewModel().maxFilledCells()));
+            headerLabel.getStyleClass().add("header");
+
+        });
+
         errorBoxView = new ErrorBoxView(getViewModel().getErrorBoxViewModel());
 
         headerLabel = new Label();
@@ -96,7 +108,6 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
         setTop(getHeaderBox());
         VBox topBox = new VBox();
         topBox.getChildren().addAll(menueView,getHeaderBox());
-        setTop(null);
         setTop(topBox);
 
     }

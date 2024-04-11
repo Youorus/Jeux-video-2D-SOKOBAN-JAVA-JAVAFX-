@@ -75,12 +75,8 @@ public class MenueViewModel {
 
     public void updateModel() {
         if (validWidth.get() && validHeight.get()) {
-            Board4DesignViewModel board4DesignViewModelNew = new Board4DesignViewModel(new Board4Design());
-            //this.board4DesignView.getViewModel().getBoard4Design().getGrid().reset(height.get(),width.get());
-            board4DesignViewModelNew.getBoard4Design().getGrid().reset(height.get(),width.get());
-            this.board4DesignView.setViewModel(board4DesignViewModelNew);
-            this.board4DesignView.configMainComponements();
-
+            this.board4DesignView.getViewModel().getBoard4Design().getGrid().reset(height.get(),width.get());
+            this.board4DesignView.createGrid();
         }
     }
 
