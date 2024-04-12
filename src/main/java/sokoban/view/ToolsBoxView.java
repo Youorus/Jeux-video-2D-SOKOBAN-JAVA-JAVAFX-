@@ -6,9 +6,7 @@ import javafx.geometry.Insets;
 import javafx.scene.Node;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import sokoban.model.*;
 import sokoban.viewmodel.ToolsBoxViewModel;
@@ -49,7 +47,9 @@ public class ToolsBoxView extends VBox {
             setClickHandlers(imageView, element);
         }
 
-        cellSize.addListener((obs, oldVal, newSize) -> adjustImageViewSizes(newSize.doubleValue()));
+        cellSize.addListener((obs, oldVal, newSize) -> {
+            adjustImageViewSizes(newSize.doubleValue());
+        });
         adjustImageViewSizes(cellSize.get());
     }
 
@@ -76,8 +76,8 @@ public class ToolsBoxView extends VBox {
 
     private ImageView createImageView(String imageName) {
         ImageView imageView = new ImageView(new Image(imageName));
-        imageView.setFitHeight(50);
-        imageView.setFitWidth(50);
+        imageView.setFitHeight(30);
+        imageView.setFitWidth(35);
         return imageView;
     }
 
@@ -93,7 +93,7 @@ public class ToolsBoxView extends VBox {
             }
 
             // Appliquer la bordure à l'élément sélectionné
-            ((VBox) imageView.getParent()).setBorder(Border.stroke(Color.BLUE)); // Ajouter une bordure bleue
+            ((VBox) imageView.getParent()).setBorder(new Border(new BorderStroke(Color.BLUE, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3))));// Ajouter une bordure bleue
         });
 
     }

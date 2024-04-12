@@ -38,6 +38,7 @@ public class CellView<T extends CellViewModel> extends StackPane {
     public void configureBindings() {
         minWidthProperty().bind(widthProperty);
         minHeightProperty().bind(widthProperty);
+        imageView.fitWidthProperty().bind(widthProperty);
     }
 
 
@@ -46,6 +47,7 @@ public class CellView<T extends CellViewModel> extends StackPane {
     protected void setImage(ImageView image) {
         getChildren().add(image);
         image.fitWidthProperty().bind(widthProperty);
+        image.fitHeightProperty().bind(heightProperty());
     }
 
     protected void imageViewUpdate(ObservableList<Element> elementObservableList) {
