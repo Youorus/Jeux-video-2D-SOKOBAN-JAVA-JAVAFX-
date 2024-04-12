@@ -12,7 +12,6 @@ public class Grid4DesignView extends GridView {
 
     public Grid4DesignView(Grid4DesignViewModel grid4DesignViewModel, DoubleBinding gridWidth, DoubleBinding gridHeight) {
         // Pour visualiser les limites de la grille
-        setGridLinesVisible(true);
         setPadding(new Insets(PADDING));
 
         int height =grid4DesignViewModel.getBoard4Design().getGrid().getGridHeight() ;

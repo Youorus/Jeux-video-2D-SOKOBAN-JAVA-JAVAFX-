@@ -16,7 +16,6 @@ public class Grid4PlayView extends GridView {
 
     private Grid4PlayViewModel grid4PlayViewModel;
     public Grid4PlayView(Grid4PlayViewModel grid4PlayViewModel, DoubleBinding gridWidth, DoubleBinding gridHeight){
-        setGridLinesVisible(true);
         setPadding(new Insets(PADDING));
 
         int height = grid4PlayViewModel.getBoard4Play().getGrid4Play().getGridHeight();
