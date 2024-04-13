@@ -12,6 +12,10 @@ public class Menue {
 
     }
 
+    public void saveAs(){
+
+    }
+
     public int getWidth() {
         return Width;
     }

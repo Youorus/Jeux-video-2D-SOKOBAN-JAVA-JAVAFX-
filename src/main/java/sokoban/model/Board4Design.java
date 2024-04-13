@@ -114,9 +114,9 @@ public class Board4Design extends Board {
                 grid4Design.add(line, col, getPlayer());
             }
         }else if (grid4Design.getCellsElements(line, col).contains(getPlayer()) && element.equals(getGoal())) {
-            grid4Design.add(line, col, playerGoal);
+            grid4Design.add(line, col, getPlayer());
         } else if (grid4Design.getCellsElements(line, col).contains(getBox()) && element.equals(getGoal())) {
-            grid4Design.add(line, col, boxGoal);
+            grid4Design.add(line, col, getGoal());
         } else if (grid4Design.getCellsElements(line, col).contains(getWall()) &&  element.equals(getPlayer())) {
             System.out.println("Impossible d'ajouter un joueur a un mur");
         } else if (grid4Design.getCellsElements(line, col).contains(getPlayer()) && element.equals(getBox())) {

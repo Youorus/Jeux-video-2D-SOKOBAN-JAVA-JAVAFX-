@@ -108,7 +108,7 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
 
     @Override
     public void createButton() {
-        buttonFinish4PlayView = new ButtonFinish4PlayView(getViewModel());
+        buttonFinish4PlayView = new ButtonFinish4PlayView(getStage(),getViewModel());
         getFooterBox().setAlignment(Pos.TOP_CENTER);
         getFooterBox().setPrefHeight(70);
         getFooterBox().setPadding(new Insets(0, 0, 0, 0));

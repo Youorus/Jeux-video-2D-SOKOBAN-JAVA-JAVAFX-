@@ -76,8 +76,8 @@ public class ToolsBoxView extends VBox {
 
     private ImageView createImageView(String imageName) {
         ImageView imageView = new ImageView(new Image(imageName));
-        imageView.setFitHeight(30);
-        imageView.setFitWidth(35);
+        imageView.setFitHeight(37);
+        imageView.setFitWidth(37);
         return imageView;
     }
 

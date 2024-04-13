@@ -29,7 +29,6 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
     public Board4DesignView(Stage primaryStage, Board4DesignViewModel board4DesignViewModel){
         super(primaryStage, board4DesignViewModel);
 
-
     }
 
     public void createGrid () {
@@ -115,7 +114,8 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
     @Override
     public void createMenu() {
         this.setTop(null);
-        menueView = new MenueView(new MenueViewModel(this));
+
+        menueView = new MenueView(new MenueViewModel(this), getViewModel());
         menueView.showConfirmationDialog1();
         setTop(menueView);
     }
@@ -123,7 +123,7 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
 
     @Override
     public void createButton() {
-        buttonPlay4DesignView = new ButtonPlay4DesignView(getViewModel());
+        buttonPlay4DesignView = new ButtonPlay4DesignView(menueView,getViewModel());
         getFooterBox().setAlignment(Pos.TOP_CENTER);
         getFooterBox().setPrefHeight(70);
         getFooterBox().setPadding(new Insets(0, 0, 0, 0));

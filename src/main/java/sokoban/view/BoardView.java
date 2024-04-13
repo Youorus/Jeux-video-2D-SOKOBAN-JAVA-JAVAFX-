@@ -20,12 +20,19 @@ abstract public class BoardView<T extends BoardViewModel> extends BorderPane {
 
     private  T viewModel;
 
+    public Stage getStage() {
+        return stage;
+    }
+
+    private final Stage stage;
+
     public void setViewModel(T viewModel) {
         this.viewModel = viewModel;
     }
 
     public BoardView(Stage stage, T viewModel){
         this.viewModel = viewModel;
+        this.stage = stage;
         start(stage);
     }
 
