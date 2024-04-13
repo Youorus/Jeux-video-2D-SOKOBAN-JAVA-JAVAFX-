@@ -2,6 +2,7 @@ package sokoban.model;
 
 import javafx.beans.binding.BooleanBinding;
 import javafx.beans.binding.LongBinding;
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import sokoban.viewmodel.ErrorBoxViewModel;
 
@@ -14,6 +15,20 @@ public class Board4Design extends Board {
     public ErrorBox getErrorBox() {
         return errorBox;
     }
+
+    public boolean isGridEdited() {
+        return gridEdited.get();
+    }
+
+    public BooleanProperty gridEditedProperty() {
+        return gridEdited;
+    }
+
+    public void setGridEdited(boolean gridEdited) {
+        this.gridEdited.set(gridEdited);
+    }
+
+    private final BooleanProperty gridEdited = new SimpleBooleanProperty(false);
 
     public ToolsBox getToolsBox() {
         return toolsBox;

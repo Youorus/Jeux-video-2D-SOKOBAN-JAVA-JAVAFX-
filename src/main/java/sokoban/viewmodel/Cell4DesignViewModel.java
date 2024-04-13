@@ -1,6 +1,7 @@
     package sokoban.viewmodel;
 
     import javafx.beans.binding.BooleanBinding;
+    import javafx.beans.property.BooleanProperty;
     import javafx.beans.property.ReadOnlyObjectProperty;
     import javafx.beans.property.SimpleDoubleProperty;
     import javafx.collections.ObservableList;
@@ -26,6 +27,10 @@
 
         public ObservableList<Element> getCellsElements() {
             return board4Design.getGrid().getCellsElements(getLine(),getCol());
+        }
+
+        public BooleanProperty gridEditedProperty() {
+            return board4Design.gridEditedProperty();
         }
 
 

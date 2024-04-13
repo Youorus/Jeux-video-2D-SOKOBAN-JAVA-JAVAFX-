@@ -28,6 +28,11 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
     }
     public Board4DesignView(Stage primaryStage, Board4DesignViewModel board4DesignViewModel){
         super(primaryStage, board4DesignViewModel);
+        primaryStage.setTitle("Sokoban");
+
+        getViewModel().getBoard4Design().gridEditedProperty().addListener((old,val,newVal) ->{
+            primaryStage.setTitle("Sokoban(*)");
+        });
 
     }
 

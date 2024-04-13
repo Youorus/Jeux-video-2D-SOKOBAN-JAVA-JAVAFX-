@@ -42,8 +42,6 @@ abstract public class BoardView<T extends BoardViewModel> extends BorderPane {
     }
 
     private void start(Stage stage){
-
-        stage.setTitle("Sokoban");
        configMainComponements();
 
         Scene scene = new Scene(this, SCENE_MIN_WIDTH, SCENE_MIN_HEIGHT);

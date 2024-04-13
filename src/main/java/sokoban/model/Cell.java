@@ -14,7 +14,7 @@ public class Cell {
     public ObservableList<Element> getCellsElements() {
         return cellsElements;
     }
-    private ObservableList<Element> cellsElements = FXCollections.observableArrayList();
+    private final ObservableList<Element> cellsElements = FXCollections.observableArrayList();
 
 
 public boolean isEmpty(){

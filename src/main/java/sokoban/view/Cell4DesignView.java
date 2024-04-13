@@ -17,8 +17,10 @@ public class Cell4DesignView extends CellView<Cell4DesignViewModel> {
         eventClickAdd();
 
 
+
         getCellViewModel().getCellsElements().addListener((ListChangeListener<Element>) change -> {
             imageViewUpdate(getCellViewModel().getCellsElements());
+            getCellViewModel().gridEditedProperty().set(true);
         });
     }
 

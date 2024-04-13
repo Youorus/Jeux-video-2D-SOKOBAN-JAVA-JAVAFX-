@@ -2,6 +2,7 @@
 
     import javafx.beans.binding.Bindings;
     import javafx.beans.binding.LongBinding;
+    import javafx.collections.ObservableList;
 
     import java.util.Arrays;
 
