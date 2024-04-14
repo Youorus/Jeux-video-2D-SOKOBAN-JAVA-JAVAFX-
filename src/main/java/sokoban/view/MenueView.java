@@ -48,26 +48,33 @@
             this.getMenus().add(fileMenu);
         }
         private MenuItem dialogueBox(){
+
             MenuItem newMenuItem = new MenuItem("New...");
             newMenuItem.setOnAction(event -> {
 
-                Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
-                alert.setTitle("Confirmation Dialog");
-                alert.setHeaderText("Your board has been modified.");
-                alert.setContentText("Do you want to save your changes ?");
-                //alert.showAndWait();
-                ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
-                ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
-                ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+                if (board4DesignViewModel.getBoard4Design().gridEditedProperty().get()){
 
-                alert.getButtonTypes().setAll(yesButton, noButton, cancelButton);
+                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert.setTitle("Confirmation Dialog");
+                    alert.setHeaderText("Your board has been modified.");
+                    alert.setContentText("Do you want to save your changes ?");
+                    //alert.showAndWait();
+                    ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+                    ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
+                    ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
 
-                Optional<ButtonType> result = alert.showAndWait();
-                if (result.get() == yesButton) {
-                    newDimension();
-                } else if (result.get() == noButton) {
+                    alert.getButtonTypes().setAll(yesButton, noButton, cancelButton);
+
+                    Optional<ButtonType> result = alert.showAndWait();
+                    if (result.get() == yesButton) {
+                        saveAs(board4DesignViewModel.getMatrix());
+                    } else if (result.get() == noButton) {
+                        newDimension();
+                    }
+                }else {
                     newDimension();
                 }
+
             });
 
             return newMenuItem;
@@ -199,16 +206,6 @@
                     .filter(button -> button == okButton)
                     // L'utilisateur a cliqué sur ok
                     .ifPresent(button -> menueViewModel.updateModel());
-        }
-
-        private void saveAs() {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Enregistrer la grille");
-
-            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Sokoban Board Files (*.xsb)", "*.xsb");
-            fileChooser.getExtensionFilters().add(extFilter);
-
-
         }
 
     }
