@@ -18,8 +18,10 @@
 
 ### Divers
 manque d'organisation et de régularité au sein du groupe. 
-fonctionnalité parfois fetes assez tard donc pris de court avec le temps.
+fonctionnalité parfois faites assez tard donc pris de court avec le temps.
 ## Notes de version itération 2
+
+
 
 ...
 

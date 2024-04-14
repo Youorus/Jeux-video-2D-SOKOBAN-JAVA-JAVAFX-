@@ -5,6 +5,7 @@
     import javafx.scene.layout.GridPane;
     import javafx.scene.paint.Color;
     import javafx.stage.FileChooser;
+    import javafx.stage.Stage;
     import javafx.util.converter.NumberStringConverter;
     import sokoban.model.Cell4Design;
     import sokoban.model.Element;
@@ -46,6 +47,11 @@
             MenuItem saveMenuItem = new MenuItem("Save as...");
             MenuItem exitMenuItem = new MenuItem("Exit");
             fileMenu.getItems().addAll(newMenuItem, openMenuItem, saveMenuItem, exitMenuItem);
+
+            exitMenuItem.setOnAction(event -> {
+                Stage stage = (Stage) getScene().getWindow();
+                stage.close();
+            });
 
             saveMenuItem.setOnAction(event -> {
                 saveAs(board4DesignViewModel.getMatrix()); // Appel de la méthode saveAs() lorsque le bouton "Save As" est cliqué
