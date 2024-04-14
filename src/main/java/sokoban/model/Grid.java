@@ -1,67 +1,71 @@
 package sokoban.model;
 
-import javafx.beans.binding.Bindings;
-import javafx.beans.binding.LongBinding;
-import javafx.beans.property.ReadOnlyObjectProperty;
-import sokoban.model.Cell;
-import sokoban.model.CellValue;
+import javafx.beans.property.IntegerProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.collections.ObservableList;
 
-import java.util.Arrays;
+abstract public class Grid<T extends Cell> {
 
-public class Grid {
-    private static final int GRID_HEIGHT = 10;
-    private static final int GRID_WIDTH = 15;
-    //les rendre non static
+    public T[][] getMatrix() {
+        return matrix;
+    }
 
-    private final Cell[][] matrix;
-    private final LongBinding filledCellsCount;
 
-//    public Grid(){
-//        initialiseMatrix(int heigh)
-//    }
+    public ObservableList<Element> getCellsElements(int line, int col) {
+        return getMatrix()[line][col].getCellsElements();
+    }
 
-    public Grid() {
-        matrix = new Cell[GRID_HEIGHT][GRID_WIDTH];
-        for (int i = 0; i < GRID_HEIGHT; ++i) {
-            for (int j = 0; j < GRID_WIDTH; ++j) {
-                matrix[i][j] = new Cell();
-                matrix[i][j].setValue(CellValue.ground);
+    private  T[][] matrix;
+
+
+    public int getGridHeight() {
+        return gridHeight.get();
+    }
+
+    private IntegerProperty gridHeight = new SimpleIntegerProperty();
+
+    public IntegerProperty gridWidthProperty() {
+        return gridWidth;
+    }
+
+
+    public int getGridWidth() {
+        return gridWidth.get();
+    }
+
+    private IntegerProperty gridWidth = new SimpleIntegerProperty();
+
+    public void reset(int height, int width){
+        this.gridHeight.set(height);
+        this.gridWidth.set(width);
+        this.matrix = createMatrix(height, width);
+        for (int i = 0; i < gridHeight.get(); ++i) {
+            for (int j = 0; j < gridWidth.get(); ++j) {
+                matrix[i][j] = createCell();
             }
         }
-
-        filledCellsCount = Bindings.createLongBinding(() -> Arrays
-                .stream(matrix)
-                .flatMap(Arrays::stream)
-                .filter(cell -> !cell.isEmpty())
-                .count());
     }
 
-    public static int getGridWidth() {
-        return GRID_WIDTH;
+    public int[] getPlayerPosition() {
+        for (int i = 0; i < getGridHeight(); i++) {
+            for (int j = 0; j < getGridWidth(); j++) {
+                if (getMatrix()[i][j].getCellsElements().contains(new Player())) {
+                    return new int[]{i, j}; // Retourne les coordonnées du joueur
+                }
+            }
+        }
+        // Si aucun joueur n'est trouvé, retourne un tableau {-1, -1}
+        return new int[]{-1, -1};
     }
 
-    public static int getGridHeight() {
-        return GRID_HEIGHT;
-    }
+    protected abstract void remove(int line, int col, Element element);
 
-    public ReadOnlyObjectProperty<CellValue> valueProperty(int line, int col) {
-        return matrix[line][col].valueProperty();
-    }
+    protected abstract void add(int line, int col, Element element);
 
-    public CellValue getValue(int line, int col) {
-        return matrix[line][col].getValue();
-    }
 
-    public void play(int line, int col, CellValue playerValue) {
-        matrix[line][col].setValue(playerValue);
-        filledCellsCount.invalidate();
-    }
 
-    public LongBinding filledCellsCountProperty() {
-        return filledCellsCount;
-    }
+    protected abstract T[][] createMatrix(int height, int width);
 
-    public boolean isEmpty(int line, int col) {
-        return matrix[line][col].isEmpty();
-    }
+
+    public abstract T createCell();
 }

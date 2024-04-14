@@ -1,41 +1,33 @@
 package sokoban.model;
 
-import javafx.beans.binding.BooleanBinding;
-import javafx.beans.binding.LongBinding;
-import javafx.beans.property.ReadOnlyObjectProperty;
+abstract public class Board {
 
-public class Board {
-
-    static final int MAX_FILLED_CELLS = (Grid.getGridWidth() * Grid.getGridHeight()) / 2;
-
-    private final Grid grid = new Grid();
-
-    private final BooleanBinding isComplete;
-
-    public Board(){
-        isComplete = grid.filledCellsCountProperty().isEqualTo(Board.MAX_FILLED_CELLS);
+    public Wall getWall() {
+        return wall;
     }
 
-    public static int maxFilledCells() {
-        return MAX_FILLED_CELLS;
+    public Ground getGround() {
+        return ground;
     }
 
-    public ReadOnlyObjectProperty<CellValue> valueProperty(int line, int col) {
-        return grid.valueProperty(line, col);
+    private Ground ground = new Ground();
+
+    private final Player player = new Player();
+    private final Box box = new Box();
+
+    public Player getPlayer() {
+        return player;
     }
 
-    public LongBinding filledCellsCountProperty() {
-        return grid.filledCellsCountProperty();
+    public Box getBox() {
+        return box;
     }
 
-    public boolean isComplete () {
-        return isComplete.get();
+    public Goal getGoal() {
+        return goal;
     }
 
-    public boolean isEmpty(int line, int col) {
-        return grid.isEmpty(line, col);
-    }
+    private final Goal goal = new Goal();
 
-
-
+    private final Wall wall = new Wall();
 }
