@@ -31,6 +31,7 @@ Ci-dessous, vous trouverez la liste des fonctionnalités qui n'ont pas été ré
 
 * La boîte de dialogue de sauvegarde d'une grille si elle n'a pas encore été faite n'a pas été implémentée.
 * L'ouverture d'une grille est non fonctionnelle.
+* Drag&Drop d'un elements sur la grille non fonctionnelle.
 
 ...
 
