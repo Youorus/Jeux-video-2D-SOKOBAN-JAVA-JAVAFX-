@@ -20,25 +20,6 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
     }
 
 
-//    private void start(Stage stage){
-//        configMainComponements(stage);
-//
-//        Scene scene = new Scene(this, SCENE_MIN_WIDTH, SCENE_MIN_HEIGHT);
-//        String cssFile = Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm();
-//        scene.getStylesheets().add(cssFile);
-//        stage.setScene(scene);
-//        stage.show();
-//        stage.setMinHeight(stage.getHeight());
-//        stage.setMinWidth(stage.getWidth());
-//    }
-
-//    private void configMainComponements(Stage stage){
-//        stage.setTitle("Sokoban");
-//        //createMenue();
-//        createGrid();
-//       // createCompteur();
-//
-//    }
 
     public void createGrid () {
         int gridWidth = getViewModel().getGrid4PlayViewModel().getBoard4Play().getGrid4Play().getGridWidth();

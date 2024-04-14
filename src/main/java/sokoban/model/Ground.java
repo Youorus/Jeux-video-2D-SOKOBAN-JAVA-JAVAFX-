@@ -23,9 +23,6 @@ public class Ground extends Element {
         return false;
     }
 
-    public void Validate(Element element){
-
-    }
 
     @Override
     public String toString() {

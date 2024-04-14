@@ -9,14 +9,14 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class ErrorBoxView extends VBox {
-    private Label playerError;
+    private final  Label playerError;
 
-    private Label goalError;
+    private final  Label goalError;
 
-    private  Label boxError;
-    private Label listenError;
+    private final   Label boxError;
+    private final Label listenError;
 
-    private Label goalAndTargetError;
+    private final  Label goalAndTargetError;
 
     private final ErrorBoxViewModel errorBoxViewModel;
     public ErrorBoxView(ErrorBoxViewModel errorBoxViewModel){

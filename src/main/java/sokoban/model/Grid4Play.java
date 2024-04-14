@@ -178,10 +178,6 @@ public class Grid4Play extends Grid<Cell4Play>  {
 
 
 
-
-
-
-
     public int numberGoal() {
         int x = 0;
         for (int i = 0; i < GRID_HEIGHT; i++) {

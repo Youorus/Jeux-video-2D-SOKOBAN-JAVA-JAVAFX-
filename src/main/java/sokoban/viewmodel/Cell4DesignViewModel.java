@@ -38,9 +38,6 @@
             return toolsBoxViewModel;
         }
 
-//        public ReadOnlyObjectProperty<Element> valueProperty() {
-//            return board4Design.valueProperty(getLine(), getCol());
-//        }
 
         public void add(Element element) {
             board4Design.add(getLine(), getCol(), element);

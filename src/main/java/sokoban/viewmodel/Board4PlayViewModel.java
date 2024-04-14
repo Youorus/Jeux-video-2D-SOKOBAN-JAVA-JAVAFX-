@@ -20,9 +20,6 @@ public class Board4PlayViewModel extends BoardViewModel {
         grid4PlayViewModel = new Grid4PlayViewModel(board4Play);
     }
 
-    public int getMoveCount() {
-        return board4Play.getMoveCount();
-    }
 
     public IntegerProperty moveCountProperty() {
         return board4Play.moveCountProperty();

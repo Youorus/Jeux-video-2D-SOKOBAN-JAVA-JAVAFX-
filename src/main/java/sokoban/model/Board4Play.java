@@ -20,6 +20,7 @@ public class Board4Play extends Board{
     }
 
     public Board4Play(Board4Design board4Design){
+
         this.grid4Play.copyElements(board4Design.getGrid());
     }
 
@@ -40,10 +41,6 @@ public class Board4Play extends Board{
 
     public SimpleBooleanProperty playerWinProperty() {
         return getGrid4Play().playerWinProperty();
-    }
-
-    public int getMoveCount() {
-        return grid4Play.getMoveCount();
     }
 
 

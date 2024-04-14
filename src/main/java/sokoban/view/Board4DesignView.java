@@ -10,7 +10,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sokoban.model.Cell4Design;
 import sokoban.viewmodel.Board4DesignViewModel;
-import sokoban.viewmodel.MenueViewModel;
+import sokoban.viewmodel.MenuViewModel;
 
 public class Board4DesignView extends BoardView<Board4DesignViewModel> {
 
@@ -19,7 +19,7 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
 
     private ButtonPlay4DesignView buttonPlay4DesignView;
 
-    private MenueView menueView;
+    private MenuView menuView;
 
     private ErrorBoxView errorBoxView;
 
@@ -111,7 +111,7 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
 
         setTop(getHeaderBox());
         VBox topBox = new VBox();
-        topBox.getChildren().addAll(menueView,getHeaderBox());
+        topBox.getChildren().addAll(menuView,getHeaderBox());
         setTop(topBox);
 
     }
@@ -120,15 +120,15 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
     public void createMenu() {
         this.setTop(null);
 
-        menueView = new MenueView(new MenueViewModel(this), getViewModel());
-        menueView.showConfirmationDialog1();
-        setTop(menueView);
+        menuView = new MenuView(new MenuViewModel(this), getViewModel());
+        menuView.showConfirmationDialog1();
+        setTop(menuView);
     }
 
 
     @Override
     public void createButton() {
-        buttonPlay4DesignView = new ButtonPlay4DesignView(menueView,getViewModel());
+        buttonPlay4DesignView = new ButtonPlay4DesignView(menuView,getViewModel());
         getFooterBox().setAlignment(Pos.TOP_CENTER);
         getFooterBox().setPrefHeight(70);
         getFooterBox().setPadding(new Insets(0, 0, 0, 0));

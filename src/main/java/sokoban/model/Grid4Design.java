@@ -87,8 +87,6 @@
 
 
 
-
-
         public void remove(int line, int col, Element element) {
             getMatrix()[line][col].getCellsElements().remove(element);
             filledCellsCount.invalidate();
@@ -101,10 +99,6 @@
             return filledCellsCount;
         }
 
-
-        public boolean isEmpty(int line, int col) {
-            return getMatrix()[line][col].isEmpty();
-        }
 
 
 

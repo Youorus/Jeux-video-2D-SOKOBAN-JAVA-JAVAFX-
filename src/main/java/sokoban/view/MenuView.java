@@ -9,7 +9,7 @@
     import sokoban.model.Cell4Design;
     import sokoban.model.Element;
     import sokoban.viewmodel.Board4DesignViewModel;
-    import sokoban.viewmodel.MenueViewModel;
+    import sokoban.viewmodel.MenuViewModel;
     import javafx.scene.control.Button;
 
     import java.io.File;
@@ -17,13 +17,19 @@
     import java.io.IOException;
     import java.util.Optional;
 
-    public class MenueView  extends  MenuBar{
+    public class MenuView extends  MenuBar{
 
-        private final MenueViewModel menueViewModel;
+        private final MenuViewModel menuViewModel;
+
+        public Alert getAlert() {
+            return alert;
+        }
+
+        private Alert alert;
         private final Board4DesignViewModel board4DesignViewModel;
 
-        public MenueView(MenueViewModel menueViewModel, Board4DesignViewModel board4DesignViewModel) {
-            this.menueViewModel = menueViewModel;
+        public MenuView(MenuViewModel menuViewModel, Board4DesignViewModel board4DesignViewModel) {
+            this.menuViewModel = menuViewModel;
             this.board4DesignViewModel = board4DesignViewModel;
             menueCreation();
         }
@@ -54,7 +60,7 @@
 
                 if (board4DesignViewModel.getBoard4Design().gridEditedProperty().get()){
 
-                    Alert alert = new Alert(Alert.AlertType.CONFIRMATION);
+                    alert = new Alert(Alert.AlertType.CONFIRMATION);
                     alert.setTitle("Confirmation Dialog");
                     alert.setHeaderText("Your board has been modified.");
                     alert.setContentText("Do you want to save your changes ?");
@@ -139,8 +145,8 @@
             intField2.setPromptText("Height ");
 
 
-            intField1.textProperty().bindBidirectional(menueViewModel.widthProperty(), new NumberStringConverter());
-            intField2.textProperty().bindBidirectional(menueViewModel.heightProperty(), new NumberStringConverter());
+            intField1.textProperty().bindBidirectional(menuViewModel.widthProperty(), new NumberStringConverter());
+            intField2.textProperty().bindBidirectional(menuViewModel.heightProperty(), new NumberStringConverter());
 
 
             Label widthError = new Label("Width must be between 10 and 50");
@@ -152,12 +158,12 @@
 
 
             intField1.textProperty().addListener((observable, oldValue, newValue) -> {
-                menueViewModel.validateWidth(newValue);
+                menuViewModel.validateWidth(newValue);
             });
 
 
             intField2.textProperty().addListener((observable, oldValue, newValue) -> {
-                menueViewModel.validateHeight(newValue);
+                menuViewModel.validateHeight(newValue);
             });
 
 
@@ -171,12 +177,12 @@
 
             grid.add(widthError, 1, 1);
             widthError.managedProperty().bind(widthError.visibleProperty());
-            widthError.visibleProperty().bind(menueViewModel.isValidWidthProperty().not());
+            widthError.visibleProperty().bind(menuViewModel.isValidWidthProperty().not());
 
 
             grid.add(heightError, 1, 3);
             heightError.managedProperty().bind(heightError.visibleProperty());
-            heightError.visibleProperty().bind(menueViewModel.isValidHeightProperty().not());
+            heightError.visibleProperty().bind(menuViewModel.isValidHeightProperty().not());
 
 
             widthError.setWrapText(true);
@@ -197,15 +203,15 @@
 
             Button okButtonNode = (Button) newDimensionGrille.getDialogPane().lookupButton(okButton);
             okButtonNode.disableProperty().bind(
-                    menueViewModel.isValidWidthProperty().not()
-                            .or(menueViewModel.isValidHeightProperty().not())
+                    menuViewModel.isValidWidthProperty().not()
+                            .or(menuViewModel.isValidHeightProperty().not())
             );
 
             newDimensionGrille
                     .showAndWait()
                     .filter(button -> button == okButton)
                     // L'utilisateur a cliqué sur ok
-                    .ifPresent(button -> menueViewModel.updateModel());
+                    .ifPresent(button -> menuViewModel.updateModel());
         }
 
     }

@@ -18,17 +18,6 @@ abstract public class Grid<T extends Cell> {
     private  T[][] matrix;
 
 
-
-
-
-    public IntegerProperty gridHeightProperty() {
-        return gridHeight;
-    }
-
-    public void setGridHeight(int gridHeight) {
-        this.gridHeight.set(gridHeight);
-    }
-
     public int getGridHeight() {
         return gridHeight.get();
     }
@@ -39,9 +28,6 @@ abstract public class Grid<T extends Cell> {
         return gridWidth;
     }
 
-    public void setGridWidth(int gridWidth) {
-        this.gridWidth.set(gridWidth);
-    }
 
     public int getGridWidth() {
         return gridWidth.get();

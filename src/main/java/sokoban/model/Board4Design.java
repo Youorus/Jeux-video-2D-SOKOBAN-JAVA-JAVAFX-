@@ -16,16 +16,9 @@ public class Board4Design extends Board {
         return errorBox;
     }
 
-    public boolean isGridEdited() {
-        return gridEdited.get();
-    }
 
     public BooleanProperty gridEditedProperty() {
         return gridEdited;
-    }
-
-    public void setGridEdited(boolean gridEdited) {
-        this.gridEdited.set(gridEdited);
     }
 
     private final BooleanProperty gridEdited = new SimpleBooleanProperty(false);
@@ -57,9 +50,6 @@ public class Board4Design extends Board {
     private final SimpleBooleanProperty hasGoal = new SimpleBooleanProperty();
 
 
-    private final Player_goal playerGoal = new Player_goal();
-    private final Box_goal boxGoal = new Box_goal();
-
     private final ErrorBoxViewModel errorBoxViewModel = new ErrorBoxViewModel(errorBox);
     public int getMaxCellsFilds(){
         return (grid4Design.getGridWidth() * grid4Design.getGridHeight()) / 2;
@@ -78,25 +68,11 @@ public class Board4Design extends Board {
 
     }
 
-//    public  int maxFilledCells() {
-//        return getMaxCellsFilds;
-//    }
-
-//    public ReadOnlyObjectProperty<Element> valueProperty(int line, int col) {
-//        return grid4Design.valueProperty(line, col);
-//    }
 
     public LongBinding filledCellsCountProperty() {
         return grid4Design.filledCellsCountProperty();
     }
 
-    public boolean isComplete () {
-        return isComplete.get();
-    }
-
-    public boolean isEmpty(int line, int col) {
-        return grid4Design.isEmpty(line, col);
-    }
 
     public Cell4Design[][] getMatrix(){
         return grid4Design.getMatrix();

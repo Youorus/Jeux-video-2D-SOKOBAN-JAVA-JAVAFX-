@@ -21,9 +21,6 @@ public class Box extends Element {
         return false;
     }
 
-    public void validate(Element element){
-
-    }
     @Override
     public String toString() {
         return "$";

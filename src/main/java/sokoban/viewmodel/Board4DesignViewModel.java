@@ -5,8 +5,7 @@ import sokoban.model.Cell4Design;
 import sokoban.model.Grid4Design;
 
 public class Board4DesignViewModel extends BoardViewModel{
-//    private final IntegerBinding filledCellsCount;
-//    private final BooleanExpression isGridHalfFilled;
+
 
     private final Grid4DesignViewModel grilleViewModel;
 

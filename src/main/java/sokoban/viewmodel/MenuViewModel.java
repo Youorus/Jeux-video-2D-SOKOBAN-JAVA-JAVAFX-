@@ -1,18 +1,13 @@
 package sokoban.viewmodel;
 
 
-import javafx.beans.binding.BooleanBinding;
 import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import sokoban.model.Board;
-import sokoban.model.Board4Design;
-import sokoban.model.Menue;
 import sokoban.view.Board4DesignView;
-import sokoban.view.BoardView;
 
-public class MenueViewModel {
+public class MenuViewModel {
 
     private final IntegerProperty width = new SimpleIntegerProperty();
     private final IntegerProperty height = new SimpleIntegerProperty();
@@ -20,7 +15,7 @@ public class MenueViewModel {
     private final BooleanProperty validHeight = new SimpleBooleanProperty(true);
 
     private final Board4DesignView board4DesignView;
-    public MenueViewModel(Board4DesignView board4DesignView){
+    public MenuViewModel(Board4DesignView board4DesignView){
         this.board4DesignView = board4DesignView;
 
         width.addListener((obs, oldVal, newVal) -> validWidth.set(isValidWidth(newVal.intValue())));
