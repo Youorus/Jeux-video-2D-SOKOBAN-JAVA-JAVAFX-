@@ -87,7 +87,9 @@ public class Board4Design extends Board {
             grid4Design.remove(line, col, element);
         } else if (grid4Design.getCellsElements(line, col).contains(getWall()) &&  element.equals(getPlayer())) {
             System.out.println("impossible de mettre un joueur sur un mur");
-        } else if (grid4Design.getCellsElements(line, col).contains(getBox()) &&  element.equals(getWall())) {
+        } else if (grid4Design.getCellsElements(line, col).contains(getPlayer()) &&  element.equals(getGoal())) {
+            grid4Design.add(line, col, element);
+        }else if (grid4Design.getCellsElements(line, col).contains(getBox()) &&  element.equals(getWall())) {
             grid4Design.getCellsElements(line, col).clear();
             grid4Design.add(line, col, element);
         } else if (grid4Design.getCellsElements(line, col).contains(getPlayer()) &&  element.equals(getWall())) {

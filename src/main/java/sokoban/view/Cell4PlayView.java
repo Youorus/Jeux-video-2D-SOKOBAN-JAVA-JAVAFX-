@@ -39,30 +39,42 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
 
 
     private void updateCellImages() {
-        int boxCount = 0;
-        ObservableList<Element> elements = getCellViewModel().getCellsElements();
-        // Initialise le numéro de la boîte à 1
-        // Parcourt les éléments de la cellule et met à jour l'image de la cellule
-        for (Element element : elements) {
-            ImageView elementView = new ImageView(element.getImage());
-            //elementView.fitWidthProperty().bind(widthProperty());
-            setImage(elementView);
+        // Effacer tous les éléments de la cellule
+        getChildren().clear();
 
-            if (element.equals(new Box())) {
-                // Pas besoin d'incrémenter boxCount ici
-                Label boxNumberText = new Label(Integer.toString(boxCount++));
-                // Ajoute le style de texte pour le numéro
-                boxNumberText.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-fill: black;-fx-background-color: white; -fx-padding: 4px;");
-                // Positionne le numéro au-dessus de l'image de la boîte
-                StackPane.setAlignment(boxNumberText, Pos.CENTER);
-                // Ajoute le numéro au-dessus de l'image de la boîte
-                getChildren().add(boxNumberText);
+        ObservableList<Element> elements = getCellViewModel().getCellsElements();
+
+        // Afficher l'image du sol
+        ImageView groundView = new ImageView(new Ground().getImage());
+        setImage(groundView);
+
+        // Si la liste des éléments est vide, afficher simplement l'image de terre
+
+            // Parcourt les éléments de la cellule dans l'ordre inverse
+            for (int i = elements.size() - 1; i >= 0; i--) {
+                Element element = elements.get(i);
+                ImageView elementView = new ImageView(element.getImage());
+                setImage(elementView);
+
+                if (element instanceof Box) {
+                    // Crée le texte pour numéroter la boîte
+                    Label boxNumberText = new Label(Integer.toString(i));
+                    // Ajoute le style de texte pour le numéro
+                    boxNumberText.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-fill: black;-fx-background-color: white; -fx-padding: 4px;");
+                    // Positionne le numéro au-dessus de l'image de la boîte
+                    StackPane.setAlignment(boxNumberText, Pos.TOP_LEFT);
+                    // Ajoute le numéro au-dessus de l'image de la boîte
+                    getChildren().add(boxNumberText);
+                }
             }
         }
-    }
 
 
-        private void handleKeyPressed(KeyEvent event) {
+
+
+
+
+    private void handleKeyPressed(KeyEvent event) {
                     switch (event.getCode()) {
                         case Z:
                             //deplacement verrs le haut

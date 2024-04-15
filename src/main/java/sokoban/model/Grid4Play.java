@@ -132,10 +132,7 @@ public class Grid4Play extends Grid<Cell4Play>  {
             if (getCellsElements(nextRow, nextColumn).contains(wall)) {
                 // Si la cellule suivante contient un mur, garder le joueur à sa position actuelle
                 add(playerPosition[0], playerPosition[1], player);
-            } else if (getCellsElements(nextRow, nextColumn).contains(goal)) {
-                //si la cells suivante contient un goal, mettre le joueur a la cells apres le goal
-                add(nextRow + rowChange, nextColumn + colChange, player);
-            } else if (getCellsElements(nextRow, nextColumn).contains(box)) {
+            }else if (getCellsElements(nextRow, nextColumn).contains(box)) {
                 // Vérifier si la cellule après la boîte contient un mur
                 boolean nextCellAfterBoxContainsWall = getCellsElements(nextRow + rowChange, nextColumn + colChange).contains(wall);
                 if (nextCellAfterBoxContainsWall ) {

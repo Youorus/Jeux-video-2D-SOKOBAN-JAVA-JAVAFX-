@@ -80,6 +80,7 @@
 
 
 
+
         public void add(int line, int col, Element element) {
             getMatrix()[line][col].getCellsElements().add(element);
             filledCellsCount.invalidate();
@@ -106,6 +107,8 @@
         public Cell4Design[][] createMatrix(int height, int width) {
             return new Cell4Design[getGridHeight()][getGridWidth()];
         }
+
+
 
         @Override
         public Cell4Design createCell() {
