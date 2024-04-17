@@ -9,7 +9,7 @@ public class Board4Play extends Board{
         return grid4Play;
     }
 
-    private Grid4Play grid4Play = new Grid4Play();
+    private Grid4Play grid4Play = new Grid4Play(this);
 
     public IntegerProperty moveCountProperty() {
         return getGrid4Play().moveCountProperty();
@@ -25,18 +25,18 @@ public class Board4Play extends Board{
     }
 
     public void movePlayerUp(){
-      grid4Play.movePlayerUp(getPlayer(), getWall(), getBox(), getGoal());
+        grid4Play.getCell4Play().movePlayerUp(getPlayer(), getWall(), getBox(), getGoal());
     }
     public void movePlayerDown(){
-        grid4Play.movePlayerDown(getPlayer(), getWall(), getBox(), getGoal());
+        grid4Play.getCell4Play().movePlayerDown(getPlayer(), getWall(), getBox(), getGoal());
     }
 
     public void movePlayerRight(){
-        grid4Play.movePlayerRight(getPlayer(), getWall(), getBox(), getGoal());
+        grid4Play.getCell4Play().movePlayerRight(getPlayer(), getWall(), getBox(), getGoal());
     }
 
     public void movePlayerLeft(){
-        grid4Play.movePlayerLeft(getPlayer(), getWall(), getBox(), getGoal());
+        grid4Play.getCell4Play().movePlayerLeft(getPlayer(), getWall(), getBox(), getGoal());
     }
 
     public SimpleBooleanProperty playerWinProperty() {

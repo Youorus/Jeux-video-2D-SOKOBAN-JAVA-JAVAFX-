@@ -31,18 +31,5 @@ abstract public class Board {
 
     private final Goal goal = new Goal();
 
-//    public Player getPlayer() {
-//        return grid4Design.getCell4Design().getPlayer();
-//    }
-//
-//    public Box getBox() {
-//        return grid4Design.getCell4Design().getBox();
-//    }
-//    public Wall getWall() {
-//        return grid4Design.getCell4Design().getWall();
-//    }
-//    public Ground getGround() {
-//        return grid4Design.getCell4Design().getGround();
-//    }
 
 }
