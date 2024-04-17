@@ -66,12 +66,18 @@ public class Cell4Play extends Cell{
                     grid4Play.getCellsElements(nextRow, nextColumn).remove(box);
                     grid4Play.getCellsElements(nextRow + rowChange, nextColumn + colChange).add(box);
 
-                    if (grid4Play.getCellsElements(nextRow + rowChange, nextColumn + colChange).contains(goal)){
+                    // Après avoir déplacé la boîte vers la cellule suivante
+                    if (grid4Play.getCellsElements(nextRow, nextColumn).contains(goal)) {
+                        grid4Play.setBoxOnGoalCount(grid4Play.getBoxOnGoalCount() - 1);
+                    }
+                    // Avant de déplacer la boîte, vérifiez si la cellule suivante après la boîte ne contient pas un autre objectif
+                    if (grid4Play.getCellsElements(nextRow + rowChange, nextColumn + colChange).contains(goal)) {
                         grid4Play.setBoxOnGoalCount(grid4Play.getBoxOnGoalCount() + 1);
                     }
                    grid4Play.getCellsElements(nextRow, nextColumn).add(player);
                     // Compter le déplacement du joueur
                     grid4Play.setMoveCount(grid4Play.getMoveCount() + 1);
+
                 }
             } else {
                 // Sinon, déplacer le joueur vers la cellule suivante
