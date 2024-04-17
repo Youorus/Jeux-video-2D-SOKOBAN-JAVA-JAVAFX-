@@ -70,7 +70,7 @@ public class MenuViewModel {
 
     public void updateModel() {
         if (validWidth.get() && validHeight.get()) {
-            this.board4DesignView.getViewModel().getBoard4Design().getGrid().reset(height.get(),width.get());
+            this.board4DesignView.getViewModel().getBoard4Design().getGrid4Design().reset(height.get(),width.get());
             this.board4DesignView.createGrid();
         }
     }

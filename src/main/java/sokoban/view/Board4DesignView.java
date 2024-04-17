@@ -37,12 +37,12 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
     }
 
     public void createGrid () {
-        this.getViewModel().getBoard4Design().getGrid().gridWidthProperty().addListener((ols,val,newVal) ->{
+        this.getViewModel().getBoard4Design().getGrid4Design().gridWidthProperty().addListener((ols, val, newVal) ->{
             setCenter(null);
         });
 
-        int gridWidth = getViewModel().getBoard4Design().getGrid().getGridWidth();
-        int gridHeight = getViewModel().getBoard4Design().getGrid().getGridHeight();
+        int gridWidth = getViewModel().getBoard4Design().getGrid4Design().getGridWidth();
+        int gridHeight = getViewModel().getBoard4Design().getGrid4Design().getGridHeight();
 
         DoubleBinding gridWidthBinding = Bindings.createDoubleBinding(
                 () -> {
@@ -84,7 +84,7 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
     }
 
     public void createCompteur(){
-        this.getViewModel().getBoard4Design().getGrid().gridWidthProperty().addListener((ols,val,newVal) ->{
+        this.getViewModel().getBoard4Design().getGrid4Design().gridWidthProperty().addListener((ols, val, newVal) ->{
             headerLabel.textProperty().bind(getViewModel().filledCellsCountProperty()
                     .asString("Number of filled cells: %d of " + getViewModel().maxFilledCells()));
             headerLabel.getStyleClass().add("header");

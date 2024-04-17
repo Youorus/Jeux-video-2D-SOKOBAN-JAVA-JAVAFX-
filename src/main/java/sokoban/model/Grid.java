@@ -49,7 +49,7 @@ abstract public class Grid<T extends Cell> {
     public int[] getPlayerPosition() {
         for (int i = 0; i < getGridHeight(); i++) {
             for (int j = 0; j < getGridWidth(); j++) {
-                if (getMatrix()[i][j].getCellsElements().contains(new Player())) {
+                if (getMatrix()[i][j].getCellsElements().contains(new Player() )) {
                     return new int[]{i, j}; // Retourne les coordonnées du joueur
                 }
             }

@@ -9,10 +9,23 @@
     public class Grid4Design extends Grid<Cell4Design> {
         private static final int Widht = 10;
         private static final int  Height = 15;
+
+        public Cell4Design getCell4Design() {
+            return cell4Design;
+        }
+
+        private Cell4Design cell4Design;
         private final LongBinding filledCellsCount;
 
+        public Board4Design getBoard4Design() {
+            return board4Design;
+        }
 
-        public Grid4Design() {
+        private final Board4Design board4Design;
+
+
+        public Grid4Design(Board4Design board4Design) {
+            this.board4Design = board4Design;
             reset(Widht, Height);
             filledCellsCount = Bindings.createLongBinding(() -> Arrays
                     .stream(getMatrix())
@@ -112,6 +125,6 @@
 
         @Override
         public Cell4Design createCell() {
-            return new Cell4Design();
+            return cell4Design = new Cell4Design(this);
         }
     }
