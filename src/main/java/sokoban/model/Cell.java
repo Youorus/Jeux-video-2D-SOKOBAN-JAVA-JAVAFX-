@@ -29,6 +29,7 @@ public class Cell {
 
 
 
+
     public ObservableList<Element> getCellsElements() {
         return cellsElements;
     }

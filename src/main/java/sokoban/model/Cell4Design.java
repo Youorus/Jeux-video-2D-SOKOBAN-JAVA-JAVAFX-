@@ -4,6 +4,10 @@ import javafx.collections.ObservableList;
 
 public class Cell4Design extends Cell {
 
+    public Grid4Design getGrid4Design() {
+        return grid4Design;
+    }
+
     private final Grid4Design grid4Design;
 
     public Cell4Design(Grid4Design grid4Design) {
@@ -13,61 +17,65 @@ public class Cell4Design extends Cell {
     public void add(int line, int col, Element element) {
         ObservableList<Element> cellElements = grid4Design.getCellsElements(line, col);
 
-        // Si l'élément est le sol, efface tous les éléments de la cellule
-        if (element.equals(grid4Design.getBoard4Design().getGround())) {
+        Element ground = grid4Design.getBoard4Design().getGround();
+        Element wall = grid4Design.getBoard4Design().getWall();
+        Element player = grid4Design.getBoard4Design().getPlayer();
+        Element goal = grid4Design.getBoard4Design().getGoal();
+        Element box = grid4Design.getBoard4Design().getBox();
+
+
+        if (element.equals(ground)) {
             cellElements.clear();
-        }
-        // Si la cellule contient déjà l'élément, le supprime
-        else if (cellElements.contains(element)) {
-            cellElements.remove(element);
-        }
-        // Si la cellule contient un mur et on essaie de mettre un joueur dessus, affiche un message d'erreur
-        else if (cellElements.contains(grid4Design.getBoard4Design().getWall()) && element.equals(grid4Design.getBoard4Design().getPlayer())) {
-            System.out.println("Impossible de mettre un joueur sur un mur");
-        }
-        // Si la cellule contient déjà un joueur et on essaie de mettre une cible, ajoute la cible
-        else if (cellElements.contains(grid4Design.getBoard4Design().getPlayer()) && element.equals(grid4Design.getBoard4Design().getGoal())) {
-            cellElements.add(element);
-        }
-        // Si la cellule contient une boîte et on essaie de mettre un mur, efface tous les éléments et ajoute le mur
-        else if (cellElements.contains(grid4Design.getBoard4Design().getBox()) && element.equals(grid4Design.getBoard4Design().getWall())) {
+        } else if (cellElements.contains(element)) {
+            grid4Design.remove(line, col, element);
+        }else if (cellElements.contains(player) && element.equals(goal)) {
+            grid4Design.add(line, col, element);
+        } else if (cellElements.contains(box) && element.equals(player)) {
+            System.out.println("impossible");
+        }else if (cellElements.contains(wall) && element.equals(goal) ) {
             cellElements.clear();
-            cellElements.add(element);
-        }
-        // Si la cellule contient déjà un joueur et on essaie de mettre un mur, affiche un message d'erreur
-        else if (cellElements.contains(grid4Design.getBoard4Design().getPlayer()) && element.equals(grid4Design.getBoard4Design().getWall())) {
-            System.out.println("Impossible de mettre un joueur sur un mur");
-        }
-        // Si l'élément est un joueur et un joueur est déjà présent sur la grille, supprime le joueur existant
-        // et ajoute le nouveau joueur à la cellule
-        else if (element.equals(grid4Design.getBoard4Design().getPlayer()) && grid4Design.hasPlayer()) {
-            int[] playerPosition = grid4Design.getPlayerPosition();
-            grid4Design.remove(playerPosition[0], playerPosition[1], grid4Design.getBoard4Design().getPlayer());
-            cellElements.add(element);
-        }
-        // Si la cellule contient déjà un joueur et on essaie de mettre une cible, ajoute le joueur à la cellule
-        else if (cellElements.contains(grid4Design.getBoard4Design().getPlayer()) && element.equals(grid4Design.getBoard4Design().getGoal())) {
-            cellElements.add(grid4Design.getBoard4Design().getPlayer());
-        }
-        // Si la cellule contient déjà une boîte et on essaie de mettre une cible, ajoute la cible à la cellule
-        else if (cellElements.contains(grid4Design.getBoard4Design().getBox()) && element.equals(grid4Design.getBoard4Design().getGoal())) {
-            cellElements.add(grid4Design.getBoard4Design().getGoal());
-        }
-        // Si la cellule contient un mur et on essaie de mettre un joueur, affiche un message d'erreur
-        else if (cellElements.contains(grid4Design.getBoard4Design().getWall()) && element.equals(grid4Design.getBoard4Design().getPlayer())) {
-            System.out.println("Impossible d'ajouter un joueur à un mur");
-        }
-        // Si la cellule contient déjà un joueur et on essaie de mettre une boîte, affiche un message d'erreur
-        else if (cellElements.contains(grid4Design.getBoard4Design().getPlayer()) && element.equals(grid4Design.getBoard4Design().getBox())) {
+            grid4Design.add(line, col, element);
+        } else if (cellElements.contains(box) && element.equals(wall)) {
+            cellElements.clear();
+            grid4Design.add(line, col, element);
+        } else if (cellElements.contains(goal) && element.equals(player)) {
+            
+        } else if (!grid4Design.hasPlayer() && cellElements.contains(wall) && element.equals(player)) {
+            cellElements.clear();
+            grid4Design.add(line, col, element);
+        } else if (cellElements.contains(player) && element.equals(wall)) {
+            System.out.println("impossible de mettre un joueur sur un mur");
+        } else if (element.equals(player)) {
+            if (grid4Design.hasPlayer()) {
+                // Récupérer les coordonnées actuelles du joueur
+                int[] playerPosition = grid4Design.getPlayerPosition();
+                // Supprimer le joueur de sa position actuelle
+                //grid4Design.remove(playerPosition[0], playerPosition[1]);
+                if (grid4Design.getCellsElements(playerPosition[0], playerPosition[1]).contains(goal)){
+                    grid4Design.getCellsElements(playerPosition[0], playerPosition[1]).clear();
+                    grid4Design.getCellsElements(playerPosition[0], playerPosition[1]).add(goal);
+                }
+
+                if (cellElements.contains(wall)){
+                    cellElements.clear();
+                }
+
+                grid4Design.remove(playerPosition[0], playerPosition[1], element);
+                // Ajouter le joueur à la nouvelle position
+                grid4Design.add(line, col, element);
+            } else {
+                grid4Design.add(line, col, element);
+            }
+        } else if (cellElements.contains(box) && element.equals(goal)) {
+            grid4Design.add(line, col, goal);
+        }else if (cellElements.contains(player) && element.equals(box)) {
             System.out.println("Impossible de placer une caisse sur un joueur");
-        }
-        // Si la cellule contient déjà une cible et on essaie de mettre une autre cible, affiche un message d'erreur
-        else if (cellElements.contains(grid4Design.getBoard4Design().getGoal()) && element.equals(grid4Design.getBoard4Design().getGoal())) {
+        } else if (cellElements.contains(goal) && element.equals(goal)) {
             System.out.println("Impossible de placer une cible sur une autre cible");
-        }
-        // Sinon, ajoute simplement l'élément à la cellule
-        else {
-            cellElements.add(element);
+        }else if (cellElements.contains(goal) && element.equals(box)) {
+            System.out.println("");
+        }else {
+            grid4Design.add(line, col, element);
         }
     }
 }
