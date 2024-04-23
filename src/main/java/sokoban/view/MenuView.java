@@ -9,6 +9,7 @@
     import javafx.util.converter.NumberStringConverter;
     import sokoban.model.Cell4Design;
     import sokoban.model.Element;
+    import sokoban.model.Ground;
     import sokoban.viewmodel.Board4DesignViewModel;
     import sokoban.viewmodel.MenuViewModel;
     import javafx.scene.control.Button;
@@ -124,6 +125,8 @@
         }
 
 
+
+
         private void writeElementsToFile(File file, Cell4Design[][] matrix) {
             try (FileWriter writer = new FileWriter(file)) {
                 for (int i = 0; i < matrix.length; i++) {
@@ -168,11 +171,40 @@
                     menuViewModel.setHeight(newHeight);
                     menuViewModel.setWidth(newWidth);
                     menuViewModel.updateModel();
-                } else {
-                    System.out.println("Mêmes dimensions de grille.");
+                    readElementsFromFile(file);
+                }else {
+                    readElementsFromFile(file);
                 }
+
+
             }
         }
+
+        private void readElementsFromFile(File file) {
+            try (Scanner scanner = new Scanner(file)) {
+                for (int i = 0; scanner.hasNextLine() && i < board4DesignViewModel.getMatrix().length; i++) {
+                    String line = scanner.nextLine();
+                    for (int j = 0; j < line.length() && j < board4DesignViewModel.getMatrix()[i].length; j++) {
+                        char elementSymbol = line.charAt(j);
+
+                        Element element = Element.fromSymbol(elementSymbol);
+                        System.out.println(element);
+                        board4DesignViewModel.getGridViewModel().getBoard4Design().getGrid4Design().getMatrix()[i][j].getCellsElements().clear();
+                        if (element != null) {
+                            if (!element.equals(new Ground())){
+                                board4DesignViewModel.getGridViewModel().getBoard4Design().getGrid4Design().getCell4Design().add(i,j,element);
+                                board4DesignViewModel.getBoard4Design().gridEditedProperty().set(false);
+
+                            }
+                        }
+                    }
+                }
+                System.out.println("Les éléments du fichier ont été copiés dans la grille actuelle.");
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            }
+        }
+
 
 
 

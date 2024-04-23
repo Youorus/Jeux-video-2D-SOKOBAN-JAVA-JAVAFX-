@@ -16,11 +16,12 @@ public class Cell4DesignView extends CellView<Cell4DesignViewModel> {
         super(cell4DesignViewModel, cellWidthProperty);
         eventClickAdd();
 
-
+        getCellViewModel().getCellsElements().addListener((ListChangeListener<Element>) change -> {
+            getCellViewModel().gridEditedProperty().set(true);
+        });
 
         getCellViewModel().getCellsElements().addListener((ListChangeListener<Element>) change -> {
             imageViewUpdate(getCellViewModel().getCellsElements());
-            getCellViewModel().gridEditedProperty().set(true);
         });
     }
 
@@ -29,6 +30,8 @@ public class Cell4DesignView extends CellView<Cell4DesignViewModel> {
         this.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
                 getCellViewModel().add(getCellViewModel().getToolsBoxViewModel().getElementSelect());
+
+
             }
         });
 

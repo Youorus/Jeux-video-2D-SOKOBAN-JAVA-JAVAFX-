@@ -33,6 +33,7 @@ public class Board4Design extends Board {
         return gridEdited;
     }
 
+
     private final BooleanProperty gridEdited = new SimpleBooleanProperty(false);
 
     public ToolsBox getToolsBox() {
@@ -40,27 +41,12 @@ public class Board4Design extends Board {
     }
 
     private final ToolsBox toolsBox = new ToolsBox();
-    private final ErrorBox errorBox = new ErrorBox();
+    private final ErrorBox errorBox = new ErrorBox(this);
 
 
-    public void setGoalAndTargetEquals(boolean goalAndTargetEquals) {
-        this.goalAndTargetEquals.set(goalAndTargetEquals);
+    public ErrorBoxViewModel getErrorBoxViewModel() {
+        return errorBoxViewModel;
     }
-
-    private final SimpleBooleanProperty goalAndTargetEquals = new SimpleBooleanProperty();
-
-    public void setHasBox(boolean hasBox) {
-        this.hasBox.set(hasBox);
-    }
-
-    private final SimpleBooleanProperty hasBox = new SimpleBooleanProperty();
-
-    public void setHasGoal(boolean hasGoal) {
-        this.hasGoal.set(hasGoal);
-    }
-
-    private final SimpleBooleanProperty hasGoal = new SimpleBooleanProperty();
-
 
     private final ErrorBoxViewModel errorBoxViewModel = new ErrorBoxViewModel(errorBox);
     public int getMaxCellsFilds(){
@@ -86,19 +72,9 @@ public class Board4Design extends Board {
     }
 
     public void add(int line, int col, Element element) {
-
-
         getGrid4Design().getCell4Design().add(line, col, element);
-
-        
-        setHasPlayer(!getGrid4Design().hasPlayer());
-        errorBoxViewModel.playerErrorProperty().bind(hasPlayerProperty());
-        setHasBox(!getGrid4Design().hasBox());
-        errorBoxViewModel.boxErrorProperty().bind(hasBox);
-        setHasGoal(!getGrid4Design().hasGoal());
-        errorBoxViewModel.goalErrorProperty().bind(hasGoal);
-        setGoalAndTargetEquals(!getGrid4Design().goalTargetEquals());
-        errorBoxViewModel.goalAndTargetErrorProperty().bind(goalAndTargetEquals);
     }
+
+
 
 }

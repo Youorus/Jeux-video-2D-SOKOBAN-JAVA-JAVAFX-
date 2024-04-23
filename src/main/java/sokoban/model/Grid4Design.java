@@ -2,7 +2,9 @@
 
     import javafx.beans.binding.Bindings;
     import javafx.beans.binding.LongBinding;
+    import javafx.beans.property.BooleanProperty;
     import javafx.collections.ObservableList;
+    import sokoban.viewmodel.ErrorBoxViewModel;
 
     import java.util.Arrays;
 
@@ -14,6 +16,13 @@
             return cell4Design;
         }
 
+        public BooleanProperty gridEditedProperty() {
+            return board4Design.gridEditedProperty();
+        }
+
+        public ErrorBoxViewModel getErrorBoxViewModel() {
+            return board4Design.getErrorBoxViewModel();
+        }
         private Cell4Design cell4Design;
         private final LongBinding filledCellsCount;
 
@@ -47,6 +56,7 @@
             }
             return false; // Aucun joueur n'a été trouvé
         }
+
 
         public boolean hasGoal() {
             for (int i = 0; i < getGridHeight(); i++) {

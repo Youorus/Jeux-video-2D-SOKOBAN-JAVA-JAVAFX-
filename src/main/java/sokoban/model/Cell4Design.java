@@ -1,6 +1,9 @@
 package sokoban.model;
 
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
+import sokoban.viewmodel.ErrorBoxViewModel;
 
 public class Cell4Design extends Cell {
 
@@ -8,11 +11,35 @@ public class Cell4Design extends Cell {
         return grid4Design;
     }
 
+    public ErrorBoxViewModel getErrorBoxViewModel() {
+        return grid4Design.getErrorBoxViewModel();
+    }
+
+    private final SimpleBooleanProperty goalAndTargetEquals = new SimpleBooleanProperty();
+
+    public void setHasBox(boolean hasBox) {
+        this.hasBox.set(hasBox);
+    }
+
+    private final SimpleBooleanProperty hasBox = new SimpleBooleanProperty();
+
+    public void setHasGoal(boolean hasGoal) {
+        this.hasGoal.set(hasGoal);
+    }
+
+    public void setGoalAndTargetEquals(boolean goalAndTargetEquals) {
+        this.goalAndTargetEquals.set(goalAndTargetEquals);
+    }
+
+
+    private final SimpleBooleanProperty hasGoal = new SimpleBooleanProperty();
+
     private final Grid4Design grid4Design;
 
     public Cell4Design(Grid4Design grid4Design) {
         this.grid4Design = grid4Design;
     }
+
 
     public void add(int line, int col, Element element) {
         ObservableList<Element> cellElements = grid4Design.getCellsElements(line, col);
@@ -77,5 +104,16 @@ public class Cell4Design extends Cell {
         }else {
             grid4Design.add(line, col, element);
         }
+
+
+
+        setHasPlayer(!getGrid4Design().hasPlayer());
+        getErrorBoxViewModel().playerErrorProperty().bind(hasPlayerProperty());
+        setHasBox(!getGrid4Design().hasBox());
+        getErrorBoxViewModel().boxErrorProperty().bind(hasBox);
+        setHasGoal(!getGrid4Design().hasGoal());
+        getErrorBoxViewModel().goalErrorProperty().bind(hasGoal);
+        setGoalAndTargetEquals(!getGrid4Design().goalTargetEquals());
+        getErrorBoxViewModel().goalAndTargetErrorProperty().bind(goalAndTargetEquals);
     }
 }
