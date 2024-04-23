@@ -14,11 +14,16 @@
     import javafx.scene.control.Button;
 
     import java.io.File;
+    import java.io.FileNotFoundException;
     import java.io.FileWriter;
     import java.io.IOException;
     import java.util.Optional;
+    import java.util.Scanner;
 
     public class MenuView extends  MenuBar{
+
+        private int newWidth = 0;
+        private int newHeight = 0;
 
         private final MenuViewModel menuViewModel;
 
@@ -52,6 +57,11 @@
                 Stage stage = (Stage) getScene().getWindow();
                 stage.close();
             });
+
+            openMenuItem.setOnAction(event -> {
+                openFile();
+            });
+
 
             saveMenuItem.setOnAction(event -> {
                 saveAs(board4DesignViewModel.getMatrix()); // Appel de la méthode saveAs() lorsque le bouton "Save As" est cliqué
@@ -95,6 +105,8 @@
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Enregistrer la grille");
 
+            fileChooser.setInitialDirectory(new File("boards"));
+
             // Définir un filtre pour les fichiers .xsb
             FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Sokoban Board Files (*.xsb)", "*.xsb");
             fileChooser.getExtensionFilters().add(extFilter);
@@ -129,6 +141,40 @@
                 System.out.println("Erreur lors de l'écriture des éléments dans le fichier : " + e.getMessage());
             }
         }
+
+        private void openFile() {
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Open Sokoban Board");
+            fileChooser.setInitialDirectory(new File("boards"));
+
+            File file = fileChooser.showOpenDialog(this.getScene().getWindow());
+            if (file != null) {
+                // Le fichier a été sélectionné, maintenant, lisez son contenu et remplissez la grille
+                int newWidth = 0;
+                int newHeight = 0;
+                try (Scanner scanner = new Scanner(file)) {
+                    while (scanner.hasNextLine()) {
+                        String line = scanner.nextLine();
+                        newHeight++;
+                        newWidth = Math.max(newWidth, line.length());
+                    }
+                } catch (FileNotFoundException e) {
+                    e.printStackTrace();
+                }
+
+                if (newHeight != board4DesignViewModel.getGridViewModel().getBoard4Design().getGrid4Design().getGridHeight() ||
+                        newWidth != board4DesignViewModel.getGridViewModel().getBoard4Design().getGrid4Design().getGridWidth()) {
+                    // Les dimensions de la grille chargée sont différentes des dimensions actuelles
+                    menuViewModel.setHeight(newHeight);
+                    menuViewModel.setWidth(newWidth);
+                    menuViewModel.updateModel();
+                } else {
+                    System.out.println("Mêmes dimensions de grille.");
+                }
+            }
+        }
+
+
 
 
 

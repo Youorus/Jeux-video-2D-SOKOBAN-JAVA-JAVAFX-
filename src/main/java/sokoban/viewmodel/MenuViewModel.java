@@ -9,6 +9,14 @@ import sokoban.view.Board4DesignView;
 
 public class MenuViewModel {
 
+    public void setWidth(int width) {
+        this.width.set(width);
+    }
+
+    public void setHeight(int height) {
+        this.height.set(height);
+    }
+
     private final IntegerProperty width = new SimpleIntegerProperty();
     private final IntegerProperty height = new SimpleIntegerProperty();
     private final BooleanProperty validWidth = new SimpleBooleanProperty(true);
