@@ -28,6 +28,7 @@ public class MenuViewModel {
 
         width.addListener((obs, oldVal, newVal) -> validWidth.set(isValidWidth(newVal.intValue())));
         height.addListener((obs, oldVal, newVal) -> validHeight.set(isValidHeight(newVal.intValue())));
+
     }
 
 

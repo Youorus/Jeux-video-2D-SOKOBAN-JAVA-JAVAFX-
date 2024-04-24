@@ -9,8 +9,7 @@
     import java.util.Arrays;
 
     public class Grid4Design extends Grid<Cell4Design> {
-        private static final int Widht = 10;
-        private static final int  Height = 15;
+
 
         public Cell4Design getCell4Design() {
             return cell4Design;
@@ -35,7 +34,7 @@
 
         public Grid4Design(Board4Design board4Design) {
             this.board4Design = board4Design;
-            reset(Widht, Height);
+            reset(getGridHeight(), getGridWidth());
             filledCellsCount = Bindings.createLongBinding(() -> Arrays
                     .stream(getMatrix())
                     .flatMap(Arrays::stream)
@@ -113,6 +112,11 @@
 
         public void remove(int line, int col, Element element) {
             getMatrix()[line][col].getCellsElements().remove(element);
+            filledCellsCount.invalidate();
+        }
+
+        public void clear(int line, int col) {
+            getMatrix()[line][col].getCellsElements().clear();
             filledCellsCount.invalidate();
         }
 

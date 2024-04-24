@@ -52,7 +52,7 @@ public class Cell4Design extends Cell {
 
 
         if (element.equals(ground)) {
-            cellElements.clear();
+            grid4Design.clear(line, col);
         } else if (cellElements.contains(element)) {
             grid4Design.remove(line, col, element);
         }else if (cellElements.contains(player) && element.equals(goal)) {
@@ -60,15 +60,15 @@ public class Cell4Design extends Cell {
         } else if (cellElements.contains(box) && element.equals(player)) {
             System.out.println("impossible");
         }else if (cellElements.contains(wall) && element.equals(goal) ) {
-            cellElements.clear();
+            grid4Design.clear(line, col);
             grid4Design.add(line, col, element);
         } else if (cellElements.contains(box) && element.equals(wall)) {
-            cellElements.clear();
+            grid4Design.clear(line, col);
             grid4Design.add(line, col, element);
         } else if (cellElements.contains(goal) && element.equals(player)) {
             
         } else if (!grid4Design.hasPlayer() && cellElements.contains(wall) && element.equals(player)) {
-            cellElements.clear();
+            grid4Design.clear(line, col);
             grid4Design.add(line, col, element);
         } else if (cellElements.contains(player) && element.equals(wall)) {
             System.out.println("impossible de mettre un joueur sur un mur");
@@ -84,7 +84,7 @@ public class Cell4Design extends Cell {
                 }
 
                 if (cellElements.contains(wall)){
-                    cellElements.clear();
+                    grid4Design.clear(line, col);
                 }
 
                 grid4Design.remove(playerPosition[0], playerPosition[1], element);

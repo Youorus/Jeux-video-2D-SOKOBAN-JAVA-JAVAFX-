@@ -6,8 +6,6 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 
 public class Grid4Play extends Grid<Cell4Play>  {
-    private static final int GRID_HEIGHT = 10;
-    private static final int GRID_WIDTH = 15;
 
     public int getMoveCount() {
         return moveCount.get();
@@ -45,6 +43,7 @@ public class Grid4Play extends Grid<Cell4Play>  {
 
     private final  IntegerProperty boxOnGoalCount = new SimpleIntegerProperty();
 
+
     public void setMoveCount(int moveCount) {
         this.moveCount.set(moveCount);
     }
@@ -61,17 +60,19 @@ public class Grid4Play extends Grid<Cell4Play>  {
 
     private Cell4Play cell4Play;
 
+
     private final Board4Play board4Play;
 
     public Grid4Play(Board4Play board4Play) {
         this.board4Play = board4Play;
-        reset(GRID_HEIGHT, GRID_WIDTH);
+        System.out.println(getGridHeight());
+        reset(getGridHeight(), getGridWidth());
     }
 
 
     @Override
     protected Cell4Play[][] createMatrix(int height, int width) {
-        return new Cell4Play[GRID_HEIGHT][GRID_WIDTH];
+        return new Cell4Play[getGridHeight()][getGridWidth()];
     }
 
     @Override
@@ -113,8 +114,8 @@ public class Grid4Play extends Grid<Cell4Play>  {
 
     public int numberGoal() {
         int x = 0;
-        for (int i = 0; i < GRID_HEIGHT; i++) {
-            for (int j = 0; j < GRID_WIDTH; j++) {
+        for (int i = 0; i < getGridHeight(); i++) {
+            for (int j = 0; j < getGridWidth(); j++) {
                 if (getMatrix()[i][j].getCellsElements().contains(new Goal())) {
                     x++;
                 }

@@ -30,6 +30,7 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
         super(primaryStage, board4DesignViewModel);
         primaryStage.setTitle("Sokoban");
 
+
         getViewModel().getBoard4Design().gridEditedProperty().addListener((ols, val, newVal) ->{
             if (newVal)
                 primaryStage.setTitle("Sokoban(*)");
@@ -46,8 +47,10 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
             setCenter(null);
         });
 
-        int gridWidth = getViewModel().getBoard4Design().getGrid4Design().getGridWidth();
+        int gridWidth = getViewModel().getBoard4Design().getGrid4Design().gridWidthProperty().get();
+
         int gridHeight = getViewModel().getBoard4Design().getGrid4Design().getGridHeight();
+
 
         DoubleBinding gridWidthBinding = Bindings.createDoubleBinding(
                 () -> {

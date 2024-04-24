@@ -22,14 +22,16 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
 
 
     public void createGrid () {
-        int gridWidth = getViewModel().getGrid4PlayViewModel().getBoard4Play().getGrid4Play().getGridWidth();
-        int gridHeight = getViewModel().getGrid4PlayViewModel().getBoard4Play().getGrid4Play().getGridHeight();
+
+        int height = getViewModel().getGrid4PlayViewModel().getBoard4Play().getGrid4Play().getGridHeight();
+
+        int width = getViewModel().getGrid4PlayViewModel().getBoard4Play().getGrid4Play().getGridWidth();
 
         DoubleBinding gridWidthBinding = Bindings.createDoubleBinding(
                 () -> {
                     double availableWidth = widthProperty().get() - 55;
                     double availableHeight = heightProperty().get() - getHeaderBox().heightProperty().get() - getFooterBox().heightProperty().get() - 55;
-                    double aspectRatio = (double) gridWidth / gridHeight;
+                    double aspectRatio = (double) width / height;
                     double maxWidthBasedOnHeight = (availableHeight * aspectRatio);
                     double finalWidth = Math.min(availableWidth, maxWidthBasedOnHeight);
 
@@ -42,7 +44,7 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
                 getHeaderBox().heightProperty(),
                 getFooterBox().heightProperty() );
 
-        DoubleBinding gridHeightBinding = gridWidthBinding.divide(gridWidth).multiply(gridHeight);
+        DoubleBinding gridHeightBinding = gridWidthBinding.divide(width).multiply(height);
 
         Grid4PlayView grid4PlayView = new Grid4PlayView(getViewModel().getGrid4PlayViewModel(),gridWidthBinding, gridHeightBinding);
 

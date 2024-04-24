@@ -11,6 +11,8 @@ abstract public class Grid<T extends Cell> {
     }
 
 
+
+
     public ObservableList<Element> getCellsElements(int line, int col) {
         return getMatrix()[line][col].getCellsElements();
     }
@@ -22,18 +24,52 @@ abstract public class Grid<T extends Cell> {
         return gridHeight.get();
     }
 
-    private IntegerProperty gridHeight = new SimpleIntegerProperty();
+    public void setGridHeight(int gridHeight) {
+        this.gridHeight.set(gridHeight);
+    }
+
+    public void setGridWidth(int gridWidth) {
+        this.gridWidth.set(gridWidth);
+    }
+
+    public IntegerProperty gridHeightProperty() {
+        return gridHeight;
+    }
+
+    private final IntegerProperty gridHeight = new SimpleIntegerProperty(15);
+
+
 
     public IntegerProperty gridWidthProperty() {
         return gridWidth;
     }
+
+    public int getGrid4PlayHeight() {
+        return grid4PlayHeight.get();
+    }
+
+    public IntegerProperty grid4PlayHeightProperty() {
+        return grid4PlayHeight;
+    }
+
+    public int getGrid4PLayWidth() {
+        return grid4PLayWidth.get();
+    }
+
+    public IntegerProperty grid4PLayWidthProperty() {
+        return grid4PLayWidth;
+    }
+
+    private final IntegerProperty grid4PlayHeight = new SimpleIntegerProperty();
+    private final IntegerProperty grid4PLayWidth = new SimpleIntegerProperty();
 
 
     public int getGridWidth() {
         return gridWidth.get();
     }
 
-    private IntegerProperty gridWidth = new SimpleIntegerProperty();
+    private final IntegerProperty gridWidth = new SimpleIntegerProperty(10);
+
 
     public void reset(int height, int width){
         this.gridHeight.set(height);
@@ -44,6 +80,7 @@ abstract public class Grid<T extends Cell> {
                 matrix[i][j] = createCell();
             }
         }
+
     }
 
     public int[] getPlayerPosition() {
