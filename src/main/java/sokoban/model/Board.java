@@ -4,7 +4,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 
 abstract public class Board {
 
-
     public Ground getGround() {
         return ground;
     }

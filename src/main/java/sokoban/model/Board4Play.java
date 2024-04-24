@@ -9,7 +9,7 @@ public class Board4Play extends Board{
         return grid4Play;
     }
 
-    private Grid4Play grid4Play = new Grid4Play(this);
+    private final Grid4Play grid4Play = new Grid4Play(this);
 
     public IntegerProperty moveCountProperty() {
         return getGrid4Play().moveCountProperty();

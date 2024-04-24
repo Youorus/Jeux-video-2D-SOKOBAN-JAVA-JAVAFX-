@@ -13,6 +13,11 @@ public class ButtonPlay4DesignView extends ButtonView<Board4DesignViewModel> {
     private final Stage secondaryStage = new Stage();
 
     private Alert alert;
+
+    public Board4Play getBoard4Play() {
+        return board4Play;
+    }
+
     private Board4Play board4Play ;
 
     private Board4PlayViewModel board4PlayViewModel;

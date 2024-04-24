@@ -7,9 +7,7 @@
     import javafx.stage.FileChooser;
     import javafx.stage.Stage;
     import javafx.util.converter.NumberStringConverter;
-    import sokoban.model.Cell4Design;
-    import sokoban.model.Element;
-    import sokoban.model.Ground;
+    import sokoban.model.*;
     import sokoban.viewmodel.Board4DesignViewModel;
     import sokoban.viewmodel.MenuViewModel;
     import javafx.scene.control.Button;
@@ -18,8 +16,7 @@
     import java.io.FileNotFoundException;
     import java.io.FileWriter;
     import java.io.IOException;
-    import java.util.Optional;
-    import java.util.Scanner;
+    import java.util.*;
 
     public class MenuView extends  MenuBar{
 
@@ -131,11 +128,37 @@
             try (FileWriter writer = new FileWriter(file)) {
                 for (int i = 0; i < matrix.length; i++) {
                     for (int j = 0; j < matrix[i].length; j++) {
+                        boolean hasBox = false;
+                        boolean hasGoal = false;
+                        boolean hasPlayer = false;
+
+                        // Vérifier si la cellule contient une boîte et/ou un objectif
                         for (Element element : matrix[i][j].getCellsElements()) {
-                            writer.write(element.toString());
-                            writer.write(" "); // Ajouter un espace entre les éléments de la cellule
+                            if (element instanceof Box) {
+                                hasBox = true;
+                            } else if (element instanceof Goal) {
+                                hasGoal = true;
+                            }else if (element instanceof Player) {
+                                hasPlayer = true;
+                            }
                         }
-                        writer.write("\t"); // Ajouter un séparateur de colonne après chaque cellule
+
+                        if (matrix[i][j].getCellsElements().isEmpty()) {
+                            // Si la cellule est vide, écrire un espace
+                            writer.write(" ");
+                        }
+                        // Écrire le caractère correspondant en fonction des éléments présents dans la cellule
+                        if (hasBox && hasGoal) {
+                            writer.write("*"); // Écrire "*" si la cellule contient à la fois une boîte et un objectif
+                        } else if (hasPlayer && hasGoal) {
+                            writer.write("+");
+                        } else {
+                            // Si la cellule ne contient pas à la fois une boîte et un objectif,
+                            // écrire les éléments individuellement
+                            for (Element element : matrix[i][j].getCellsElements()) {
+                                writer.write(element.toString());
+                            }
+                        }
                     }
                     writer.write("\n"); // Ajouter un saut de ligne après chaque ligne de la grille
                 }
@@ -144,6 +167,9 @@
                 System.out.println("Erreur lors de l'écriture des éléments dans le fichier : " + e.getMessage());
             }
         }
+
+
+
 
         private void openFile() {
             FileChooser fileChooser = new FileChooser();
@@ -187,16 +213,36 @@
                     for (int j = 0; j < line.length() && j < board4DesignViewModel.getMatrix()[i].length; j++) {
                         char elementSymbol = line.charAt(j);
 
-                        Element element = Element.fromSymbol(elementSymbol);
-                        System.out.println(element);
-                        board4DesignViewModel.getGridViewModel().getBoard4Design().getGrid4Design().getMatrix()[i][j].getCellsElements().clear();
-                        if (element != null) {
-                            if (!element.equals(new Ground())){
-                                board4DesignViewModel.getGridViewModel().getBoard4Design().getGrid4Design().getCell4Design().add(i,j,element);
-                                board4DesignViewModel.getBoard4Design().gridEditedProperty().set(false);
+                        // Créer une liste d'éléments à ajouter à la cellule
+                        List<Element> elementsToAdd = new ArrayList<>();
 
-                            }
+                        switch (elementSymbol) {
+                            case '*':
+                                // Ajouter une Box et un Goal à la liste d'éléments
+                                elementsToAdd.add(new Box());
+                                elementsToAdd.add(new Goal());
+                                break;
+                            case '+':
+                                // Ajouter un Player et un Goal à la liste d'éléments
+                                elementsToAdd.add(new Player());
+                                elementsToAdd.add(new Goal());
+                                break;
+                            default:
+                                // Si le symbole correspond à un élément normal
+                                Element element = Element.fromSymbol(elementSymbol);
+                                if (element != null) {
+                                    elementsToAdd.add(element);
+                                }
+                                break;
                         }
+
+                        // Ajouter les éléments à la cellule correspondante
+                        for (Element element : elementsToAdd) {
+                            board4DesignViewModel.getGridViewModel().getBoard4Design().getGrid4Design().getCell4Design().add(i, j, element);
+                        }
+
+                        // Marquer la grille comme non modifiée
+                        board4DesignViewModel.getBoard4Design().gridEditedProperty().set(false);
                     }
                 }
                 System.out.println("Les éléments du fichier ont été copiés dans la grille actuelle.");
@@ -204,6 +250,7 @@
                 e.printStackTrace();
             }
         }
+
 
 
 
