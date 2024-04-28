@@ -9,6 +9,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import sokoban.model.*;
+import sokoban.viewmodel.Board4DesignViewModel;
 import sokoban.viewmodel.ToolsBoxViewModel;
 
 import java.util.ArrayList;
@@ -31,8 +32,11 @@ public class ToolsBoxView extends VBox {
     private final SimpleObjectProperty<Element> elementSelect = new SimpleObjectProperty<>();
     private final List<Element> elements;
     private final ToolsBoxViewModel toolsBoxViewModel;
-    public ToolsBoxView(DoubleBinding cellSize, ToolsBoxViewModel toolsBoxViewModel) {
+
+    private final Board4DesignViewModel board4DesignViewModel;
+    public ToolsBoxView(DoubleBinding cellSize, ToolsBoxViewModel toolsBoxViewModel, Board4DesignViewModel board4DesignViewModel) {
         this.toolsBoxViewModel = toolsBoxViewModel;
+        this.board4DesignViewModel = board4DesignViewModel;
         this.elements = createElements();
 
         setSpacing(10);
@@ -58,7 +62,7 @@ public class ToolsBoxView extends VBox {
         elements.add(new Ground());
         elements.add(new Wall());
         elements.add(new Player());
-        elements.add(new Box());
+        elements.add(board4DesignViewModel.getBoard4Design().getBox());
         elements.add(new Goal());
         // Ajoutez d'autres éléments selon vos besoins
         return elements;

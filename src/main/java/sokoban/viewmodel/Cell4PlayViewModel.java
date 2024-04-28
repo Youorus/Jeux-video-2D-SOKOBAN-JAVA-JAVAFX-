@@ -10,6 +10,10 @@ import java.util.List;
 
 public class Cell4PlayViewModel extends CellViewModel {
 
+    public Board4Play getBoard4Play() {
+        return board4Play;
+    }
+
     private final Board4Play board4Play;
 
 

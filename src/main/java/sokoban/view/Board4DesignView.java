@@ -86,7 +86,7 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
 
 
     private void createBoiteAOutils(DoubleBinding cellsize){
-        ToolsBoxView boiteAOutilsView = new ToolsBoxView(cellsize, getViewModel().getToolsBoxViewModel());
+        ToolsBoxView boiteAOutilsView = new ToolsBoxView(cellsize, getViewModel().getToolsBoxViewModel(), getViewModel());
         boiteAOutilsView.setAlignment(Pos.CENTER_LEFT);
         setLeft(boiteAOutilsView);
     }

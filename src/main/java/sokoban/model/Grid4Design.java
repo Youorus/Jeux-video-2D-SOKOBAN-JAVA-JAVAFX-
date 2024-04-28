@@ -91,7 +91,7 @@
         public boolean hasBox() {
             for (int i = 0; i < getGridHeight(); i++) {
                 for (int j = 0; j < getGridWidth(); j++) {
-                    if (getMatrix()[i][j].getCellsElements().contains(new Box())) {
+                    if (getMatrix()[i][j].getCellsElements().contains(board4Design.getBox())) {
                         return true; // Une Box  a été trouvé
                     }
                 }

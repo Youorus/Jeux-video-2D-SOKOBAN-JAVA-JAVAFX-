@@ -10,12 +10,18 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.StackPane;
 import sokoban.model.Box;
+import sokoban.model.Direction;
 import sokoban.model.Element;
 import sokoban.model.Ground;
 import sokoban.viewmodel.Cell4PlayViewModel;
 
+import static javafx.scene.input.KeyCode.Y;
+import static javafx.scene.input.KeyCode.Z;
+
 public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
     private final ImageView imageView = new ImageView(new Ground().getImage());
+
+
     private int previousBoxNumber = 0;
 
 
@@ -43,7 +49,9 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
         // Effacer tous les éléments de la cellule
         getChildren().clear();
 
+
         ObservableList<Element> elements = getCellViewModel().getCellsElements();
+
 
         // Afficher l'image du sol
         ImageView groundView = new ImageView(new Ground().getImage());
@@ -55,9 +63,11 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
             ImageView elementView = new ImageView(element.getImage());
             setImage(elementView);
 
-            if (element.equals(new Box())) {
+            if (element instanceof Box){
+
+                int x = Box.getBoxNumber();
                 // Crée le texte pour numéroter la boîte
-                Label boxNumberText = new Label(Integer.toString(previousBoxNumber));
+                Label boxNumberText = new Label(Integer.toString(x));
                 // Ajoute le style de texte pour le numéro
                 boxNumberText.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-fill: black; -fx-background-color: white; -fx-padding: 4px;");
                 // Positionne le numéro au-dessus de l'image de la boîte
@@ -65,7 +75,10 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
                 // Ajoute le numéro au-dessus de l'image de la boîte
                 getChildren().add(boxNumberText);
             }
+
         }
+
+
     }
 
 
@@ -73,28 +86,43 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
 
 
     private void handleKeyPressed(KeyEvent event) {
-                    switch (event.getCode()) {
-                        case Z:
-                            //deplacement verrs le haut
-                            getCellViewModel().movePlayerUp();
-                            break;
-                        case Q:
-                            //deplacement du joueur sur la gauche
-                            getCellViewModel().movePlayerLeft();
-                            break;
-                        case S:
-                            //deplacement du joueur sur la droite
-                            getCellViewModel().movePlayerDown();
-                            break;
-                        case D:
-                            //deplacement du joueur vers le bas
-                            getCellViewModel().movePlayerRight();
-                            break;
-                        default:
-                            // Autre touche pressée
-                            break;
-                    }
+
+        // Vérifie si la combinaison Ctrl + Z est pressée
+        if (event.isControlDown() && event.getCode() == Z) {
+            // Ctrl+Z pour annuler
+            getCellViewModel().getBoard4Play().undoMove();
+        } else if (event.isControlDown() && event.getCode() == Y) {
+            // Ctrl+Y pour refaire
+            //getCellViewModel().getBoard4Play().redoMove();
+        }else{
+            switch (event.getCode()) {
+                case Z:
+                    //deplacement verrs le haut
+                    getCellViewModel().getBoard4Play().executeMove(Direction.UP);
+                    //getCellViewModel().movePlayerUp();
+                    break;
+                case Q:
+                    //deplacement du joueur sur la gauche
+                    getCellViewModel().getBoard4Play().executeMove(Direction.LEFT);
+                    break;
+                case S:
+                    //deplacement du joueur sur la droite
+                    getCellViewModel().getBoard4Play().executeMove(Direction.DOWN);
+                    break;
+                case D:
+                    //deplacement du joueur vers le bas
+                    getCellViewModel().getBoard4Play().executeMove(Direction.RIGHT);
+                    break;
+                default:
+                    // Autre touche pressée
+                    break;
+            }
+        }
+
+
     }
+
+
 
 
 

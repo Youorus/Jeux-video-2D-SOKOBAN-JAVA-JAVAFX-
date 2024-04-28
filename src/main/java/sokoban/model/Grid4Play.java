@@ -80,7 +80,7 @@ public class Grid4Play extends Grid<Cell4Play>  {
     public Grid4Play(Board4Play board4Play) {
         this.board4Play = board4Play;
 
-        reset(grid4PlayHeight.get(), grid4PLayWidth.get());
+        reset(getGridHeight(), getGridWidth());
     }
 
 

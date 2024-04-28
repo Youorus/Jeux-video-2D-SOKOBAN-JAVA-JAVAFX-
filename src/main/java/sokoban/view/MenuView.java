@@ -219,7 +219,7 @@
                         switch (elementSymbol) {
                             case '*':
                                 // Ajouter une Box et un Goal à la liste d'éléments
-                                elementsToAdd.add(new Box());
+                                elementsToAdd.add(board4DesignViewModel.getBoard4Design().getBox());
                                 elementsToAdd.add(new Goal());
                                 break;
                             case '+':
@@ -229,7 +229,7 @@
                                 break;
                             default:
                                 // Si le symbole correspond à un élément normal
-                                Element element = Element.fromSymbol(elementSymbol);
+                                Element element = fromSymbol(elementSymbol);
                                 if (element != null) {
                                     elementsToAdd.add(element);
                                 }
@@ -248,6 +248,25 @@
                 System.out.println("Les éléments du fichier ont été copiés dans la grille actuelle.");
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
+            }
+        }
+
+
+
+        public Element fromSymbol(char symbol) {
+            switch (symbol) {
+                case '.':
+                    return new Goal(); // Par exemple, si '.' représente un objectif
+                case '#':
+                    return new Wall(); // Si '#' représente un mur, par exemple
+                case '@':
+                    return new Player();
+                case ' ':
+                    return new Ground();
+                case '$':
+                    return board4DesignViewModel.getBoard4Design().getBox();
+                default:
+                    return null; // Retourne null si le symbole ne correspond à aucun élément connu
             }
         }
 
