@@ -22,7 +22,7 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
     private final ImageView imageView = new ImageView(new Ground().getImage());
 
 
-    private int previousBoxNumber = 0;
+    private boolean boxesNumbered = false;
 
 
     Cell4PlayView(Cell4PlayViewModel cell4PlayViewModel, DoubleBinding cellWidthProperty) {
@@ -49,9 +49,7 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
         // Effacer tous les éléments de la cellule
         getChildren().clear();
 
-
         ObservableList<Element> elements = getCellViewModel().getCellsElements();
-
 
         // Afficher l'image du sol
         ImageView groundView = new ImageView(new Ground().getImage());
@@ -63,9 +61,10 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
             ImageView elementView = new ImageView(element.getImage());
             setImage(elementView);
 
-            if (element instanceof Box){
-
+            if ( element instanceof Box) { // Vérifie si les boîtes n'ont pas encore été numérotées
+                Box.increment();
                 int x = Box.getBoxNumber();
+
                 // Crée le texte pour numéroter la boîte
                 Label boxNumberText = new Label(Integer.toString(x));
                 // Ajoute le style de texte pour le numéro
@@ -75,14 +74,8 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
                 // Ajoute le numéro au-dessus de l'image de la boîte
                 getChildren().add(boxNumberText);
             }
-
         }
-
-
     }
-
-
-
 
 
     private void handleKeyPressed(KeyEvent event) {

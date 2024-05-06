@@ -1,8 +1,11 @@
 package sokoban.model;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 
 abstract public class Board {
+
+
 
     public Ground getGround() {
         return ground;
