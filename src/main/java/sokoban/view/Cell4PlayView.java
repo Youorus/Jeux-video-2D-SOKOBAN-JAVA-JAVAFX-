@@ -86,7 +86,7 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
             getCellViewModel().getBoard4Play().undoMove();
         } else if (event.isControlDown() && event.getCode() == Y) {
             // Ctrl+Y pour refaire
-            //getCellViewModel().getBoard4Play().redoMove();
+            getCellViewModel().getBoard4Play().redoMove();
         }else{
             switch (event.getCode()) {
                 case Z:

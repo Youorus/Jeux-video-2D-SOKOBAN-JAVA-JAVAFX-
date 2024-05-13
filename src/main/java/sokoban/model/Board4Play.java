@@ -7,6 +7,8 @@ public class Board4Play extends Board{
 
     private final CommandHistory commandHistory = new CommandHistory();
 
+    private final  MovePlayerCommand moveCommand = new MovePlayerCommand(this);
+
     public Grid4Play getGrid4Play() {
         return grid4Play;
     }
@@ -19,26 +21,18 @@ public class Board4Play extends Board{
 
     // Méthode pour exécuter un déplacement et le stocker dans l'historique des commandes
     public void executeMove(Direction direction) {
-        MovePlayerCommand moveCommand = new MovePlayerCommand(this, direction);
         moveCommand.execute();
-        commandHistory.push(moveCommand);
+        movePlayer(direction);
     }
 
     // Méthode pour annuler le dernier déplacement
     public void undoMove() {
-        if (!commandHistory.isEmpty()) {
-            Command lastCommand = commandHistory.pop();
-            lastCommand.undo();
-        }
+      moveCommand.undo();
     }
 
-//    public void redoMove() {
-//        if (commandHistory.hasRedoCommands()) {
-//            Command nextCommand = commandHistory.peekRedoCommand();
-//            nextCommand.redo();
-//        }
-//    }
-
+    public void redoMove() {
+        moveCommand.redo();
+    }
     public IntegerProperty boxAndGoalCountProperty() {
         return grid4Play.boxOnGoalCountProperty();
     }
@@ -66,6 +60,23 @@ public class Board4Play extends Board{
         return getGrid4Play().playerWinProperty();
     }
 
+
+    public void movePlayer(Direction direction){
+        switch (direction) {
+            case UP:
+                movePlayerUp();
+                break;
+            case DOWN:
+                movePlayerDown();
+                break;
+            case LEFT:
+               movePlayerLeft();
+                break;
+            case RIGHT:
+                movePlayerRight();
+                break;
+        }
+    }
 
     public int numberGoal() {
        return getGrid4Play().numberGoal();
