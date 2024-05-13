@@ -10,6 +10,11 @@ import java.util.Stack;
 public class MovePlayerCommand implements Command{
     private final Board4Play board4Play;
     private final Stack<List<CellState>> statesStack = new Stack<>();
+    private final Stack<Direction> statesRedoStack = new Stack<>();
+
+    public Stack<Direction> getStatesRedoStack() {
+        return statesRedoStack;
+    }
 
     public MovePlayerCommand(Board4Play board4Play) {
         this.board4Play = board4Play;
@@ -32,8 +37,10 @@ public class MovePlayerCommand implements Command{
 
     @Override
     public void redo() {
-        // Réexécute l'état comme il était (si nécessaire)
-        execute();
+       if (!statesRedoStack.isEmpty()){
+           Direction redoDirection = statesRedoStack.pop();
+           board4Play.movePlayer(redoDirection);
+       }
     }
 
     private void saveState(Grid4Play grid4Play) {

@@ -23,6 +23,7 @@ public class Board4Play extends Board{
     public void executeMove(Direction direction) {
         moveCommand.execute();
         movePlayer(direction);
+        moveCommand.getStatesRedoStack().push(direction);
     }
 
     // Méthode pour annuler le dernier déplacement
