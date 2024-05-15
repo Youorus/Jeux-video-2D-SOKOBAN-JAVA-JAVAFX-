@@ -1,5 +1,6 @@
 package sokoban.model;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -13,6 +14,20 @@ public class Grid4Play extends Grid<Cell4Play>  {
     public int getMoveCount() {
         return moveCount.get();
     }
+
+    public boolean isShowMushroom() {
+        return showMushroom.get();
+    }
+
+    public BooleanProperty showMushroomProperty() {
+        return showMushroom;
+    }
+
+    public void setShowMushroom(boolean showMushroom) {
+        this.showMushroom.set(showMushroom);
+    }
+
+    private BooleanProperty showMushroom = new SimpleBooleanProperty(false);
 
     public IntegerProperty moveCountProperty() {
         return moveCount;

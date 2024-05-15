@@ -31,7 +31,6 @@ public class Cell4DesignView extends CellView<Cell4DesignViewModel> {
             if (event.getButton() == MouseButton.PRIMARY) {
                 getCellViewModel().add(getCellViewModel().getToolsBoxViewModel().getElementSelect());
 
-
             }
         });
 

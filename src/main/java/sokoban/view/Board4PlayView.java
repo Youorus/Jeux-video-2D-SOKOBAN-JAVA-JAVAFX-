@@ -4,6 +4,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
@@ -13,6 +14,8 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
 
     private Board4PlayViewModel board4PlayViewModel;
     private ButtonFinish4PlayView buttonFinish4PlayView;
+
+    private Button showMushroom ;
     private Label headerLabel;
 
     public Board4PlayView(Stage secondaryStage, Board4PlayViewModel board4PlayViewModel){
@@ -92,11 +95,28 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
     @Override
     public void createButton() {
         buttonFinish4PlayView = new ButtonFinish4PlayView(getStage(),getViewModel());
+
+        showMushroom = new Button("Show mushroom");
+
+
         getFooterBox().setAlignment(Pos.TOP_CENTER);
         getFooterBox().setPrefHeight(70);
         getFooterBox().setPadding(new Insets(0, 0, 0, 0));
         getFooterBox().getChildren().add(buttonFinish4PlayView);
+        getFooterBox().setSpacing(7);
+        getFooterBox().getChildren().add(showMushroom);
         setBottom(getFooterBox());
+
+        showMushroom.setOnAction(event -> {
+            boolean mushroomVisibility = getViewModel().getGrid4PlayViewModel().getBoard4Play().getGrid4Play().isShowMushroom();
+            getViewModel().getGrid4PlayViewModel().getBoard4Play().getGrid4Play().setShowMushroom(!mushroomVisibility);
+
+            if (!mushroomVisibility){
+                showMushroom.setText("Hide mushroom");
+            }else {
+                showMushroom.setText("Show mushroom");
+            }
+        });
     }
 
 }

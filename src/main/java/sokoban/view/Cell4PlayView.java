@@ -8,11 +8,9 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
-import sokoban.model.Box;
-import sokoban.model.Direction;
-import sokoban.model.Element;
-import sokoban.model.Ground;
+import sokoban.model.*;
 import sokoban.viewmodel.Cell4PlayViewModel;
 
 import static javafx.scene.input.KeyCode.Y;
@@ -31,6 +29,8 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
         setFocusTraversable(true); // focus sur l'entrée des touchees
         setOnKeyPressed(this::handleKeyPressed);
 
+        eventClickCellPlay();
+
 
         getCellViewModel().playerWinProperty().addListener((obs, oldValue, newValue) ->{
            setOnKeyPressed(null);
@@ -42,6 +42,11 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
             imageViewUpdate(getCellViewModel().getCellsElements());
             updateCellImages();
         });
+
+        getCellViewModel().getBoard4Play().getGrid4Play().showMushroomProperty().addListener((old,val,newVal)->{
+            updateCellImages();
+        });
+
     }
 
 
@@ -57,9 +62,16 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
 
         // Parcourt les éléments de la cellule dans l'ordre inverse
         for (int i = elements.size() - 1; i >= 0; i--) {
+
             Element element = elements.get(i);
+
             ImageView elementView = new ImageView(element.getImage());
             setImage(elementView);
+
+            if (element instanceof Mushroom){
+                    elementView.visibleProperty().bind(getCellViewModel().getBoard4Play().getGrid4Play().showMushroomProperty()); //masquer le mushroom au lancement de l'app
+            }
+
 
             if ( element instanceof Box) { // Vérifie si les boîtes n'ont pas encore été numérotées
                 Box.increment();
@@ -77,6 +89,16 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
         }
     }
 
+
+    public void eventClickCellPlay(){
+        this.setOnMouseClicked(event -> {
+            if (getCellViewModel().ClickOnMushroom()){
+                System.out.println("Ici le mushRoom");
+            }
+
+        });
+
+    }
 
     private void handleKeyPressed(KeyEvent event) {
 
