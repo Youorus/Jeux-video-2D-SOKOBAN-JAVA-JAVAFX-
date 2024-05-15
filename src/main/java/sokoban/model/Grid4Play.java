@@ -4,9 +4,12 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
+import java.util.Random;
+
 
 public class Grid4Play extends Grid<Cell4Play>  {
 
+    private int boundRandomCells ;
     public int getMoveCount() {
         return moveCount.get();
     }
@@ -71,6 +74,11 @@ public class Grid4Play extends Grid<Cell4Play>  {
     private final IntegerProperty grid4PlayHeight = new SimpleIntegerProperty();
     private final IntegerProperty grid4PLayWidth = new SimpleIntegerProperty();
 
+
+    public int getRandomNumber() {
+        Random random = new Random();
+        return  random.nextInt(getGridHeight() * getGridWidth());
+    }
 
     private Cell4Play cell4Play;
 

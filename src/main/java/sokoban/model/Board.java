@@ -15,6 +15,12 @@ abstract public class Board {
     public Wall getWall() {
         return wall;
     }
+
+    public Mushroom getMushroom() {
+        return mushroom;
+    }
+
+    private final Mushroom  mushroom = new Mushroom();
     private final Wall wall = new Wall();
     private final Player player = new Player();
     private final Box box = new Box();

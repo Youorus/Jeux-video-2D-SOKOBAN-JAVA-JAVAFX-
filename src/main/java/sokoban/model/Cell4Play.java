@@ -4,9 +4,12 @@ import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 
+import java.util.Random;
+
 public class Cell4Play extends Cell {
 
     private final Grid4Play grid4Play;
+    private final Random random = new Random();
 
     public Cell4Play(Grid4Play grid4Play) {
         this.grid4Play = grid4Play;
@@ -73,6 +76,23 @@ public class Cell4Play extends Cell {
             grid4Play.setPlayerWin(true);
         }
     }
+
+    public void addMushroomToRandomEmptyCell() {
+        Element mushroom = grid4Play.getBoard4Play().getMushroom();
+        int height = grid4Play.getGridHeight();
+        int width = grid4Play.getGridWidth();
+        while (true) {
+            int randomRow = random.nextInt(height);
+            int randomCol = random.nextInt(width);
+
+            if (grid4Play.getCellsElements(randomRow,randomCol).isEmpty()){
+                grid4Play.add(randomRow,randomCol, mushroom);
+                break;
+            }
+        }
+    }
+
+
 
     private void moveBox(Element box, Element goal, int nextRow, int nextColumn, int rowChange, int colChange) {
         grid4Play.getCellsElements(nextRow, nextColumn).remove(box);
