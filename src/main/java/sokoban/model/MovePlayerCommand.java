@@ -9,6 +9,11 @@ import java.util.Stack;
 
 public class MovePlayerCommand implements Command{
     private final Board4Play board4Play;
+
+    public Stack<List<CellState>> getStatesStack() {
+        return statesStack;
+    }
+
     private final Stack<List<CellState>> statesStack = new Stack<>();
     private final Stack<Direction> statesRedoStack = new Stack<>();
 

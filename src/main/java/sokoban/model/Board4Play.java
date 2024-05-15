@@ -5,8 +5,6 @@ import javafx.beans.property.SimpleBooleanProperty;
 
 public class Board4Play extends Board{
 
-    private final CommandHistory commandHistory = new CommandHistory();
-
     private final  MovePlayerCommand moveCommand = new MovePlayerCommand(this);
 
     public Grid4Play getGrid4Play() {
@@ -28,6 +26,9 @@ public class Board4Play extends Board{
 
     // Méthode pour annuler le dernier déplacement
     public void undoMove() {
+        if (!moveCommand.getStatesStack().isEmpty()){
+            this.grid4Play.setMoveCount(this.grid4Play.getMoveCount() + 5);
+        }
       moveCommand.undo();
     }
 
