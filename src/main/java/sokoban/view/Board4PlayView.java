@@ -113,6 +113,7 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
 
             if (!mushroomVisibility){
                 showMushroom.setText("Hide mushroom");
+                getViewModel().getGrid4PlayViewModel().getBoard4Play().getGrid4Play().setMoveCount(getViewModel().getGrid4PlayViewModel().getBoard4Play().getGrid4Play().getMoveCount() + 10);
             }else {
                 showMushroom.setText("Show mushroom");
             }

@@ -47,6 +47,7 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
             updateCellImages();
         });
 
+
     }
 
 
@@ -93,9 +94,9 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
     public void eventClickCellPlay(){
         this.setOnMouseClicked(event -> {
             if (getCellViewModel().ClickOnMushroom()){
-                System.out.println("Ici le mushRoom");
+                getCellViewModel().getBoard4Play().getGrid4Play().removeMushroom();
+                getCellViewModel().getBoard4Play().getGrid4Play().getCell4Play().addMushroomToRandomEmptyCell();
             }
-
         });
 
     }

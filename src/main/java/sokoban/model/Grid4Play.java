@@ -136,6 +136,17 @@ public class Grid4Play extends Grid<Cell4Play>  {
         }
     }
 
+
+    public void removeMushroom() {
+        for (int i = 0; i < getGridHeight(); i++) {
+            for (int j = 0; j < getGridWidth(); j++) {
+                if (getMatrix()[i][j].getCellsElements().contains(board4Play.getMushroom())) {
+                    getMatrix()[i][j].getCellsElements().removeAll(board4Play.getMushroom());
+                }
+            }
+        }
+    }
+
     public void add(int line, int col, Element element) {
         getMatrix()[line][col].getCellsElements().add(element);
     }
