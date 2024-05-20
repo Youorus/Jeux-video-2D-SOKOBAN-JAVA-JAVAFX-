@@ -76,15 +76,7 @@ public class Grid4Play extends Grid<Cell4Play>  {
         return cell4Play;
     }
 
-    @Override
-    public int getGrid4PlayHeight() {
-        return grid4PlayHeight.get();
-    }
 
-    @Override
-    public IntegerProperty grid4PlayHeightProperty() {
-        return grid4PlayHeight;
-    }
 
     private final IntegerProperty grid4PlayHeight = new SimpleIntegerProperty();
     private final IntegerProperty grid4PLayWidth = new SimpleIntegerProperty();
@@ -100,10 +92,10 @@ public class Grid4Play extends Grid<Cell4Play>  {
 
     private final Board4Play board4Play;
 
-    public Grid4Play(Board4Play board4Play) {
+    public Grid4Play(Board4Play board4Play, Grid4Design grid4Design) {
         this.board4Play = board4Play;
 
-        reset(getGridHeight(), getGridWidth());
+        reset(grid4Design.getGridHeight(), grid4Design.getGridWidth());
     }
 
 

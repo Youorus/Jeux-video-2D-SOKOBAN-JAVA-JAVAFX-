@@ -47,6 +47,9 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
             setCenter(null);
         });
 
+        System.out.println(getViewModel().getBoard4Design().getGrid4Design().getGridWidth());
+        System.out.println(getViewModel().getBoard4Design().getGrid4Design().getGridHeight());
+
         int gridWidth = getViewModel().getBoard4Design().getGrid4Design().gridWidthProperty().get();
 
         int gridHeight = getViewModel().getBoard4Design().getGrid4Design().getGridHeight();

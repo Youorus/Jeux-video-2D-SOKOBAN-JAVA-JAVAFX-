@@ -36,7 +36,7 @@ abstract public class Grid<T extends Cell> {
         return gridHeight;
     }
 
-    private final IntegerProperty gridHeight = new SimpleIntegerProperty(15);
+    private  IntegerProperty gridHeight = new SimpleIntegerProperty(20);
 
 
 
@@ -44,31 +44,14 @@ abstract public class Grid<T extends Cell> {
         return gridWidth;
     }
 
-    public int getGrid4PlayHeight() {
-        return grid4PlayHeight.get();
-    }
 
-    public IntegerProperty grid4PlayHeightProperty() {
-        return grid4PlayHeight;
-    }
-
-    public int getGrid4PLayWidth() {
-        return grid4PLayWidth.get();
-    }
-
-    public IntegerProperty grid4PLayWidthProperty() {
-        return grid4PLayWidth;
-    }
-
-    private final IntegerProperty grid4PlayHeight = new SimpleIntegerProperty();
-    private final IntegerProperty grid4PLayWidth = new SimpleIntegerProperty();
 
 
     public int getGridWidth() {
         return gridWidth.get();
     }
 
-    private final IntegerProperty gridWidth = new SimpleIntegerProperty(10);
+    private  IntegerProperty gridWidth = new SimpleIntegerProperty(20);
 
 
     public void reset(int height, int width){

@@ -9,12 +9,12 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import sokoban.viewmodel.Board4PlayViewModel;
+import sokoban.viewmodel.MenuViewModel;
 
 public class Board4PlayView extends BoardView<Board4PlayViewModel> {
 
     private Board4PlayViewModel board4PlayViewModel;
     private ButtonFinish4PlayView buttonFinish4PlayView;
-
     private Button showMushroom ;
     private Label headerLabel;
 
@@ -89,7 +89,6 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
 
     @Override
     public void createMenu() {
-
     }
 
     @Override

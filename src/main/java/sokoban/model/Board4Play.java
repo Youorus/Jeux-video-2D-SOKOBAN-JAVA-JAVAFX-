@@ -11,7 +11,7 @@ public class Board4Play extends Board{
         return grid4Play;
     }
 
-    private final Grid4Play grid4Play = new Grid4Play(this);
+    private final Grid4Play grid4Play;
 
     public IntegerProperty moveCountProperty() {
         return getGrid4Play().moveCountProperty();
@@ -40,6 +40,7 @@ public class Board4Play extends Board{
     }
 
     public Board4Play(Board4Design board4Design){
+        grid4Play = new Grid4Play(this, board4Design.getGrid4Design());
         this.grid4Play.copyElements(board4Design.getGrid4Design());
         this.grid4Play.getCell4Play().addMushroomToRandomEmptyCell();
     }
