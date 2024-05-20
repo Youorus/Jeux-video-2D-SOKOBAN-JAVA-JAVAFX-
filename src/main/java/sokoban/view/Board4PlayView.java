@@ -15,6 +15,8 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
 
     private Board4PlayViewModel board4PlayViewModel;
     private ButtonFinish4PlayView buttonFinish4PlayView;
+
+    private ButtonMushroom4PlayView buttonMushroom4PlayView;
     private Button showMushroom ;
     private Label headerLabel;
 
@@ -94,29 +96,17 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
     @Override
     public void createButton() {
         buttonFinish4PlayView = new ButtonFinish4PlayView(getStage(),getViewModel());
-
-        showMushroom = new Button("Show mushroom");
+        buttonMushroom4PlayView = new ButtonMushroom4PlayView(getViewModel());
 
 
         getFooterBox().setAlignment(Pos.TOP_CENTER);
         getFooterBox().setPrefHeight(70);
         getFooterBox().setPadding(new Insets(0, 0, 0, 0));
         getFooterBox().getChildren().add(buttonFinish4PlayView);
+        getFooterBox().getChildren().add(buttonMushroom4PlayView);
         getFooterBox().setSpacing(7);
-        getFooterBox().getChildren().add(showMushroom);
         setBottom(getFooterBox());
 
-        showMushroom.setOnAction(event -> {
-            boolean mushroomVisibility = getViewModel().getGrid4PlayViewModel().getBoard4Play().getGrid4Play().isShowMushroom();
-            getViewModel().getGrid4PlayViewModel().getBoard4Play().getGrid4Play().setShowMushroom(!mushroomVisibility);
-
-            if (!mushroomVisibility){
-                showMushroom.setText("Hide mushroom");
-                getViewModel().getGrid4PlayViewModel().getBoard4Play().getGrid4Play().setMoveCount(getViewModel().getGrid4PlayViewModel().getBoard4Play().getGrid4Play().getMoveCount() + 10);
-            }else {
-                showMushroom.setText("Show mushroom");
-            }
-        });
     }
 
 }

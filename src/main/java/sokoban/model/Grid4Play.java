@@ -77,11 +77,6 @@ public class Grid4Play extends Grid<Cell4Play>  {
     }
 
 
-
-    private final IntegerProperty grid4PlayHeight = new SimpleIntegerProperty();
-    private final IntegerProperty grid4PLayWidth = new SimpleIntegerProperty();
-
-
     public int getRandomNumber() {
         Random random = new Random();
         return  random.nextInt(getGridHeight() * getGridWidth());
@@ -97,9 +92,6 @@ public class Grid4Play extends Grid<Cell4Play>  {
 
         reset(grid4Design.getGridHeight(), grid4Design.getGridWidth());
     }
-
-
-
 
 
     @Override

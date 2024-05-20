@@ -43,10 +43,6 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
             updateCellImages();
         });
 
-        getCellViewModel().getBoard4Play().getGrid4Play().showMushroomProperty().addListener((old,val,newVal)->{
-            updateCellImages();
-        });
-
 
     }
 
