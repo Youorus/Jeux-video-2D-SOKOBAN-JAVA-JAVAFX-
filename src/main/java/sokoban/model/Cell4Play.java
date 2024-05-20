@@ -94,6 +94,7 @@ public class Cell4Play extends Cell {
 
 
 
+
     private void moveBox(Element box, Element goal, int nextRow, int nextColumn, int rowChange, int colChange) {
         grid4Play.getCellsElements(nextRow, nextColumn).remove(box);
         grid4Play.getCellsElements(nextRow + rowChange, nextColumn + colChange).add(box);

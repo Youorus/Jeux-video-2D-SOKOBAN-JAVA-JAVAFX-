@@ -5,11 +5,14 @@ import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Random;
 
 
 public class Grid4Play extends Grid<Cell4Play>  {
-
+    private final Random random = new Random();
     private int boundRandomCells ;
     public int getMoveCount() {
         return moveCount.get();
@@ -140,10 +143,52 @@ public class Grid4Play extends Grid<Cell4Play>  {
     }
 
 
+    public void moveBoxesToRandomEmptyCells() {
+        List<int[]> emptyCells = getEmptyNonBorderCells();
+        List<int[]> boxPositions = new ArrayList<>();
 
+        // Collect all current box positions
+        for (int row = 1; row < getGridHeight() - 1; row++) {
+            for (int col = 1; col < getGridWidth() - 1; col++) {
+                if (getCellsElements(row, col).contains(new Box())) {
+                    boxPositions.add(new int[]{row, col});
+                }
+            }
+        }
 
+        // Shuffle the empty cells to randomize
+        Collections.shuffle(emptyCells, random);
 
+        // Move each box to a new random empty cell
+        for (int[] boxPos : boxPositions) {
+            if (!emptyCells.isEmpty()) {
+                int[] newPos = emptyCells.remove(0);
+                moveBoxToNewPosition(boxPos[0], boxPos[1], newPos[0], newPos[1]);
+            }
+        }
+    }
 
+    private void moveBoxToNewPosition(int oldRow, int oldCol, int newRow, int newCol) {
+        Element box = new Box(); // Assume Box is your box element class
+        remove(oldRow, oldCol, box);
+        add(newRow, newCol, box);
+    }
+
+    private boolean isBorderCell(int row, int col) {
+        return row == 0 || row == getGridHeight() - 1 || col == 0 || col == getGridWidth() - 1;
+    }
+
+    private List<int[]> getEmptyNonBorderCells() {
+        List<int[]> emptyCells = new ArrayList<>();
+        for (int row = 1; row < getGridHeight() - 1; row++) {
+            for (int col = 1; col < getGridWidth() - 1; col++) {
+                if (getCellsElements(row, col).isEmpty()) {
+                    emptyCells.add(new int[]{row, col});
+                }
+            }
+        }
+        return emptyCells;
+    }
 
 
 
