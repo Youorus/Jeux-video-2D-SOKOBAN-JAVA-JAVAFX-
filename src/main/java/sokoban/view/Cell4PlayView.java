@@ -98,16 +98,13 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
     }
 
 
-    private void handleClickCellPlay(){
-        this.setOnMouseClicked(event -> {
-            if (getCellViewModel().ClickOnMushroom()){
-                getCellViewModel().getBoard4Play().getGrid4Play().setMoveCount(getCellViewModel().getBoard4Play().getGrid4Play().getMoveCount() + 20);
-                getCellViewModel().getBoard4Play().getGrid4Play().moveBoxesToRandomEmptyCells();
-                getCellViewModel().getBoard4Play().getGrid4Play().removeMushroom();
-                getCellViewModel().getBoard4Play().getGrid4Play().getCell4Play().addMushroomToRandomEmptyCell();
-            }
-        });
-
+    public void handleClickCellPlay() {
+        if (getCellViewModel().ClickOnMushroom()) {
+            getCellViewModel().getBoard4Play().getGrid4Play().setMoveCount(getCellViewModel().getBoard4Play().getGrid4Play().getMoveCount() + 20);
+            getCellViewModel().getBoard4Play().getGrid4Play().moveBoxesToRandomEmptyCells();
+            getCellViewModel().getBoard4Play().getGrid4Play().removeMushroom();
+            getCellViewModel().getBoard4Play().getGrid4Play().getCell4Play().addMushroomToRandomEmptyCell();
+        }
     }
 
     private void handleKeyPressed(KeyEvent event) {
