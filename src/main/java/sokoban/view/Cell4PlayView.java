@@ -36,6 +36,12 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
            setOnKeyPressed(null);
         });
 
+        getCellViewModel().getBoard4Play().getGrid4Play().showMushroomProperty().addListener((old,val,newVal)->{
+            if (newVal){
+                setOnKeyPressed(null);
+                setOnMouseClicked(null);
+            }
+        });
 
 
         getCellViewModel().getCellsElements().addListener((ListChangeListener<Element>) change -> {

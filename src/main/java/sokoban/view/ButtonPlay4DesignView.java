@@ -31,7 +31,7 @@ public class ButtonPlay4DesignView extends ButtonView<Board4DesignViewModel> {
         super(board4DesignViewModel);
         this.menuView = menuView;
         disableProperty().bind(board4DesignViewModel.getErrorBoxViewModel().errorListProperty().emptyProperty().not());
-
+        playBtn.setFocusTraversable(false);
 
         getChildren().add(playBtn);
         playBtnListener();
