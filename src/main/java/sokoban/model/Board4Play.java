@@ -2,7 +2,6 @@ package sokoban.model;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
-import javafx.collections.ListChangeListener;
 
 public class Board4Play extends Board{
 
@@ -29,7 +28,7 @@ public class Board4Play extends Board{
         moveCommand.getStatesRedoStack().push(direction);
     }
 
-    public void redoIfCellsChange(){
+    public void undoIfCellsChange(){
         moveCommand.execute();
     }
 

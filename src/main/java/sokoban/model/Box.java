@@ -6,31 +6,23 @@ import javafx.beans.property.SimpleBooleanProperty;
 import java.util.Objects;
 
 public class Box extends Element {
-
-    public boolean isIsNumerote() {
-        return isNumerote.get();
+    public static int getBoxCounter() {
+        return boxCounter;
     }
 
-    public BooleanProperty isNumeroteProperty() {
-        return isNumerote;
-    }
-
-    public void setIsNumerote(boolean isNumerote) {
-        this.isNumerote.set(isNumerote);
-    }
-
-    private final BooleanProperty isNumerote = new SimpleBooleanProperty(false);
-    static int boxNumber = 0;
-
-    public static int getBoxNumber() {
-        return boxNumber;
-    }
-
-    public static void increment(){
-        boxNumber += 1;
-    }
+    private static int boxCounter = 0;
+    private final int number;
 
     public Box() {
+        this.number = ++boxCounter;
+    }
+
+    public int getNumber() {
+        return number;
+    }
+
+    public static void resetBoxCounter() {
+        boxCounter = 0;
     }
 
     @Override

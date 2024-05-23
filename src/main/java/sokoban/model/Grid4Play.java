@@ -190,6 +190,19 @@ public class Grid4Play extends Grid<Cell4Play>  {
         return emptyCells;
     }
 
+    public void updateBoxOnGoalCount() {
+        int count = 0;
+        for (int i = 0; i < getGridHeight(); i++) {
+            for (int j = 0; j < getGridWidth(); j++) {
+                if (getMatrix()[i][j].getCellsElements().contains(new Box()) &&
+                        getMatrix()[i][j].getCellsElements().contains(new Goal())) {
+                    count++;
+                }
+            }
+        }
+        setBoxOnGoalCount(count);
+    }
+
 
 
     public int numberGoal() {

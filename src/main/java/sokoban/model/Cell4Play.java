@@ -50,6 +50,12 @@ public class Cell4Play extends Cell {
     private void movePlayer(Element player, Element wall, Element box, Element goal, int nextRow, int nextColumn, int rowChange, int colChange) {
         int[] playerPosition = grid4Play.getPlayerPosition();
 
+        // Check if the next cell contains a wall
+        if (grid4Play.getCellsElements(nextRow, nextColumn).contains(wall)) {
+            System.out.println("Next cell contains a wall. Player cannot move.");
+            return; // If the next cell contains a wall, do not move the player
+        }
+
         if (nextRow >= 0 && nextRow < grid4Play.getGridHeight() && nextColumn >= 0 && nextColumn < grid4Play.getGridWidth()) {
             if (grid4Play.getCellsElements(nextRow, nextColumn).contains(box)) {
                 boolean nextCellAfterBoxContainsWall = grid4Play.getCellsElements(nextRow + rowChange, nextColumn + colChange).contains(wall);
@@ -85,15 +91,12 @@ public class Cell4Play extends Cell {
             int randomRow = random.nextInt(height);
             int randomCol = random.nextInt(width);
 
-            if (grid4Play.getCellsElements(randomRow,randomCol).isEmpty()){
-                grid4Play.add(randomRow,randomCol, mushroom);
+            if (grid4Play.getCellsElements(randomRow, randomCol).isEmpty()) {
+                grid4Play.add(randomRow, randomCol, mushroom);
                 break;
             }
         }
     }
-
-
-
 
     private void moveBox(Element box, Element goal, int nextRow, int nextColumn, int rowChange, int colChange) {
         grid4Play.getCellsElements(nextRow, nextColumn).remove(box);

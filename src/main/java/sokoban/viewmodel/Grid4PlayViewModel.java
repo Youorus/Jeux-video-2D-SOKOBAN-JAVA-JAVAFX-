@@ -16,6 +16,10 @@ public class Grid4PlayViewModel extends GridViewModel<Cell4PlayViewModel> {
         this.board4Play = board4Play;
     }
 
+    public void updateBoxOnGoalCount() {
+        board4Play.getGrid4Play().updateBoxOnGoalCount();
+    }
+
     public Cell4PlayViewModel getCellViewModel(int line, int col) {
         return new Cell4PlayViewModel(line, col, board4Play);
     }

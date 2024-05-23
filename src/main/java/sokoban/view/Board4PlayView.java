@@ -22,6 +22,7 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
 
     public Board4PlayView(Stage secondaryStage, Board4PlayViewModel board4PlayViewModel){
         super(secondaryStage, board4PlayViewModel);
+
     }
 
 
@@ -68,6 +69,14 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
         headerLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 20px"); // Augmenter la taille de la police
         VBox.setMargin(headerLabel, new Insets(10, 0, 0, 0)); // Ajouter des marges depuis le haut
 
+        getViewModel().getGrid4PlayViewModel().updateBoxOnGoalCount();
+
+        if (getViewModel().boxAndGoalCountProperty().get() ==  getViewModel().getGrid4PlayViewModel().getBoard4Play().numberGoal()){
+            getViewModel().playerWinProperty().set(true);
+            buttonMushroom4PlayView.setDisable(true);
+        }
+
+
         Label moveCount = new Label();
         moveCount.textProperty().bind(getViewModel().moveCountProperty().asString("Number of moves played: %d"));
 
@@ -95,6 +104,7 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
 
     @Override
     public void createButton() {
+
         buttonFinish4PlayView = new ButtonFinish4PlayView(getStage(),getViewModel());
         buttonMushroom4PlayView = new ButtonMushroom4PlayView(getViewModel());
 

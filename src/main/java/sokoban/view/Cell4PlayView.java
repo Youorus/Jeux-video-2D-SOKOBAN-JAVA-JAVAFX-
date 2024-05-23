@@ -1,14 +1,12 @@
 package sokoban.view;
 
 import javafx.beans.binding.DoubleBinding;
-import javafx.beans.property.SimpleBooleanProperty;
 import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.input.MouseButton;
 import javafx.scene.layout.StackPane;
 import sokoban.model.*;
 import sokoban.viewmodel.Cell4PlayViewModel;
@@ -81,12 +79,9 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
             }
 
 
-            if ( element instanceof Box) { // Vérifie si les boîtes n'ont pas encore été numérotées
-                Box.increment();
-                int x = Box.getBoxNumber();
-
-                // Crée le texte pour numéroter la boîte
-                Label boxNumberText = new Label(Integer.toString(x));
+            if (element.equals(new Box())) {
+                int boxNumber = Box.getBoxCounter();
+                Label boxNumberText = new Label(Integer.toString(boxNumber));
                 // Ajoute le style de texte pour le numéro
                 boxNumberText.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-fill: black; -fx-background-color: white; -fx-padding: 4px;");
                 // Positionne le numéro au-dessus de l'image de la boîte
@@ -100,11 +95,12 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
 
     public void handleClickCellPlay() {
         if (getCellViewModel().ClickOnMushroom()) {
-            getCellViewModel().getBoard4Play().redoIfCellsChange();
+            getCellViewModel().getBoard4Play().undoIfCellsChange();
             getCellViewModel().getBoard4Play().getGrid4Play().setMoveCount(getCellViewModel().getBoard4Play().getGrid4Play().getMoveCount() + 20);
             getCellViewModel().getBoard4Play().getGrid4Play().moveBoxesToRandomEmptyCells();
             getCellViewModel().getBoard4Play().getGrid4Play().removeMushroom();
             getCellViewModel().getBoard4Play().getGrid4Play().getCell4Play().addMushroomToRandomEmptyCell();
+
         }
     }
 
