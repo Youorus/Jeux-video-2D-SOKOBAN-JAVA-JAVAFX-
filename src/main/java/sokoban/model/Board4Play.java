@@ -2,8 +2,13 @@ package sokoban.model;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
+import javafx.collections.ListChangeListener;
 
 public class Board4Play extends Board{
+
+    public MovePlayerCommand getMoveCommand() {
+        return moveCommand;
+    }
 
     private final  MovePlayerCommand moveCommand = new MovePlayerCommand(this);
 
@@ -22,6 +27,10 @@ public class Board4Play extends Board{
         moveCommand.execute();
         movePlayer(direction);
         moveCommand.getStatesRedoStack().push(direction);
+    }
+
+    public void redoIfCellsChange(){
+        moveCommand.execute();
     }
 
     // Méthode pour annuler le dernier déplacement

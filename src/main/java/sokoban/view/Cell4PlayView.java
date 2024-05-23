@@ -100,6 +100,7 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
 
     public void handleClickCellPlay() {
         if (getCellViewModel().ClickOnMushroom()) {
+            getCellViewModel().getBoard4Play().redoIfCellsChange();
             getCellViewModel().getBoard4Play().getGrid4Play().setMoveCount(getCellViewModel().getBoard4Play().getGrid4Play().getMoveCount() + 20);
             getCellViewModel().getBoard4Play().getGrid4Play().moveBoxesToRandomEmptyCells();
             getCellViewModel().getBoard4Play().getGrid4Play().removeMushroom();
