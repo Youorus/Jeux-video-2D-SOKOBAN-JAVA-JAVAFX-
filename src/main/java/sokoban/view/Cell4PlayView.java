@@ -28,18 +28,23 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
         updateCellImages();
         setFocusTraversable(true); // focus sur l'entrée des touchees
         setOnKeyPressed(this::handleKeyPressed);
+        setOnMouseClicked(event -> handleClickCellPlay());
 
-        eventClickCellPlay();
+
 
 
         getCellViewModel().playerWinProperty().addListener((obs, oldValue, newValue) ->{
            setOnKeyPressed(null);
         });
 
-        getCellViewModel().getBoard4Play().getGrid4Play().showMushroomProperty().addListener((old,val,newVal)->{
-            if (newVal){
+        getCellViewModel().getBoard4Play().getGrid4Play().showMushroomProperty().addListener((obs, oldValue, newValue) -> {
+            if (newValue) {
                 setOnKeyPressed(null);
                 setOnMouseClicked(null);
+            } else {
+                // Rétablissez les gestionnaires d'événements lorsque la valeur de la propriété showMushroomProperty est fausse
+                setOnKeyPressed(this::handleKeyPressed);
+                setOnMouseClicked(event -> handleClickCellPlay());
             }
         });
 
@@ -93,13 +98,13 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
     }
 
 
-    public void eventClickCellPlay(){
+    private void handleClickCellPlay(){
         this.setOnMouseClicked(event -> {
             if (getCellViewModel().ClickOnMushroom()){
                 getCellViewModel().getBoard4Play().getGrid4Play().setMoveCount(getCellViewModel().getBoard4Play().getGrid4Play().getMoveCount() + 20);
                 getCellViewModel().getBoard4Play().getGrid4Play().moveBoxesToRandomEmptyCells();
-//                getCellViewModel().getBoard4Play().getGrid4Play().removeMushroom();
-//                getCellViewModel().getBoard4Play().getGrid4Play().getCell4Play().addMushroomToRandomEmptyCell();
+                getCellViewModel().getBoard4Play().getGrid4Play().removeMushroom();
+                getCellViewModel().getBoard4Play().getGrid4Play().getCell4Play().addMushroomToRandomEmptyCell();
             }
         });
 
