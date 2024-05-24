@@ -8,6 +8,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import sokoban.model.Box;
 import sokoban.viewmodel.Board4PlayViewModel;
 import sokoban.viewmodel.MenuViewModel;
 

@@ -6,23 +6,20 @@ import javafx.beans.property.SimpleBooleanProperty;
 import java.util.Objects;
 
 public class Box extends Element {
-    public static int getBoxCounter() {
-        return boxCounter;
-    }
-
+    private final int boxNumber; // Numéro unique de la boîte
     private static int boxCounter = 0;
-
 
     public Box() {
         boxCounter++;
+        boxNumber = boxCounter; // Affecte le numéro unique à la boîte lors de sa création
     }
 
-
-    public static int boxIncrement(){
-        return boxCounter++;
+    // Méthode pour récupérer le numéro unique de la boîte
+    public int getBoxNumber() {
+        return boxNumber;
     }
-    public static void resetBoxCounter() {
-        boxCounter = 0;
+    public static void setBoxCounter(int count) {
+        boxCounter = count;
     }
 
     @Override

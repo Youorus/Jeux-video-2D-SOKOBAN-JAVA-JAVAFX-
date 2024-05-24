@@ -65,32 +65,29 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
         ImageView groundView = new ImageView(new Ground().getImage());
         setImage(groundView);
 
-        // Parcourt les éléments de la cellule dans l'ordre inverse
-        for (int i = 0;  i < elements.size(); i++) {
-
-            Element element = elements.get(i);
-
+        // Parcours les éléments de la cellule
+        for (Element element : elements) {
             ImageView elementView = new ImageView(element.getImage());
             setImage(elementView);
 
-            if (element instanceof Mushroom){
-                    elementView.visibleProperty().bind(getCellViewModel().getBoard4Play().getGrid4Play().showMushroomProperty()); //masquer le mushroom au lancement de l'app
+            if (element instanceof Mushroom) {
+                elementView.visibleProperty().bind(getCellViewModel().getBoard4Play().getGrid4Play().showMushroomProperty());
             }
 
-
             if (element instanceof Box) {
-                Box.boxIncrement();
-                Label boxNumberText = new Label(Integer.toString(Box.getBoxCounter()));
-                // Ajoute le style de texte pour le numéro
-                // Ajoute le style de texte pour le numéro
+                Box box = (Box) element;
+                // Créer un label avec le numéro unique de la boîte
+                Label boxNumberText = new Label(Integer.toString(box.getBoxNumber()));
+                // Ajouter le style au numéro de la boîte
                 boxNumberText.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-fill: black; -fx-background-color: white; -fx-padding: 4px;");
-                // Positionne le numéro au-dessus de l'image de la boîte
+                // Positionner le numéro au-dessus de l'image de la boîte
                 StackPane.setAlignment(boxNumberText, Pos.CENTER);
-                // Ajoute le numéro au-dessus de l'image de la boîte
+                // Ajouter le numéro au-dessus de l'image de la boîte
                 getChildren().add(boxNumberText);
             }
         }
     }
+
 
 
     public void handleClickCellPlay() {

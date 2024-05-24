@@ -33,7 +33,7 @@ public class Cell4DesignView extends CellView<Cell4DesignViewModel> {
         this.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
                 getCellViewModel().add(getCellViewModel().getToolsBoxViewModel().getElementSelect());
-                System.out.println(Box.getBoxCounter());
+
             }
         });
 
