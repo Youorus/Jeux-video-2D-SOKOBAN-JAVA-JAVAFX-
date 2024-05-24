@@ -77,6 +77,10 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
             buttonMushroom4PlayView.setDisable(true);
         }
 
+        getViewModel().playerWinProperty().addListener((obs, oldValue, newValue) ->{
+            buttonMushroom4PlayView.setDisable(true);
+        });
+
 
         Label moveCount = new Label();
         moveCount.textProperty().bind(getViewModel().moveCountProperty().asString("Number of moves played: %d"));

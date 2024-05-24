@@ -74,16 +74,16 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
                 elementView.visibleProperty().bind(getCellViewModel().getBoard4Play().getGrid4Play().showMushroomProperty());
             }
 
-            if (element.equals(getCellViewModel().getBoard4Play().getBox())) {
-             Box.increment();
-                Label boxNumberText = new Label(Integer.toString(Box.getBoxCounter()));
-                // Ajouter le style au numéro de la boîte
-                boxNumberText.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-fill: black; -fx-background-color: white; -fx-padding: 4px;");
-                // Positionner le numéro au-dessus de l'image de la boîte
-                StackPane.setAlignment(boxNumberText, Pos.CENTER);
-                // Ajouter le numéro au-dessus de l'image de la boîte
-                getChildren().add(boxNumberText);
-            }
+//            if (element.equals(getCellViewModel().getBoard4Play().getBox())) {
+//             Box.increment();
+//                Label boxNumberText = new Label(Integer.toString(Box.getBoxCounter()));
+//                // Ajouter le style au numéro de la boîte
+//                boxNumberText.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-fill: black; -fx-background-color: white; -fx-padding: 4px;");
+//                // Positionner le numéro au-dessus de l'image de la boîte
+//                StackPane.setAlignment(boxNumberText, Pos.CENTER);
+//                // Ajouter le numéro au-dessus de l'image de la boîte
+//                getChildren().add(boxNumberText);
+//            }
         }
     }
 
