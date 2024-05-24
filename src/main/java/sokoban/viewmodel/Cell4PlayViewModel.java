@@ -6,9 +6,17 @@ import javafx.collections.ObservableList;
 import javafx.collections.ObservableSet;
 import sokoban.model.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Cell4PlayViewModel extends CellViewModel {
+
+    public Board4Play getBoard4Play() {
+        return board4Play;
+    }
+
+
 
     private final Board4Play board4Play;
 
@@ -18,9 +26,6 @@ public class Cell4PlayViewModel extends CellViewModel {
         this.board4Play = board4Play;
     }
 
-    public int  numberBox() {
-        return board4Play.numberGoal();
-    }
 
     public SimpleBooleanProperty playerWinProperty() {
         return board4Play.playerWinProperty();
@@ -44,6 +49,11 @@ public class Cell4PlayViewModel extends CellViewModel {
 
     public ObservableList<Element> getCellsElements() {
         return board4Play.getGrid4Play().getCellsElements(getLine(),getCol());
+    }
+
+    public boolean ClickOnMushroom() {
+        Element mushroom = getBoard4Play().getMushroom();
+        return getBoard4Play().getGrid4Play().getCellsElements(getLine(),getCol()).contains(mushroom);
     }
 
 }

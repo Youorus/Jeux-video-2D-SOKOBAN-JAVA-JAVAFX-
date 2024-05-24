@@ -5,7 +5,9 @@ import javafx.collections.ListChangeListener;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseButton;
+import sokoban.model.Box;
 import sokoban.model.Element;
 import sokoban.model.Ground;
 import sokoban.viewmodel.Cell4DesignViewModel;
@@ -17,10 +19,12 @@ public class Cell4DesignView extends CellView<Cell4DesignViewModel> {
         eventClickAdd();
 
 
+        getCellViewModel().getCellsElements().addListener((ListChangeListener<Element>) change -> {
+            getCellViewModel().gridEditedProperty().set(true);
+        });
 
         getCellViewModel().getCellsElements().addListener((ListChangeListener<Element>) change -> {
             imageViewUpdate(getCellViewModel().getCellsElements());
-            getCellViewModel().gridEditedProperty().set(true);
         });
     }
 
@@ -29,10 +33,12 @@ public class Cell4DesignView extends CellView<Cell4DesignViewModel> {
         this.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
                 getCellViewModel().add(getCellViewModel().getToolsBoxViewModel().getElementSelect());
+
             }
         });
 
     }
+
 
 
 }

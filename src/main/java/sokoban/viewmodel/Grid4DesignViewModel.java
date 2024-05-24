@@ -21,4 +21,5 @@ public class Grid4DesignViewModel extends GridViewModel<Cell4DesignViewModel>{
         return new Cell4DesignViewModel(line, col, board4Design);
     }
 
+
 }

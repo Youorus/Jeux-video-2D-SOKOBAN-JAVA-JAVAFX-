@@ -1,17 +1,27 @@
 package sokoban.model;
 
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+
 abstract public class Board {
 
-    public Wall getWall() {
-        return wall;
-    }
+
 
     public Ground getGround() {
         return ground;
     }
 
-    private Ground ground = new Ground();
+    private final Ground ground = new Ground();
+    public Wall getWall() {
+        return wall;
+    }
 
+    public Mushroom getMushroom() {
+        return mushroom;
+    }
+
+    private final Mushroom  mushroom = new Mushroom();
+    private final Wall wall = new Wall();
     private final Player player = new Player();
     private final Box box = new Box();
 
@@ -29,5 +39,5 @@ abstract public class Board {
 
     private final Goal goal = new Goal();
 
-    private final Wall wall = new Wall();
+
 }

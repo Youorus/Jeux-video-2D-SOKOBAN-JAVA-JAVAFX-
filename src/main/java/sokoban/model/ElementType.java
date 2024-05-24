@@ -5,6 +5,7 @@ public enum ElementType {
         Goal,
         Player,
         Wall,
-        Box
+        Box,
+        Mushroom
 
 }

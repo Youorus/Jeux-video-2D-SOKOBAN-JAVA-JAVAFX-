@@ -10,4 +10,6 @@ public abstract class Element {
 
     public abstract ElementType getType();
 
+
+
 }

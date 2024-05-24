@@ -2,18 +2,39 @@
 
     import javafx.beans.binding.Bindings;
     import javafx.beans.binding.LongBinding;
+    import javafx.beans.property.BooleanProperty;
     import javafx.collections.ObservableList;
+    import sokoban.viewmodel.ErrorBoxViewModel;
 
     import java.util.Arrays;
 
     public class Grid4Design extends Grid<Cell4Design> {
-        private static final int Widht = 10;
-        private static final int  Height = 15;
+
+
+        public Cell4Design getCell4Design() {
+            return cell4Design;
+        }
+
+        public BooleanProperty gridEditedProperty() {
+            return board4Design.gridEditedProperty();
+        }
+
+        public ErrorBoxViewModel getErrorBoxViewModel() {
+            return board4Design.getErrorBoxViewModel();
+        }
+        private Cell4Design cell4Design;
         private final LongBinding filledCellsCount;
 
+        public Board4Design getBoard4Design() {
+            return board4Design;
+        }
 
-        public Grid4Design() {
-            reset(Widht, Height);
+        private final Board4Design board4Design;
+
+
+        public Grid4Design(Board4Design board4Design) {
+            this.board4Design = board4Design;
+            reset(getGridHeight(), getGridWidth());
             filledCellsCount = Bindings.createLongBinding(() -> Arrays
                     .stream(getMatrix())
                     .flatMap(Arrays::stream)
@@ -34,6 +55,7 @@
             }
             return false; // Aucun joueur n'a été trouvé
         }
+
 
         public boolean hasGoal() {
             for (int i = 0; i < getGridHeight(); i++) {
@@ -69,13 +91,14 @@
         public boolean hasBox() {
             for (int i = 0; i < getGridHeight(); i++) {
                 for (int j = 0; j < getGridWidth(); j++) {
-                    if (getMatrix()[i][j].getCellsElements().contains(new Box())) {
+                    if (getMatrix()[i][j].getCellsElements().contains(board4Design.getBox())) {
                         return true; // Une Box  a été trouvé
                     }
                 }
             }
             return false; // Aucun Box n'a été trouvé
         }
+
 
 
 
@@ -89,6 +112,11 @@
 
         public void remove(int line, int col, Element element) {
             getMatrix()[line][col].getCellsElements().remove(element);
+            filledCellsCount.invalidate();
+        }
+
+        public void clear(int line, int col) {
+            getMatrix()[line][col].getCellsElements().clear();
             filledCellsCount.invalidate();
         }
 
@@ -107,8 +135,10 @@
             return new Cell4Design[getGridHeight()][getGridWidth()];
         }
 
+
+
         @Override
         public Cell4Design createCell() {
-            return new Cell4Design();
+            return cell4Design = new Cell4Design(this);
         }
     }

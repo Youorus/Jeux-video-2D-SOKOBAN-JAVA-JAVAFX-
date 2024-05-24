@@ -8,6 +8,11 @@ import javafx.scene.control.Label;
 
 public class ErrorBox {
 
+    private final Board4Design board4Design;
+    public ErrorBox(Board4Design board4Design){
+        this.board4Design = board4Design;
+    }
+
     private final SimpleBooleanProperty goalAndTargetError = new SimpleBooleanProperty(false);
     private SimpleListProperty<Label> errorList = new SimpleListProperty<>();
     private final SimpleBooleanProperty playerError = new SimpleBooleanProperty(true);

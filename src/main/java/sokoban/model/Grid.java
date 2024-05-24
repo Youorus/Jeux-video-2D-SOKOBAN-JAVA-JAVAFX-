@@ -11,6 +11,8 @@ abstract public class Grid<T extends Cell> {
     }
 
 
+
+
     public ObservableList<Element> getCellsElements(int line, int col) {
         return getMatrix()[line][col].getCellsElements();
     }
@@ -22,18 +24,35 @@ abstract public class Grid<T extends Cell> {
         return gridHeight.get();
     }
 
-    private IntegerProperty gridHeight = new SimpleIntegerProperty();
+    public void setGridHeight(int gridHeight) {
+        this.gridHeight.set(gridHeight);
+    }
+
+    public void setGridWidth(int gridWidth) {
+        this.gridWidth.set(gridWidth);
+    }
+
+    public IntegerProperty gridHeightProperty() {
+        return gridHeight;
+    }
+
+    private  IntegerProperty gridHeight = new SimpleIntegerProperty(20);
+
+
 
     public IntegerProperty gridWidthProperty() {
         return gridWidth;
     }
 
 
+
+
     public int getGridWidth() {
         return gridWidth.get();
     }
 
-    private IntegerProperty gridWidth = new SimpleIntegerProperty();
+    private  IntegerProperty gridWidth = new SimpleIntegerProperty(20);
+
 
     public void reset(int height, int width){
         this.gridHeight.set(height);
@@ -44,12 +63,13 @@ abstract public class Grid<T extends Cell> {
                 matrix[i][j] = createCell();
             }
         }
+
     }
 
     public int[] getPlayerPosition() {
         for (int i = 0; i < getGridHeight(); i++) {
             for (int j = 0; j < getGridWidth(); j++) {
-                if (getMatrix()[i][j].getCellsElements().contains(new Player())) {
+                if (getMatrix()[i][j].getCellsElements().contains(new Player() )) {
                     return new int[]{i, j}; // Retourne les coordonnées du joueur
                 }
             }

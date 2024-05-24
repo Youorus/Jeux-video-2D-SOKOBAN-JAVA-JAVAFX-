@@ -51,13 +51,14 @@ abstract public class BoardView<T extends BoardViewModel> extends BorderPane {
         stage.show();
         stage.setMinHeight(stage.getHeight());
         stage.setMinWidth(stage.getWidth());
-        createButton();
     }
 
     public void configMainComponements(){
         createMenu();
         createGrid();
+        createButton();
        createCompteur();
+
     }
 
 

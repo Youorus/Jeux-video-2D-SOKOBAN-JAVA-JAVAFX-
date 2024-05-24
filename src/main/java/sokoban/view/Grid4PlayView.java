@@ -19,6 +19,7 @@ public class Grid4PlayView extends GridView {
         setPadding(new Insets(PADDING));
 
         int height = grid4PlayViewModel.getBoard4Play().getGrid4Play().getGridHeight();
+
         int width = grid4PlayViewModel.getBoard4Play().getGrid4Play().getGridWidth();
 
         DoubleBinding cellSize = Bindings.createDoubleBinding(() ->

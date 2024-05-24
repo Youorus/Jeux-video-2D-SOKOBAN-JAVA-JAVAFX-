@@ -1,17 +1,36 @@
 package sokoban.model;
 
+import javafx.beans.property.BooleanProperty;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleIntegerProperty;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
 
 public class Grid4Play extends Grid<Cell4Play>  {
-    private static final int GRID_HEIGHT = 10;
-    private static final int GRID_WIDTH = 15;
-
+    private final Random random = new Random();
+    private int boundRandomCells ;
     public int getMoveCount() {
         return moveCount.get();
     }
+
+    public boolean isShowMushroom() {
+        return showMushroom.get();
+    }
+
+    public BooleanProperty showMushroomProperty() {
+        return showMushroom;
+    }
+
+    public void setShowMushroom(boolean showMushroom) {
+        this.showMushroom.set(showMushroom);
+    }
+
+    private BooleanProperty showMushroom = new SimpleBooleanProperty(false);
 
     public IntegerProperty moveCountProperty() {
         return moveCount;
@@ -45,26 +64,47 @@ public class Grid4Play extends Grid<Cell4Play>  {
 
     private final  IntegerProperty boxOnGoalCount = new SimpleIntegerProperty();
 
+
     public void setMoveCount(int moveCount) {
         this.moveCount.set(moveCount);
     }
 
     private final IntegerProperty moveCount = new SimpleIntegerProperty(0);
 
+    public Board4Play getBoard4Play() {
+        return board4Play;
+    }
 
-    public Grid4Play() {
-        reset(GRID_HEIGHT, GRID_WIDTH);
+    public Cell4Play getCell4Play() {
+        return cell4Play;
+    }
+
+
+    public int getRandomNumber() {
+        Random random = new Random();
+        return  random.nextInt(getGridHeight() * getGridWidth());
+    }
+
+    private Cell4Play cell4Play;
+
+
+    private final Board4Play board4Play;
+
+    public Grid4Play(Board4Play board4Play, Grid4Design grid4Design) {
+        this.board4Play = board4Play;
+
+        reset(grid4Design.getGridHeight(), grid4Design.getGridWidth());
     }
 
 
     @Override
     protected Cell4Play[][] createMatrix(int height, int width) {
-        return new Cell4Play[GRID_HEIGHT][GRID_WIDTH];
+        return new Cell4Play[getGridHeight()][getGridWidth()];
     }
 
     @Override
     public Cell4Play createCell() {
-        return new Cell4Play();
+        return cell4Play = new  Cell4Play(this);
     }
 
 
@@ -83,6 +123,17 @@ public class Grid4Play extends Grid<Cell4Play>  {
         }
     }
 
+
+    public void removeMushroom() {
+        for (int i = 0; i < getGridHeight(); i++) {
+            for (int j = 0; j < getGridWidth(); j++) {
+                if (getMatrix()[i][j].getCellsElements().contains(board4Play.getMushroom())) {
+                    getMatrix()[i][j].getCellsElements().removeAll(board4Play.getMushroom());
+                }
+            }
+        }
+    }
+
     public void add(int line, int col, Element element) {
         getMatrix()[line][col].getCellsElements().add(element);
     }
@@ -91,97 +142,87 @@ public class Grid4Play extends Grid<Cell4Play>  {
         getMatrix()[line][col].getCellsElements().remove(element);
     }
 
-
-    public void movePlayerUp(Element player, Element wall, Element box, Element goal) {
-        int[] playerPosition = getPlayerPosition();
-        int nextRow = playerPosition[0] - 1;
-        int currentColumn = playerPosition[1];
-
-        movePlayer(player, wall, box, goal, nextRow, currentColumn, -1, 0);
+    public void updateBoxPosition(Box box, int currentRow, int currentColumn, int nextRow, int nextColumn) {
+        getCellsElements(currentRow, currentColumn).remove(box);
+        getCellsElements(nextRow, nextColumn).add(box);
     }
+    public void moveBoxesToRandomEmptyCells() {
+        List<int[]> emptyCells = getEmptyNonBorderCells();
+        List<int[]> boxPositions = new ArrayList<>();
 
-    public void movePlayerDown(Element player, Element wall, Element box, Element goal) {
-        int[] playerPosition = getPlayerPosition();
-        int nextRow = playerPosition[0] + 1;
-        int currentColumn = playerPosition[1];
-
-        movePlayer(player, wall, box,goal, nextRow, currentColumn, 1, 0);
-    }
-
-    public void movePlayerRight(Element player, Element wall, Element box,Element goal) {
-        int[] playerPosition = getPlayerPosition();
-        int currentRow = playerPosition[0];
-        int nextColumn = playerPosition[1] + 1;
-
-        movePlayer(player, wall, box,goal, currentRow, nextColumn, 0, 1);
-    }
-
-    public void movePlayerLeft(Element player, Element wall, Element box, Element goal) {
-        int[] playerPosition = getPlayerPosition();
-        int currentRow = playerPosition[0];
-        int nextColumn = playerPosition[1] - 1;
-
-        movePlayer(player, wall, box, goal, currentRow, nextColumn, 0, -1);
-    }
-
-    private void movePlayer(Element player, Element wall, Element box, Element goal, int nextRow, int nextColumn, int rowChange, int colChange) {
-        int[] playerPosition = getPlayerPosition();
-
-
-        if (nextRow >= 0 && nextRow < GRID_HEIGHT && nextColumn >= 0 && nextColumn < GRID_WIDTH) {
-            if (getCellsElements(nextRow, nextColumn).contains(wall)) {
-                // Si la cellule suivante contient un mur, garder le joueur à sa position actuelle
-                add(playerPosition[0], playerPosition[1], player);
-            } else if (getCellsElements(nextRow, nextColumn).contains(goal)) {
-                //si la cells suivante contient un goal, mettre le joueur a la cells apres le goal
-                add(nextRow + rowChange, nextColumn + colChange, player);
-            } else if (getCellsElements(nextRow, nextColumn).contains(box)) {
-                // Vérifier si la cellule après la boîte contient un mur
-                boolean nextCellAfterBoxContainsWall = getCellsElements(nextRow + rowChange, nextColumn + colChange).contains(wall);
-                if (nextCellAfterBoxContainsWall ) {
-                    // Si la cellule après la boîte contient un mur ou si la boîte est à la fin de la grille, garder le joueur à sa position actuelle
-                    add(playerPosition[0], playerPosition[1], player);
-                } else if (getCellsElements(nextRow + rowChange, nextColumn + colChange).contains(box)) {
-                    add(playerPosition[0], playerPosition[1], player);
-                } else{
-                    // Sinon, déplacer le joueur et la boîte vers la cellule suivante
-                    remove(nextRow, nextColumn, box);
-                    add(nextRow + rowChange, nextColumn + colChange, box);
-
-                    if (getCellsElements(nextRow + rowChange, nextColumn + colChange).contains(goal)){
-                        setBoxOnGoalCount(boxOnGoalCount.get() + 1);
-                    }
-                    add(nextRow, nextColumn, player);
-                    // Compter le déplacement du joueur
-                    setMoveCount(getMoveCount() + 1);
+        // Collect all current box positions
+        for (int row = 1; row < getGridHeight() - 1; row++) {
+            for (int col = 1; col < getGridWidth() - 1; col++) {
+                if (getCellsElements(row, col).contains(new Box())) {
+                    boxPositions.add(new int[]{row, col});
                 }
-            } else {
-                // Sinon, déplacer le joueur vers la cellule suivante
-                add(nextRow, nextColumn, player);
-                setMoveCount(getMoveCount() + 1);
             }
-        } else {
-            // Si le joueur atteint la bordure de la grille, le garder à sa position actuelle
-            add(playerPosition[0], playerPosition[1], player);
         }
 
-        // Supprimer le joueur de sa position actuelle
-        remove(playerPosition[0], playerPosition[1], player);
+        // Shuffle the empty cells to randomize
+        Collections.shuffle(emptyCells, random);
 
-
-        if (boxOnGoalCount.get() == numberGoal()){
-            setPlayerWin(true);
+        // Move each box to a new random empty cell
+        for (int[] boxPos : boxPositions) {
+            if (!emptyCells.isEmpty()) {
+                int[] newPos = emptyCells.remove(0);
+                moveBoxToNewPosition(boxPos[0], boxPos[1], newPos[0], newPos[1]);
+            }
         }
-
     }
 
+    private void moveBoxToNewPosition(int oldRow, int oldCol, int newRow, int newCol) {
+        Element box = board4Play.getBox(); // Assume Box is your box element class
+        remove(oldRow, oldCol, box);
+        add(newRow, newCol, box);
+    }
+
+    private boolean isBorderCell(int row, int col) {
+        return row == 0 || row == getGridHeight() - 1 || col == 0 || col == getGridWidth() - 1;
+    }
+
+    private List<int[]> getEmptyNonBorderCells() {
+        List<int[]> emptyCells = new ArrayList<>();
+        for (int row = 1; row < getGridHeight() - 1; row++) {
+            for (int col = 1; col < getGridWidth() - 1; col++) {
+                if (getCellsElements(row, col).isEmpty()) {
+                    emptyCells.add(new int[]{row, col});
+                }
+            }
+        }
+        return emptyCells;
+    }
+
+    public void updateBoxOnGoalCount() {
+        int count = 0;
+        for (int i = 0; i < getGridHeight(); i++) {
+            for (int j = 0; j < getGridWidth(); j++) {
+                if (getMatrix()[i][j].getCellsElements().contains(board4Play.getBox()) &&
+                        getMatrix()[i][j].getCellsElements().contains(new Goal())) {
+                    count++;
+                }
+            }
+        }
+        setBoxOnGoalCount(count);
+    }
+
+//    public int[] getBoxPosition() {
+//        for (int i = 0; i < getGridHeight(); i++) {
+//            for (int j = 0; j < getGridWidth(); j++) {
+//                if (getCellsElements(i, j).contains(box)) {
+//                    return new int[]{i, j};
+//                }
+//            }
+//        }
+//        return new int[]{-1, -1}; // Position non trouvée
+//    }
 
 
 
     public int numberGoal() {
         int x = 0;
-        for (int i = 0; i < GRID_HEIGHT; i++) {
-            for (int j = 0; j < GRID_WIDTH; j++) {
+        for (int i = 0; i < getGridHeight(); i++) {
+            for (int j = 0; j < getGridWidth(); j++) {
                 if (getMatrix()[i][j].getCellsElements().contains(new Goal())) {
                     x++;
                 }

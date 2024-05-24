@@ -4,32 +4,41 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.binding.DoubleBinding;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import sokoban.model.Box;
 import sokoban.viewmodel.Board4PlayViewModel;
+import sokoban.viewmodel.MenuViewModel;
 
 public class Board4PlayView extends BoardView<Board4PlayViewModel> {
 
     private Board4PlayViewModel board4PlayViewModel;
     private ButtonFinish4PlayView buttonFinish4PlayView;
+
+    private ButtonMushroom4PlayView buttonMushroom4PlayView;
+    private Button showMushroom ;
     private Label headerLabel;
 
     public Board4PlayView(Stage secondaryStage, Board4PlayViewModel board4PlayViewModel){
         super(secondaryStage, board4PlayViewModel);
+
     }
 
 
 
     public void createGrid () {
-        int gridWidth = getViewModel().getGrid4PlayViewModel().getBoard4Play().getGrid4Play().getGridWidth();
-        int gridHeight = getViewModel().getGrid4PlayViewModel().getBoard4Play().getGrid4Play().getGridHeight();
+
+        int height = getViewModel().getGrid4PlayViewModel().getBoard4Play().getGrid4Play().getGridHeight();
+
+        int width = getViewModel().getGrid4PlayViewModel().getBoard4Play().getGrid4Play().getGridWidth();
 
         DoubleBinding gridWidthBinding = Bindings.createDoubleBinding(
                 () -> {
                     double availableWidth = widthProperty().get() - 55;
                     double availableHeight = heightProperty().get() - getHeaderBox().heightProperty().get() - getFooterBox().heightProperty().get() - 55;
-                    double aspectRatio = (double) gridWidth / gridHeight;
+                    double aspectRatio = (double) width / height;
                     double maxWidthBasedOnHeight = (availableHeight * aspectRatio);
                     double finalWidth = Math.min(availableWidth, maxWidthBasedOnHeight);
 
@@ -42,7 +51,7 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
                 getHeaderBox().heightProperty(),
                 getFooterBox().heightProperty() );
 
-        DoubleBinding gridHeightBinding = gridWidthBinding.divide(gridWidth).multiply(gridHeight);
+        DoubleBinding gridHeightBinding = gridWidthBinding.divide(width).multiply(height);
 
         Grid4PlayView grid4PlayView = new Grid4PlayView(getViewModel().getGrid4PlayViewModel(),gridWidthBinding, gridHeightBinding);
 
@@ -60,6 +69,14 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
         headerLabel = new Label("Score");
         headerLabel.setStyle("-fx-font-weight: bold; -fx-font-size: 20px"); // Augmenter la taille de la police
         VBox.setMargin(headerLabel, new Insets(10, 0, 0, 0)); // Ajouter des marges depuis le haut
+
+        getViewModel().getGrid4PlayViewModel().updateBoxOnGoalCount();
+
+        if (getViewModel().boxAndGoalCountProperty().get() ==  getViewModel().getGrid4PlayViewModel().getBoard4Play().numberGoal()){
+            getViewModel().playerWinProperty().set(true);
+            buttonMushroom4PlayView.setDisable(true);
+        }
+
 
         Label moveCount = new Label();
         moveCount.textProperty().bind(getViewModel().moveCountProperty().asString("Number of moves played: %d"));
@@ -84,17 +101,23 @@ public class Board4PlayView extends BoardView<Board4PlayViewModel> {
 
     @Override
     public void createMenu() {
-
     }
 
     @Override
     public void createButton() {
+
         buttonFinish4PlayView = new ButtonFinish4PlayView(getStage(),getViewModel());
+        buttonMushroom4PlayView = new ButtonMushroom4PlayView(getViewModel());
+
+
         getFooterBox().setAlignment(Pos.TOP_CENTER);
         getFooterBox().setPrefHeight(70);
         getFooterBox().setPadding(new Insets(0, 0, 0, 0));
         getFooterBox().getChildren().add(buttonFinish4PlayView);
+        getFooterBox().getChildren().add(buttonMushroom4PlayView);
+        getFooterBox().setSpacing(7);
         setBottom(getFooterBox());
+
     }
 
 }

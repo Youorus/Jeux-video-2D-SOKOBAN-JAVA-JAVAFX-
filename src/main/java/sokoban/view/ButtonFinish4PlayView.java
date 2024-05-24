@@ -10,7 +10,7 @@ public class ButtonFinish4PlayView extends ButtonView<Board4PlayViewModel>{
     public ButtonFinish4PlayView(Stage stage, Board4PlayViewModel model) {
         super(model);
         getChildren().add(finishBtn);
-
+        finishBtn.setFocusTraversable(false);
         finishBtn.setOnAction(event -> {
                 stage.close();
         });

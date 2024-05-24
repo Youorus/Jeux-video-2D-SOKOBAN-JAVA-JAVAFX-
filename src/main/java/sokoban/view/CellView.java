@@ -2,10 +2,13 @@ package sokoban.view;
 
 import javafx.beans.binding.DoubleBinding;
 import javafx.collections.ObservableList;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
+import sokoban.model.Box;
 import sokoban.model.Element;
 import sokoban.model.Ground;
 import sokoban.viewmodel.CellViewModel;
@@ -58,8 +61,8 @@ public class CellView<T extends CellViewModel> extends StackPane {
             } else {
                 for (Element element : elementObservableList) {
                     ImageView elementView = new ImageView(element.getImage());
-
                     setImage(elementView);
+
                 }
             }
 

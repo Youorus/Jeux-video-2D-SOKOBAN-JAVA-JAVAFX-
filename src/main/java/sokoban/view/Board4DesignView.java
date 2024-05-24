@@ -30,19 +30,30 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
         super(primaryStage, board4DesignViewModel);
         primaryStage.setTitle("Sokoban");
 
-        getViewModel().getBoard4Design().gridEditedProperty().addListener((old,val,newVal) ->{
-            primaryStage.setTitle("Sokoban(*)");
+
+        getViewModel().getBoard4Design().gridEditedProperty().addListener((ols, val, newVal) ->{
+            if (newVal)
+                primaryStage.setTitle("Sokoban(*)");
+            if (!newVal)
+                primaryStage.setTitle("Sokoban");
         });
+
+
 
     }
 
     public void createGrid () {
-        this.getViewModel().getBoard4Design().getGrid().gridWidthProperty().addListener((ols,val,newVal) ->{
+        this.getViewModel().getBoard4Design().getGrid4Design().gridWidthProperty().addListener((ols, val, newVal) ->{
             setCenter(null);
         });
 
-        int gridWidth = getViewModel().getBoard4Design().getGrid().getGridWidth();
-        int gridHeight = getViewModel().getBoard4Design().getGrid().getGridHeight();
+        System.out.println(getViewModel().getBoard4Design().getGrid4Design().getGridWidth());
+        System.out.println(getViewModel().getBoard4Design().getGrid4Design().getGridHeight());
+
+        int gridWidth = getViewModel().getBoard4Design().getGrid4Design().gridWidthProperty().get();
+
+        int gridHeight = getViewModel().getBoard4Design().getGrid4Design().getGridHeight();
+
 
         DoubleBinding gridWidthBinding = Bindings.createDoubleBinding(
                 () -> {
@@ -78,13 +89,13 @@ public class Board4DesignView extends BoardView<Board4DesignViewModel> {
 
 
     private void createBoiteAOutils(DoubleBinding cellsize){
-        ToolsBoxView boiteAOutilsView = new ToolsBoxView(cellsize, getViewModel().getToolsBoxViewModel());
+        ToolsBoxView boiteAOutilsView = new ToolsBoxView(cellsize, getViewModel().getToolsBoxViewModel(), getViewModel());
         boiteAOutilsView.setAlignment(Pos.CENTER_LEFT);
         setLeft(boiteAOutilsView);
     }
 
     public void createCompteur(){
-        this.getViewModel().getBoard4Design().getGrid().gridWidthProperty().addListener((ols,val,newVal) ->{
+        this.getViewModel().getBoard4Design().getGrid4Design().gridWidthProperty().addListener((ols, val, newVal) ->{
             headerLabel.textProperty().bind(getViewModel().filledCellsCountProperty()
                     .asString("Number of filled cells: %d of " + getViewModel().maxFilledCells()));
             headerLabel.getStyleClass().add("header");
