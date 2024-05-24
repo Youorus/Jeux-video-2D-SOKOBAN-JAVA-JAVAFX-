@@ -172,7 +172,7 @@ public class Grid4Play extends Grid<Cell4Play>  {
     }
 
     private void moveBoxToNewPosition(int oldRow, int oldCol, int newRow, int newCol) {
-        Element box = new Box(); // Assume Box is your box element class
+        Element box = board4Play.getBox(); // Assume Box is your box element class
         remove(oldRow, oldCol, box);
         add(newRow, newCol, box);
     }
@@ -197,7 +197,7 @@ public class Grid4Play extends Grid<Cell4Play>  {
         int count = 0;
         for (int i = 0; i < getGridHeight(); i++) {
             for (int j = 0; j < getGridWidth(); j++) {
-                if (getMatrix()[i][j].getCellsElements().contains(new Box()) &&
+                if (getMatrix()[i][j].getCellsElements().contains(board4Play.getBox()) &&
                         getMatrix()[i][j].getCellsElements().contains(new Goal())) {
                     count++;
                 }

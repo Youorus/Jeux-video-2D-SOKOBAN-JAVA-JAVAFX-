@@ -4,14 +4,10 @@
 
 ### Liste des bugs connus
 
-* bug 1 : creation d'une nouvelle grille à partir de nouvelle dimensions
-* bug 2 : compteur ne fonctionne pas car pas de binding
+* bug 1 : Numérotation des boîtes.
+* bug 2 : Reprise d'action (redo) lorsque le Mushroom a été déplacé après avoir été cliqué dessus.
 * bug 3 : affichage des erreurs non fonctionnel
-* bug 4 : pas de possibilité de superpositionné des element sur une meme case
-* fonctionnalité manquante 1 : pas de sauvegarde de map
-* fonctionnalité manquante 2 : pas d'ouverture de map sauvegarder
-* fonctionnalité manquante 3 : pas d'indication de changement dans la map
-* fonctionnalité manquante 4 : le drag n'est pas fait
+
 * ...
 
 ### Liste des fonctionnalités supplémentaires
@@ -36,5 +32,13 @@ Ci-dessous, vous trouverez la liste des fonctionnalités qui n'ont pas été ré
 ...
 
 ## Notes de version itération 3
+* bug 1 : Numérotation des boîtes.
+* bug 2 : Reprise d'action (redo) lorsque le Mushroom a été déplacé après avoir été cliqué dessus.
 
-...
+
+### Divers
+manque d'organisation et de régularité au sein du groupe. (Abandon total de ma camarade Yasmina).
+
+#### Vous trouverez dans un dossier nommé "UML Diagram" le diagramme de classe du jeu Sokoban iteration 2, le diagramme de classe de l'iteration 3.
+
+#### Vous trouverez dans un dossier nommé "Sequence Diagram" le diagramme sequentiel du pattern Command utilisé dans l'iteration 3.

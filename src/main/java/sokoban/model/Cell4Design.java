@@ -48,7 +48,7 @@ public class Cell4Design extends Cell {
         Element wall = grid4Design.getBoard4Design().getWall();
         Element player = grid4Design.getBoard4Design().getPlayer();
         Element goal = grid4Design.getBoard4Design().getGoal();
-        Element box = grid4Design.getBoard4Design().getBox();
+        Element box = new Box();
 
 
         if (element.equals(ground)) {
