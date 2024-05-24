@@ -71,7 +71,7 @@ public class Cell4Play extends Cell {
                 System.out.println("Box move blocked. Player cannot move.");
                 return;
             }
-            moveBox(box, goal, nextRow, nextColumn, rowChange, colChange);
+           moveBox(box, goal, nextRow, nextColumn, rowChange, colChange);
         }
 
         grid4Play.getCellsElements(playerPosition[0], playerPosition[1]).remove(player);
@@ -88,6 +88,8 @@ public class Cell4Play extends Cell {
         int boxNextColumn = nextColumn + colChange;
         grid4Play.getCellsElements(nextRow, nextColumn).remove(box);
         grid4Play.getCellsElements(boxNextRow, boxNextColumn).add(box);
+
+
 
         if (grid4Play.getCellsElements(nextRow, nextColumn).contains(goal)) {
             grid4Play.setBoxOnGoalCount(grid4Play.getBoxOnGoalCount() - 1);

@@ -6,17 +6,18 @@ import javafx.beans.property.SimpleBooleanProperty;
 import java.util.Objects;
 
 public class Box extends Element {
-    private final int boxNumber; // Numéro unique de la boîte
+    public static int getBoxCounter() {
+        return boxCounter;
+    }
+
     private static int boxCounter = 0;
 
     public Box() {
-        boxCounter++;
-        boxNumber = boxCounter; // Affecte le numéro unique à la boîte lors de sa création
+
     }
 
-    // Méthode pour récupérer le numéro unique de la boîte
-    public int getBoxNumber() {
-        return boxNumber;
+    public static void increment(){
+        boxCounter++;
     }
     public static void setBoxCounter(int count) {
         boxCounter = count;
@@ -34,10 +35,15 @@ public class Box extends Element {
 
     @Override
     public boolean equals(Object o) {
-        if(o instanceof Box b) {
-            return (b.getType() == ((Box) o).getType());
-        }
-        return false;
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Box box = (Box) o;
+        return getType() == box.getType();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getType());
     }
 
     @Override

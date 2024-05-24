@@ -142,7 +142,10 @@ public class Grid4Play extends Grid<Cell4Play>  {
         getMatrix()[line][col].getCellsElements().remove(element);
     }
 
-
+    public void updateBoxPosition(Box box, int currentRow, int currentColumn, int nextRow, int nextColumn) {
+        getCellsElements(currentRow, currentColumn).remove(box);
+        getCellsElements(nextRow, nextColumn).add(box);
+    }
     public void moveBoxesToRandomEmptyCells() {
         List<int[]> emptyCells = getEmptyNonBorderCells();
         List<int[]> boxPositions = new ArrayList<>();
@@ -202,6 +205,17 @@ public class Grid4Play extends Grid<Cell4Play>  {
         }
         setBoxOnGoalCount(count);
     }
+
+//    public int[] getBoxPosition() {
+//        for (int i = 0; i < getGridHeight(); i++) {
+//            for (int j = 0; j < getGridWidth(); j++) {
+//                if (getCellsElements(i, j).contains(box)) {
+//                    return new int[]{i, j};
+//                }
+//            }
+//        }
+//        return new int[]{-1, -1}; // Position non trouvée
+//    }
 
 
 
