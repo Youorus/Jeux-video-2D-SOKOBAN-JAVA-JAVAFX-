@@ -172,6 +172,36 @@
 
 
         private void openFile() {
+            if (board4DesignViewModel.getBoard4Design().gridEditedProperty().get()) {
+                alert = new Alert(Alert.AlertType.CONFIRMATION);
+                alert.setTitle("Confirmation Dialog");
+                alert.setHeaderText("Your board has been modified.");
+                alert.setContentText("Do you want to save your changes?");
+
+                ButtonType yesButton = new ButtonType("Yes", ButtonBar.ButtonData.YES);
+                ButtonType noButton = new ButtonType("No", ButtonBar.ButtonData.NO);
+                ButtonType cancelButton = new ButtonType("Cancel", ButtonBar.ButtonData.CANCEL_CLOSE);
+
+                alert.getButtonTypes().setAll(yesButton, noButton, cancelButton);
+
+                Optional<ButtonType> result = alert.showAndWait();
+                if (result.isPresent() && result.get() == yesButton) {
+                    saveAs(board4DesignViewModel.getMatrix());
+                    // Après l'enregistrement, on continue avec l'ouverture du fichier
+                    proceedToOpenFile();
+                } else if (result.isPresent() && result.get() == noButton) {
+                    // Ne pas enregistrer, continuer avec l'ouverture du fichier
+                    proceedToOpenFile();
+                } else {
+                    // Annuler, ne rien faire
+                }
+            } else {
+                // La grille n'a pas été modifiée, continuer avec l'ouverture du fichier
+                proceedToOpenFile();
+            }
+        }
+
+        private void proceedToOpenFile() {
             FileChooser fileChooser = new FileChooser();
             fileChooser.setTitle("Open Sokoban Board");
             fileChooser.setInitialDirectory(new File("boards"));
@@ -198,14 +228,11 @@
                     menuViewModel.setWidth(newWidth);
                     menuViewModel.updateModel();
                     readElementsFromFile(file);
-                }else {
+                } else {
                     readElementsFromFile(file);
                 }
-
-
             }
         }
-
         private void readElementsFromFile(File file) {
             try (Scanner scanner = new Scanner(file)) {
                 for (int i = 0; scanner.hasNextLine() && i < board4DesignViewModel.getMatrix().length; i++) {
