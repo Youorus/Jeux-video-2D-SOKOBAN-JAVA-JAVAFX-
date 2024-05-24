@@ -62,7 +62,7 @@ public class ToolsBoxView extends VBox {
         elements.add(new Ground());
         elements.add(new Wall());
         elements.add(new Player());
-        elements.add(new Box());
+        elements.add(board4DesignViewModel.getBoard4Design().getBox());
         elements.add(new Goal());
         // Ajoutez d'autres éléments selon vos besoins
         return elements;

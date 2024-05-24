@@ -61,10 +61,6 @@ public class CellView<T extends CellViewModel> extends StackPane {
             } else {
                 for (Element element : elementObservableList) {
                     ImageView elementView = new ImageView(element.getImage());
-
-                    if (element.equals(new Box())) {
-                        System.out.println(Box.getBoxCounter());
-                    }
                     setImage(elementView);
 
                 }

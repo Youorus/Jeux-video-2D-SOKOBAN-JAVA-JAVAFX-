@@ -30,7 +30,6 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
 
 
 
-
         getCellViewModel().playerWinProperty().addListener((obs, oldValue, newValue) ->{
            setOnKeyPressed(null);
         });
@@ -48,8 +47,8 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
 
 
         getCellViewModel().getCellsElements().addListener((ListChangeListener<Element>) change -> {
-            imageViewUpdate(getCellViewModel().getCellsElements());
             updateCellImages();
+            getCellViewModel().getBoard4Play().getGrid4Play().updateBoxOnGoalCount();
         });
 
 
@@ -67,7 +66,7 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
         setImage(groundView);
 
         // Parcourt les éléments de la cellule dans l'ordre inverse
-        for (int i = elements.size() - 1; i >= 0; i--) {
+        for (int i = 0;  i < elements.size(); i++) {
 
             Element element = elements.get(i);
 
@@ -79,9 +78,10 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
             }
 
 
-            if (element.equals(new Box())) {
-                int boxNumber = Box.getBoxCounter();
-                Label boxNumberText = new Label(Integer.toString(boxNumber));
+            if (element instanceof Box) {
+                Box.boxIncrement();
+                Label boxNumberText = new Label(Integer.toString(Box.getBoxCounter()));
+                // Ajoute le style de texte pour le numéro
                 // Ajoute le style de texte pour le numéro
                 boxNumberText.setStyle("-fx-font-size: 15px; -fx-font-weight: bold; -fx-fill: black; -fx-background-color: white; -fx-padding: 4px;");
                 // Positionne le numéro au-dessus de l'image de la boîte

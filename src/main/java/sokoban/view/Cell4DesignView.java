@@ -7,6 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.Dragboard;
 import javafx.scene.input.MouseButton;
+import sokoban.model.Box;
 import sokoban.model.Element;
 import sokoban.model.Ground;
 import sokoban.viewmodel.Cell4DesignViewModel;
@@ -32,6 +33,7 @@ public class Cell4DesignView extends CellView<Cell4DesignViewModel> {
         this.setOnMouseClicked(event -> {
             if (event.getButton() == MouseButton.PRIMARY) {
                 getCellViewModel().add(getCellViewModel().getToolsBoxViewModel().getElementSelect());
+                System.out.println(Box.getBoxCounter());
             }
         });
 

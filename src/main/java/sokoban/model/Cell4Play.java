@@ -1,7 +1,5 @@
 package sokoban.model;
 
-import javafx.beans.property.ObjectProperty;
-import javafx.beans.property.SimpleObjectProperty;
 import javafx.collections.ObservableList;
 
 import java.util.Random;
@@ -50,36 +48,52 @@ public class Cell4Play extends Cell {
     private void movePlayer(Element player, Element wall, Element box, Element goal, int nextRow, int nextColumn, int rowChange, int colChange) {
         int[] playerPosition = grid4Play.getPlayerPosition();
 
-        // Check if the next cell contains a wall
-        if (grid4Play.getCellsElements(nextRow, nextColumn).contains(wall)) {
-            System.out.println("Next cell contains a wall. Player cannot move.");
-            return; // If the next cell contains a wall, do not move the player
+        if (nextRow < 0 || nextRow >= grid4Play.getGridHeight() || nextColumn < 0 || nextColumn >= grid4Play.getGridWidth()) {
+            System.out.println("Move out of bounds. Player cannot move.");
+            return;
         }
 
-        if (nextRow >= 0 && nextRow < grid4Play.getGridHeight() && nextColumn >= 0 && nextColumn < grid4Play.getGridWidth()) {
-            if (grid4Play.getCellsElements(nextRow, nextColumn).contains(box)) {
-                boolean nextCellAfterBoxContainsWall = grid4Play.getCellsElements(nextRow + rowChange, nextColumn + colChange).contains(wall);
-                if (nextCellAfterBoxContainsWall) {
-                    grid4Play.getCellsElements(playerPosition[0], playerPosition[1]).add(player);
-                } else if (grid4Play.getCellsElements(nextRow + rowChange, nextColumn + colChange).contains(box)) {
-                    grid4Play.getCellsElements(playerPosition[0], playerPosition[1]).add(player);
-                } else {
-                    moveBox(box, goal, nextRow, nextColumn, rowChange, colChange);
-                    grid4Play.getCellsElements(nextRow, nextColumn).add(player);
-                    grid4Play.setMoveCount(grid4Play.getMoveCount() + 1);
-                }
-            } else {
-                grid4Play.getCellsElements(nextRow, nextColumn).add(player);
-                grid4Play.setMoveCount(grid4Play.getMoveCount() + 1);
+        ObservableList<Element> nextCellElements = grid4Play.getCellsElements(nextRow, nextColumn);
+        if (nextCellElements.contains(wall)) {
+            System.out.println("Next cell contains a wall. Player cannot move.");
+            return;
+        }
+
+        if (nextCellElements.contains(box)) {
+            int boxNextRow = nextRow + rowChange;
+            int boxNextColumn = nextColumn + colChange;
+            if (boxNextRow < 0 || boxNextRow >= grid4Play.getGridHeight() || boxNextColumn < 0 || boxNextColumn >= grid4Play.getGridWidth()) {
+                System.out.println("Box move out of bounds. Player cannot move.");
+                return;
             }
-        } else {
-            grid4Play.getCellsElements(playerPosition[0], playerPosition[1]).add(player);
+            ObservableList<Element> boxNextCellElements = grid4Play.getCellsElements(boxNextRow, boxNextColumn);
+            if (boxNextCellElements.contains(wall) || boxNextCellElements.contains(box)) {
+                System.out.println("Box move blocked. Player cannot move.");
+                return;
+            }
+            moveBox(box, goal, nextRow, nextColumn, rowChange, colChange);
         }
 
         grid4Play.getCellsElements(playerPosition[0], playerPosition[1]).remove(player);
+        nextCellElements.add(player);
+        grid4Play.setMoveCount(grid4Play.getMoveCount() + 1);
 
         if (grid4Play.getBoxOnGoalCount() == grid4Play.numberGoal()) {
             grid4Play.setPlayerWin(true);
+        }
+    }
+
+    private void moveBox(Element box, Element goal, int nextRow, int nextColumn, int rowChange, int colChange) {
+        int boxNextRow = nextRow + rowChange;
+        int boxNextColumn = nextColumn + colChange;
+        grid4Play.getCellsElements(nextRow, nextColumn).remove(box);
+        grid4Play.getCellsElements(boxNextRow, boxNextColumn).add(box);
+
+        if (grid4Play.getCellsElements(nextRow, nextColumn).contains(goal)) {
+            grid4Play.setBoxOnGoalCount(grid4Play.getBoxOnGoalCount() - 1);
+        }
+        if (grid4Play.getCellsElements(boxNextRow, boxNextColumn).contains(goal)) {
+            grid4Play.setBoxOnGoalCount(grid4Play.getBoxOnGoalCount() + 1);
         }
     }
 
@@ -95,18 +109,6 @@ public class Cell4Play extends Cell {
                 grid4Play.add(randomRow, randomCol, mushroom);
                 break;
             }
-        }
-    }
-
-    private void moveBox(Element box, Element goal, int nextRow, int nextColumn, int rowChange, int colChange) {
-        grid4Play.getCellsElements(nextRow, nextColumn).remove(box);
-        grid4Play.getCellsElements(nextRow + rowChange, nextColumn + colChange).add(box);
-
-        if (grid4Play.getCellsElements(nextRow, nextColumn).contains(goal)) {
-            grid4Play.setBoxOnGoalCount(grid4Play.getBoxOnGoalCount() - 1);
-        }
-        if (grid4Play.getCellsElements(nextRow + rowChange, nextColumn + colChange).contains(goal)) {
-            grid4Play.setBoxOnGoalCount(grid4Play.getBoxOnGoalCount() + 1);
         }
     }
 }

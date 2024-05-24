@@ -11,16 +11,16 @@ public class Box extends Element {
     }
 
     private static int boxCounter = 0;
-    private final int number;
+
 
     public Box() {
-        this.number = ++boxCounter;
+        boxCounter++;
     }
 
-    public int getNumber() {
-        return number;
-    }
 
+    public static int boxIncrement(){
+        return boxCounter++;
+    }
     public static void resetBoxCounter() {
         boxCounter = 0;
     }

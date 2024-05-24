@@ -44,11 +44,11 @@ public class Cell4Design extends Cell {
     public void add(int line, int col, Element element) {
         ObservableList<Element> cellElements = grid4Design.getCellsElements(line, col);
 
-        Element ground = new Ground();
-        Element wall = new Wall();
-        Element player = new Player();
-        Element goal = new Goal();
-        Element box = new Box();
+        Element ground = grid4Design.getBoard4Design().getGround();
+        Element wall = grid4Design.getBoard4Design().getWall();
+        Element player = grid4Design.getBoard4Design().getPlayer();
+        Element goal = grid4Design.getBoard4Design().getGoal();
+        Element box = grid4Design.getBoard4Design().getBox();
 
 
         if (element.equals(ground)) {
