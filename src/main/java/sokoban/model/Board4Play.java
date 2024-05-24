@@ -5,11 +5,11 @@ import javafx.beans.property.SimpleBooleanProperty;
 
 public class Board4Play extends Board{
 
-    public MovePlayerCommand getMoveCommand() {
-        return moveCommand;
+    public CommandStack getCommandStack() {
+        return commandStack;
     }
 
-    private final  MovePlayerCommand moveCommand = new MovePlayerCommand(this);
+    private final CommandStack commandStack = new CommandStack(this);
 
     public Grid4Play getGrid4Play() {
         return grid4Play;
@@ -22,26 +22,26 @@ public class Board4Play extends Board{
     }
 
     // Méthode pour exécuter un déplacement et le stocker dans l'historique des commandes
-    public void executeMove(Direction direction) {
-        moveCommand.execute();
+    public void execute(Direction direction) {
+        commandStack.execute();
         movePlayer(direction);
-        moveCommand.getStatesRedoStack().push(direction);
+        commandStack.getStatesRedoStack().push(direction);
     }
 
     public void undoIfCellsChange(){
-        moveCommand.execute();
+        commandStack.execute();
     }
 
     // Méthode pour annuler le dernier déplacement
-    public void undoMove() {
-        if (!moveCommand.getStatesStack().isEmpty()){
+    public void undo() {
+        if (!commandStack.getStatesStack().isEmpty()){
             this.grid4Play.setMoveCount(this.grid4Play.getMoveCount() + 5);
         }
-      moveCommand.undo();
+      commandStack.undo();
     }
 
-    public void redoMove() {
-        moveCommand.redo();
+    public void redo() {
+        commandStack.redo();
     }
     public IntegerProperty boxAndGoalCountProperty() {
         return grid4Play.boxOnGoalCountProperty();

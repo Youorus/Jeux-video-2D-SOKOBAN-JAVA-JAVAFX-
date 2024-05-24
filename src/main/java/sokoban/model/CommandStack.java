@@ -7,7 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
-public class MovePlayerCommand implements Command{
+public class CommandStack implements Command{
     private final Board4Play board4Play;
 
     public Stack<List<CellState>> getStatesStack() {
@@ -21,7 +21,7 @@ public class MovePlayerCommand implements Command{
         return statesRedoStack;
     }
 
-    public MovePlayerCommand(Board4Play board4Play) {
+    public CommandStack(Board4Play board4Play) {
         this.board4Play = board4Play;
     }
 

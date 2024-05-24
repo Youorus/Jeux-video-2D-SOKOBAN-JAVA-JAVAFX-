@@ -105,28 +105,28 @@ public class Cell4PlayView extends CellView<Cell4PlayViewModel> {
         // Vérifie si la combinaison Ctrl + Z est pressée
         if (event.isControlDown() && event.getCode() == Z) {
             // Ctrl+Z pour annuler
-            getCellViewModel().getBoard4Play().undoMove();
+            getCellViewModel().getBoard4Play().undo();
         } else if (event.isControlDown() && event.getCode() == Y) {
             // Ctrl+Y pour refaire
-            getCellViewModel().getBoard4Play().redoMove();
+            getCellViewModel().getBoard4Play().redo();
         }else{
             switch (event.getCode()) {
                 case Z:
                     //deplacement verrs le haut
-                    getCellViewModel().getBoard4Play().executeMove(Direction.UP);
+                    getCellViewModel().getBoard4Play().execute(Direction.UP);
                     //getCellViewModel().movePlayerUp();
                     break;
                 case Q:
                     //deplacement du joueur sur la gauche
-                    getCellViewModel().getBoard4Play().executeMove(Direction.LEFT);
+                    getCellViewModel().getBoard4Play().execute(Direction.LEFT);
                     break;
                 case S:
                     //deplacement du joueur sur la droite
-                    getCellViewModel().getBoard4Play().executeMove(Direction.DOWN);
+                    getCellViewModel().getBoard4Play().execute(Direction.DOWN);
                     break;
                 case D:
                     //deplacement du joueur vers le bas
-                    getCellViewModel().getBoard4Play().executeMove(Direction.RIGHT);
+                    getCellViewModel().getBoard4Play().execute(Direction.RIGHT);
                     break;
                 default:
                     // Autre touche pressée
